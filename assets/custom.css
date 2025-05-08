@@ -1,0 +1,145 @@
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Sora', sans-serif !important;
+}
+
+
+.custom-bg-form-section {
+   padding: 67px 20px 105px;
+   color: #fff;
+   text-align: center;
+ }
+
+ .custom-bg-form-wrapper {
+   max-width: 700px;
+   margin: 0 auto;
+   /* background: rgba(0, 0, 0, 0.5); */
+   border-radius: 12px;
+ }
+
+ h2.custom-form-heading {
+   font-size: 7.5rem;
+   color: #12141D;
+   line-height: 8rem;
+   font-weight: bold;
+   margin: 0 0 15px;
+ }
+
+ .custom-form-subtext {
+   font-size: 1rem;
+   margin: 0 0 40px;
+   font-size: 2rem;
+   line-height: 3.2rem;
+   letter-spacing: -0.5px;
+   color: #12141D;
+   font-weight: 400;
+ }
+
+ .custom-form-textarea {
+   width: 100%;
+   height: 259px;
+   padding: 19px 16px;
+   margin: 0 0 19px;
+   font-size: 2rem;
+   border: none;
+   border-radius: 10px;
+   resize: vertical;
+   background-color: #E7E7E7;
+ }
+
+ .custom-form-textarea:focus-visible {
+   outline: none;
+   outline-offset: unset;
+   box-shadow: none;
+ }
+
+ form.form_sec_new {
+   background: #FFF;
+   padding: 16px;
+   border-radius: 20px;
+   margin-bottom: 65px;
+   border: 2px solid #000;
+ }
+
+ textarea.custom-form-textarea::placeholder {
+   color: #646464;
+   font-size: 2rem;
+   max-width: 408px;
+ }
+
+ .custom-form-button {
+   background-color: #12141D;
+   color: #FFF;
+   padding: 16px;
+   width: 100%;
+   border: none;
+   font-weight: 500;
+   border-radius: 1rem;
+   line-height: 2.4rem;
+   font-size: 1.6rem;
+   cursor: pointer;
+   transition: background-color .3s;
+ }
+
+ .custom-form-footer-text {
+   font-size: 1.8rem;
+   font-weight: 600;
+   line-height: 2.4rem;
+   color: #12141D;
+ }
+
+ /* stat section */
+ .stats_section {
+   padding: 10rem 0 9rem;
+ }
+
+ .main_text {
+  display: grid;
+  gap: 76px;
+  margin-bottom: 6.6rem;
+  grid-template-columns: 6.5fr 3.5fr;
+}
+
+ .main_text h2 {
+   font-size: 5.2rem;
+   line-height: 6rem;
+   margin: 0;
+   font-weight: bold;
+ }
+ .main_text p {
+  font-size: 18px;
+  color: #12141D;
+  line-height: 3rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+ .main_stat_wrap{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(25%, 3fr));
+    gap: 8.5rem;
+ }
+
+ .inner_stats_new:not(:last-child) {
+  border-right: 1px solid #DDD;
+  padding-right: 8.5rem;
+}
+
+ .inner_stats_new h3 {
+  font-size: 2rem;
+  line-height: 2.8rem;
+  margin: 0 0  2rem;
+  font-weight: bold;
+}
+ .inner_stats_new p {
+  font-size: 16px;
+  color: #12141D;
+  line-height: 2.8rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+body .page-width {
+  padding: 0;
+  
+}

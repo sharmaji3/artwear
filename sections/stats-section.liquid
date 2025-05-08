@@ -1,0 +1,100 @@
+<!-- sections/steps-section.liquid -->
+<section class="stats_section">
+  <div class="page-width">
+    <div class="main_text">
+      <h2>{{ section.settings.heading }}</h2>
+      <p>
+        {{ section.settings.description }}
+      </p>
+    </div>
+
+    <div class="main_stat_wrap">
+      {% for block in section.blocks %}
+        <div class="inner_stats_new">
+          {% if block.settings.icon != blank %}
+            <img src="{{ block.settings.icon | image_url: width: 80 }}" alt="{{ block.settings.title }}" width="80" height="auto">
+          {% endif %}
+          <h3>{{ block.settings.title }}</h3>
+          <p >{{ block.settings.text }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Steps Section",
+  "tag": "section",
+  "class": "custom-steps-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "Create Your Custom T-Shirt in 3 Simple Steps"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Turn your idea into wearable art with just a few clicks. Enter a prompt, watch AI bring your vision to life, customize the design on your T-shirt, and place your order in minutes. It’s fast, fun, and uniquely yours."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step Title",
+          "default": "Type Your Prompt"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Step Description",
+          "default": "Describe your idea in a few words or sentences. Our AI will transform your text into unique design concepts."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Steps Section",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Type Your Prompt",
+            "text": "Describe your idea in a few words or sentences. Our AI will transform your text into unique design concepts."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Customize Design",
+            "text": "Adjust size and placement. Add text or modify elements until your design is exactly what you want."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Print & Order",
+            "text": "Choose your T-shirt style, size, and quantity. We’ll print your design on premium fabric and ship it to your door."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

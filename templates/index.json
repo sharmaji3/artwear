@@ -1,0 +1,139 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main_section_MGtPyn": {
+      "type": "main-section",
+      "name": "Background Image Form",
+      "settings": {
+        "bg_image": "shopify://shop_images/main.png",
+        "heading": "Turn words into wearable art",
+        "paragraph": "Turn your ideas into custom AI-designed T-shirts—crafted with premium quality and endless creativity. Let your imagination shape your next favorite outfit.",
+        "textarea_placeholder": "Type your idea, get your design!  e.g. Space cat surfing a pizza galaxy",
+        "button_text": "Generate Your Design",
+        "footer_paragraph": "Looking for inspiration?  <br> Check out prompt examples"
+      }
+    },
+    "image_banner": {
+      "type": "image-banner",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Browse our latest products",
+            "heading_size": "h0"
+          }
+        },
+        "button": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Shop all",
+            "button_link_1": "shopify://collections/all",
+            "button_style_secondary_1": true,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "button"
+      ],
+      "disabled": true,
+      "settings": {
+        "image_overlay_opacity": 40,
+        "image_height": "large",
+        "image_behavior": "none",
+        "desktop_content_position": "bottom-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": false,
+        "color_scheme": "scheme-3",
+        "stack_images_on_mobile": false,
+        "mobile_content_alignment": "center",
+        "show_text_below": false
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "disabled": true,
+      "settings": {
+        "collection": "all",
+        "products_to_show": 8,
+        "title": "Featured products",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 44,
+        "padding_bottom": 36
+      }
+    },
+    "stats_section_YCJmcL": {
+      "type": "stats-section",
+      "blocks": {
+        "step_JTwMcc": {
+          "type": "step",
+          "settings": {
+            "icon": "shopify://shop_images/step-1.png",
+            "title": "Type Your Prompt",
+            "text": "Describe your idea in a few words or sentences. Our AI will transform your text into unique design concepts."
+          }
+        },
+        "step_9YjPLn": {
+          "type": "step",
+          "settings": {
+            "icon": "shopify://shop_images/step-1.png",
+            "title": "Customize Design",
+            "text": "Adjust size and placement. Add text or modify elements until your design is exactly what you want."
+          }
+        },
+        "step_gCyjnj": {
+          "type": "step",
+          "settings": {
+            "icon": "shopify://shop_images/step-2.png",
+            "title": "Print & Order",
+            "text": "Choose your T-shirt style, size, and quantity. We’ll print your design on premium fabric and ship it to your door."
+          }
+        }
+      },
+      "block_order": [
+        "step_JTwMcc",
+        "step_9YjPLn",
+        "step_gCyjnj"
+      ],
+      "name": "Steps Section",
+      "settings": {
+        "heading": "Create Your Custom T-Shirt in 3 Simple Steps",
+        "description": "Turn your idea into wearable art with just a few clicks. Enter a prompt, watch AI bring your vision to life, customize the design on your T-shirt, and place your order in minutes. It’s fast, fun, and uniquely yours."
+      }
+    }
+  },
+  "order": [
+    "main_section_MGtPyn",
+    "image_banner",
+    "featured_collection",
+    "stats_section_YCJmcL"
+  ]
+}
