@@ -48,6 +48,84 @@
     %}
 
     {% style %}
+        @font-face {
+        font-family: "Sora";
+        src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Sora-Thin.woff2?v=1746696518') format('woff2');
+        font-weight: 100;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Sora";
+        src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Sora-ExtraLight.woff2?v=1746696518') format('woff2');
+        font-weight: 200;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Sora";
+        src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Sora-Light.woff2?v=1746696518') format('woff2');
+        font-weight: 300;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Sora";
+        src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Sora-Regular.woff2?v=1746696518') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Sora";
+        src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Sora-Medium.woff2?v=1746696518') format('woff2');
+        font-weight: 500;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Sora";
+        src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Sora-SemiBold.woff2?v=1746696518') format('woff2');
+        font-weight: 600;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Sora";
+        src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Sora-Bold.woff2?v=1746696518') format('woff2');
+        font-weight: 700;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Sora";
+        src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Sora-ExtraBold.woff2?v=1746696518') format('woff2');
+        font-weight: 800;
+        font-style: normal;
+      }
+      /* Heebo Font Imports */
+      @font-face {
+        font-family: 'Heebo';
+        src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Heebo-Regular.woff2?v=1746704734') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+      }
+      
+      @font-face {
+        font-family: 'Heebo';
+        src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Heebo-Medium.woff2?v=1746704734') format('woff2');
+        font-weight: 500;
+        font-style: normal;
+      }
+      
+      @font-face {
+        font-family: 'Heebo';
+        src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Heebo-SemiBold.woff2?v=1746704734') format('woff2');
+        font-weight: 600;
+        font-style: normal;
+      }
+      
+      @font-face {
+        font-family: 'Heebo';
+        src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Heebo-Bold.woff2?v=1746704734') format('woff2');
+        font-weight: 700;
+        font-style: normal;
+      }
+
+
       {{ settings.type_body_font | font_face: font_display: 'swap' }}
       {{ body_font_bold | font_face: font_display: 'swap' }}
       {{ body_font_italic | font_face: font_display: 'swap' }}

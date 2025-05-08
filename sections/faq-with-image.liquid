@@ -1,0 +1,111 @@
+<section class="faq-section" style="background-color: {{ section.settings.bg_color }};">
+  <div class="page-width">
+    {% if section.settings.image %}
+      <img src="{{ section.settings.image | image_url: width: 800 }}" alt="FAQ Image" class="faq-image" />
+    {% endif %}
+    <div class="main-head faq_titles">
+      <h2 class="faq-title text-center">{{ section.settings.title }}</h2>
+    </div>
+    
+    
+    <div id="faq-accordion" class="faq-contain">
+      {% for block in section.blocks %}
+        <div class="faq-item" data-index="{{ forloop.index0 }}">
+          <div class="faq-question">
+            {{ block.settings.question }}
+            <span class="icon">+</span>         
+          </div>
+          <div class="faq-answer">
+            {{ block.settings.answer }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const items = document.querySelectorAll("#faq-accordion .faq-item");
+  
+    items.forEach((item) => {
+      const question = item.querySelector(".faq-question");
+      const icon = question.querySelector(".icon");
+  
+      question.addEventListener("click", () => {
+        const isOpen = item.classList.contains("open");
+  
+        // Close all items
+        items.forEach(i => {
+          i.classList.remove("open");
+          const otherIcon = i.querySelector(".icon");
+          if (otherIcon) {
+            otherIcon.textContent = "+";
+          }
+        });
+  
+        // Toggle clicked item
+        if (!isOpen) {
+          item.classList.add("open");
+          if (icon) icon.textContent = "–";
+        } else {
+          item.classList.remove("open");
+          if (icon) icon.textContent = "+";
+        }
+      });
+    });
+  });
+  
+  </script>
+  
+
+{% schema %}
+{
+  "name": "FAQ with Image",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#fef08a"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Optional Top Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "FAQ with Image",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

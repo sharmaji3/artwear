@@ -1,0 +1,77 @@
+<section class="inspiration-gallery text-center">
+  <div class="page-width">
+    <div class="main-head gallery_head">
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.text }}</p>
+    </div>
+
+    <div class="gallery-grid">
+      {% for block in section.blocks %}
+        {% if block.settings.image %}
+         <div class="gallery_wrapper">
+            <img src="{{ block.settings.image | image_url: width: 600 }}" alt="Gallery Image"  width="100%" height="auto"/>
+         </div> 
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if section.settings.button_label %}
+    <div class="btn_wrap"> 
+      <a href="{{ section.settings.button_link }}" class="btn">
+        {{ section.settings.button_label }}
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Inspiration Gallery",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Inspiration Gallery"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Subtext",
+      "default": "Explore creative T-shirt designs made by our community."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Text",
+      "default": "View More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "gallery_image",
+      "name": "Gallery Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Inspiration Gallery",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

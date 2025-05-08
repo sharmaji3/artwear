@@ -1,6 +1,6 @@
-.footer {
+/* .footer {
   border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
-}
+} */
 
 .footer:not(.color-scheme-1) {
   border-top: none;
@@ -41,7 +41,7 @@
 }
 
 .footer__content-bottom {
-  border-top: solid 0.1rem rgba(var(--color-foreground), 0.08);
+  /* border-top: solid 0.1rem rgba(var(--color-foreground), 0.08); */
   padding-top: 3rem;
 }
 
@@ -128,7 +128,7 @@
 .footer-block--newsletter {
   display: flex;
   align-items: flex-end;
-  margin-top: 3rem;
+  margin-top: 0;
   gap: 1rem;
 }
 

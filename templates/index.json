@@ -128,12 +128,148 @@
         "heading": "Create Your Custom T-Shirt in 3 Simple Steps",
         "description": "Turn your idea into wearable art with just a few clicks. Enter a prompt, watch AI bring your vision to life, customize the design on your T-shirt, and place your order in minutes. It’s fast, fun, and uniquely yours."
       }
+    },
+    "inspiration_gallery_y3VpDj": {
+      "type": "inspiration-gallery",
+      "blocks": {
+        "gallery_image_pC3XMm": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/tshirt-4.png"
+          }
+        },
+        "gallery_image_qKGJXK": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/tshirt-3.png"
+          }
+        },
+        "gallery_image_wjLfzA": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/tshirt-1.png"
+          }
+        },
+        "gallery_image_jzC6Kw": {
+          "type": "gallery_image",
+          "settings": {
+            "image": "shopify://shop_images/tshirt-2.png"
+          }
+        }
+      },
+      "block_order": [
+        "gallery_image_pC3XMm",
+        "gallery_image_qKGJXK",
+        "gallery_image_wjLfzA",
+        "gallery_image_jzC6Kw"
+      ],
+      "name": "Inspiration Gallery",
+      "settings": {
+        "heading": "Inspiration Gallery",
+        "text": "Explore creative T-shirt designs made by our community.",
+        "button_label": "View More",
+        "button_link": ""
+      }
+    },
+    "why_choose_us_PCbUPb": {
+      "type": "why-choose-us",
+      "blocks": {
+        "feature_mWbNBQ": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/step-3.png",
+            "title": "Type Your Prompt",
+            "text": "Describe your idea in a few words or sentences. Our AI will transform your text into unique design concepts."
+          }
+        },
+        "feature_M8CQPh": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/step-1.png",
+            "title": "Type Your Prompt",
+            "text": "Describe your idea in a few words or sentences. Our AI will transform your text into unique design concepts."
+          }
+        },
+        "feature_UNmyq3": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/step-2.png",
+            "title": "Type Your Prompt",
+            "text": "Describe your idea in a few words or sentences. Our AI will transform your text into unique design concepts."
+          }
+        }
+      },
+      "block_order": [
+        "feature_mWbNBQ",
+        "feature_M8CQPh",
+        "feature_UNmyq3"
+      ],
+      "name": "Why Choose Us",
+      "settings": {
+        "heading": "Why Choose Us?",
+        "subtext": "We make the process seamless and exciting from start to finish."
+      }
+    },
+    "faq_with_image_BaG3gF": {
+      "type": "faq-with-image",
+      "blocks": {
+        "faq_item_9cARpj": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does the AI design generation work?",
+            "answer": "Just enter a prompt and our AI creates a unique design for you. You can then adjust its size, position, and color, add text on top, or use masking to blend elements—making it truly your own."
+          }
+        },
+        "faq_item_YBUkaY": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does the AI design generation work?",
+            "answer": "Just enter a prompt and our AI creates a unique design for you. You can then adjust its size, position, and color, add text on top, or use masking to blend elements—making it truly your own."
+          }
+        },
+        "faq_item_m9JYjw": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does the AI design generation work?",
+            "answer": "Just enter a prompt and our AI creates a unique design for you. You can then adjust its size, position, and color, add text on top, or use masking to blend elements—making it truly your own."
+          }
+        },
+        "faq_item_HM7U6Q": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does the AI design generation work?",
+            "answer": "Just enter a prompt and our AI creates a unique design for you. You can then adjust its size, position, and color, add text on top, or use masking to blend elements—making it truly your own."
+          }
+        },
+        "faq_item_K9c8gb": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does the AI design generation work?",
+            "answer": "Just enter a prompt and our AI creates a unique design for you. You can then adjust its size, position, and color, add text on top, or use masking to blend elements—making it truly your own."
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_9cARpj",
+        "faq_item_YBUkaY",
+        "faq_item_m9JYjw",
+        "faq_item_HM7U6Q",
+        "faq_item_K9c8gb"
+      ],
+      "name": "FAQ with Image",
+      "settings": {
+        "title": "Frequently Asked Questions",
+        "bg_color": "#f8ea69"
+      }
     }
   },
   "order": [
     "main_section_MGtPyn",
     "image_banner",
     "featured_collection",
-    "stats_section_YCJmcL"
+    "stats_section_YCJmcL",
+    "inspiration_gallery_y3VpDj",
+    "why_choose_us_PCbUPb",
+    "faq_with_image_BaG3gF"
   ]
 }
