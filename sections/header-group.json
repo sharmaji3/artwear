@@ -52,7 +52,7 @@
         "enable_customer_avatar": true,
         "margin_bottom": 0,
         "padding_top": 20,
-        "padding_bottom": 0,
+        "padding_bottom": 12,
         "show_search_icon": false,
         "show_cart_icon": false,
         "show_user_icon": false,
