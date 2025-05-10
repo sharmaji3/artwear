@@ -258,17 +258,19 @@
             rel="nofollow"
           >
             {%- if section.settings.enable_customer_avatar -%}
-              <account-icon>
-                {%- if customer and customer.has_avatar? -%}
-                  {{ customer | avatar }}
-                {%- else -%}
-                  {% if section.settings.show_user_icon %}
-                    <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
-                  {% else %}
-                    <span>{{ section.settings.custom_label | default: 'Login' }}</span>
-                  {% endif %}
-                {%- endif -%}
-              </account-icon>
+              {% unless template == 'customers/login' or template == 'customers/register' %}
+                <account-icon>
+                  {%- if customer and customer.has_avatar? -%}
+                    {{ customer | avatar }}
+                  {%- else -%}
+                    {% if section.settings.show_user_icon %}
+                      <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+                    {% else %}
+                      <span>{{ section.settings.custom_label | default: 'Login' }}</span>
+                    {% endif %}
+                  {%- endif -%}
+                </account-icon>
+              {% endunless %}
             {%- else -%}
               {% if section.settings.show_user_icon %}
                 <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
@@ -321,11 +323,13 @@
     </a>
 {% endif %}
 
-      {% if section.settings.show_custom_button %}
-        <a href="{{ section.settings.custom_button_link }}" class="custom-header-button">
-          {{ section.settings.custom_button_label }}
-        </a>
-      {% endif %}
+    {% unless template == 'customers/login' or template == 'customers/register' %}  
+        {% if section.settings.show_custom_button %}
+          <a href="{{ section.settings.custom_button_link }}" class="custom-header-button">
+            {{ section.settings.custom_button_label }}
+          </a>
+        {% endif %}
+    {% endunless %}
     </div>
   </header>
 </{{ header_tag }}>

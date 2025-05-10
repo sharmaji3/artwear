@@ -7,6 +7,14 @@
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
 
+    <!-- Font Awesome CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    >
+
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
@@ -40,6 +48,7 @@
     {%- endif -%}
 
     {{ content_for_header }}
+    <script src="{{ 'custom.js' | asset_url }}" defer="defer"></script>
 
     {%- liquid
       assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
@@ -103,21 +112,21 @@
         font-weight: 400;
         font-style: normal;
       }
-      
+
       @font-face {
         font-family: 'Heebo';
         src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Heebo-Medium.woff2?v=1746704734') format('woff2');
         font-weight: 500;
         font-style: normal;
       }
-      
+
       @font-face {
         font-family: 'Heebo';
         src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Heebo-SemiBold.woff2?v=1746704734') format('woff2');
         font-weight: 600;
         font-style: normal;
       }
-      
+
       @font-face {
         font-family: 'Heebo';
         src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Heebo-Bold.woff2?v=1746704734') format('woff2');
@@ -332,7 +341,7 @@
         }
       }
     {% endstyle %}
-   {{ 'custom.css' | asset_url | stylesheet_tag }}
+    {{ 'custom.css' | asset_url | stylesheet_tag }}
     {{ 'base.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 

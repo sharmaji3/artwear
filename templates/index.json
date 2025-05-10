@@ -21,75 +21,6 @@
         "footer_paragraph": "Looking for inspiration?  <br> Check out prompt examples"
       }
     },
-    "image_banner": {
-      "type": "image-banner",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading",
-        "button"
-      ],
-      "disabled": true,
-      "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "image_behavior": "none",
-        "desktop_content_position": "bottom-center",
-        "desktop_content_alignment": "center",
-        "show_text_box": false,
-        "color_scheme": "scheme-3",
-        "stack_images_on_mobile": false,
-        "mobile_content_alignment": "center",
-        "show_text_below": false
-      }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "disabled": true,
-      "settings": {
-        "collection": "all",
-        "products_to_show": 8,
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 4,
-        "enable_desktop_slider": false,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "scheme-1",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 44,
-        "padding_bottom": 36
-      }
-    },
     "stats_section_YCJmcL": {
       "type": "stats-section",
       "blocks": {
@@ -104,7 +35,7 @@
         "step_9YjPLn": {
           "type": "step",
           "settings": {
-            "icon": "shopify://shop_images/step-1.png",
+            "icon": "shopify://shop_images/step-2.png",
             "title": "Customize Design",
             "text": "Adjust size and placement. Add text or modify elements until your design is exactly what you want."
           }
@@ -112,7 +43,7 @@
         "step_gCyjnj": {
           "type": "step",
           "settings": {
-            "icon": "shopify://shop_images/step-2.png",
+            "icon": "shopify://shop_images/step-3.png",
             "title": "Print & Order",
             "text": "Choose your T-shirt style, size, and quantity. We’ll print your design on premium fabric and ship it to your door."
           }
@@ -166,7 +97,7 @@
       "name": "Inspiration Gallery",
       "settings": {
         "heading": "Inspiration Gallery",
-        "text": "Explore creative T-shirt designs made by our community.",
+        "text": "Explore creative T-shirt designs made by our awesome community—get inspired to make your own!",
         "button_label": "View More",
         "button_link": ""
       }
@@ -177,25 +108,25 @@
         "feature_mWbNBQ": {
           "type": "feature",
           "settings": {
-            "icon": "shopify://shop_images/step-3.png",
-            "title": "Type Your Prompt",
-            "text": "Describe your idea in a few words or sentences. Our AI will transform your text into unique design concepts."
+            "icon": "shopify://shop_images/choose-1.png",
+            "title": "Looks Great, Lasts Long",
+            "text": "We use only top-tier fabrics and cutting-edge printing techniques to bring your designs to life. Expect rich, vibrant prints that stay fresh—even after countless washes."
           }
         },
         "feature_M8CQPh": {
           "type": "feature",
           "settings": {
-            "icon": "shopify://shop_images/step-1.png",
-            "title": "Type Your Prompt",
-            "text": "Describe your idea in a few words or sentences. Our AI will transform your text into unique design concepts."
+            "icon": "shopify://shop_images/choose-2.png",
+            "title": "AI-Driven Design",
+            "text": "Our intelligent AI turns your words into wearable works of art. Just describe your vision, and we’ll craft a one-of-a-kind design you won’t find anywhere else."
           }
         },
         "feature_UNmyq3": {
           "type": "feature",
           "settings": {
-            "icon": "shopify://shop_images/step-2.png",
-            "title": "Type Your Prompt",
-            "text": "Describe your idea in a few words or sentences. Our AI will transform your text into unique design concepts."
+            "icon": "shopify://shop_images/choose-3.png",
+            "title": "Stress-Free, Start to Finish",
+            "text": "From design to checkout, we’ve streamlined the entire process to keep things simple, smooth, and stress-free. Focus on your creativity—we’ll handle the rest with precision and care."
           }
         }
       },
@@ -207,7 +138,7 @@
       "name": "Why Choose Us",
       "settings": {
         "heading": "Why Choose Us?",
-        "subtext": "We make the process seamless and exciting from start to finish."
+        "subtext": "Creating your own T-shirt should be fun, fast and unforgettable - and that’s exactly what we deliver. Whether you're launching your brand, gifting a friend, or just designing for yourself, we make the process seamless and exciting from start to finish."
       }
     },
     "faq_with_image_BaG3gF": {
@@ -223,28 +154,28 @@
         "faq_item_YBUkaY": {
           "type": "faq_item",
           "settings": {
-            "question": "How does the AI design generation work?",
+            "question": "How do I create a T-shirt design using AI?",
             "answer": "Just enter a prompt and our AI creates a unique design for you. You can then adjust its size, position, and color, add text on top, or use masking to blend elements—making it truly your own."
           }
         },
         "faq_item_m9JYjw": {
           "type": "faq_item",
           "settings": {
-            "question": "How does the AI design generation work?",
+            "question": "Can I customize the design after it's generated?",
             "answer": "Just enter a prompt and our AI creates a unique design for you. You can then adjust its size, position, and color, add text on top, or use masking to blend elements—making it truly your own."
           }
         },
         "faq_item_HM7U6Q": {
           "type": "faq_item",
           "settings": {
-            "question": "How does the AI design generation work?",
+            "question": "Do I need any design skills to use this platform?",
             "answer": "Just enter a prompt and our AI creates a unique design for you. You can then adjust its size, position, and color, add text on top, or use masking to blend elements—making it truly your own."
           }
         },
         "faq_item_K9c8gb": {
           "type": "faq_item",
           "settings": {
-            "question": "How does the AI design generation work?",
+            "question": "What type of T-shirts do you offer for printing?",
             "answer": "Just enter a prompt and our AI creates a unique design for you. You can then adjust its size, position, and color, add text on top, or use masking to blend elements—making it truly your own."
           }
         }
@@ -265,8 +196,6 @@
   },
   "order": [
     "main_section_MGtPyn",
-    "image_banner",
-    "featured_collection",
     "stats_section_YCJmcL",
     "inspiration_gallery_y3VpDj",
     "why_choose_us_PCbUPb",
