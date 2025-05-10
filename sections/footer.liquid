@@ -255,9 +255,9 @@
 
     <div
       class="bottom_footer_cst footer__content-bottom{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %} {% if template == 'customers/login' or template == 'customers/register' %}no-padding-top{% endif %}"
-      {% if settings.animations_reveal_on_scroll %}
+      {% comment %} {% if settings.animations_reveal_on_scroll %}
         data-cascade
-      {% endif %}
+      {% endif %} {% endcomment %}
     >
       <div class="footer__content-bottom-wrapper">
         <div class="footer__column footer__localization isolate">

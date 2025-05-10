@@ -2,11 +2,14 @@
   Custom Section with Background Image, Heading, Paragraph, Textarea, Button, and Paragraph
 {% endcomment %}
 
-<section class="custom-bg-form-section" style="background: url({{ section.settings.bg_image | image_url: width: 1600 }}), #f8ea69; background-size: cover; background-position: center;">
+<section
+  class="custom-bg-form-section "
+  style="background: url({{ section.settings.bg_image | image_url: width: 1600 }}), #f8ea69; background-size: cover; background-position: center;"
+>
   <div class="custom-bg-form-wrapper">
-    <h2 class="custom-form-heading">{{ section.settings.heading }}</h2>
+    <h1 class="custom-form-heading">{{ section.settings.heading }}</h1>
     <p class="custom-form-subtext">{{ section.settings.paragraph }}</p>
-    
+
     <form method="post" action="#" class="form_sec_new">
       <textarea class="custom-form-textarea" placeholder="{{ section.settings.textarea_placeholder }}"></textarea>
       <button type="submit" class="custom-form-button">{{ section.settings.button_text }}</button>
