@@ -266,7 +266,13 @@
                     {% if section.settings.show_user_icon %}
                       <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
                     {% else %}
-                      <span>{{ section.settings.custom_label | default: 'Login' }}</span>
+                      <span>
+                         {% if customer %}
+                            {{ 'icon-account.svg' | inline_asset_content }}
+                          {% else %}
+                            {{ section.settings.custom_label | default: 'Login' }}
+                          {% endif %}
+                      </span>
                     {% endif %}
                   {%- endif -%}
                 </account-icon>

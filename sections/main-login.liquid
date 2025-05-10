@@ -24,7 +24,7 @@
         <img src="{{ section.settings.login_side_image | image_url: width: 600 }}" alt="Login Image" width="100%" height="auto">
       {% endif %}
   </div>
-<div class="customer login section-{{ section.id }}-padding">
+    <div class="customer login section-{{ section.id }}-padding">
   <h2 id="recover" tabindex="-1">
     {{ 'customer.recover_password.title' | t }}
   </h2>
@@ -74,8 +74,8 @@
     {%- endform -%}
   </div>
 
-  <div class="login_heading">
-    <h1 id="login" tabindex="-1" class="main-login-title">
+  <div class="auth_heading">
+    <h1 id="login" tabindex="-1" class="main-auth-title">
       <!-- {{ 'customer.login_page.title' | t }} -->
       Sign in
     </h1>
@@ -146,13 +146,10 @@
             {% endif %}
             placeholder="{{ 'customer.login_page.password' | t }}"
           >
-            <!-- <span class="toggle-password" onclick="togglePassword()">
-              <img src="{{ 'eye.svg' | asset_url }}" alt="Toggle password visibility" id="toggleIcon" width="18" height="18"/>
-            </span> -->
-            <i class="fa fa-eye pass-icon" id="toggleIcon" onclick="togglePassword()"></i>
-          <label for="CustomerPassword">
-            {{ 'customer.login_page.password' | t }}
-          </label>
+            <i class="fa fa-eye pass-icon toggleIcon" onclick="togglePassword('CustomerPassword', this)"></i>
+            <label for="CustomerPassword">
+              {{ 'customer.login_page.password' | t }}
+            </label>
         </div>
 
         <!-- <a href="#recover">
@@ -170,9 +167,20 @@
         {{ 'customer.login_page.sign_in' | t }}
       </button>
 
-      <a href="{{ routes.account_register_url }}">
-        Need an account? Create one
+      <div class="or_text">
+        or
+      </div>
+
+      <a href="/" role="button" class="sign_google">
+        Continue with Google  <img  src="{{ 'google.svg' | asset_url }}" alt="Google"/>
       </a>
+
+      <div class="sign_in">
+        Need an account?
+        <a href="{{ routes.account_register_url }}">
+           Create one
+        </a>
+    </div>
     {%- endform -%}
   </div>
 

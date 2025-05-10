@@ -254,8 +254,10 @@
   {%- endif -%}
 
     <div
-      class="bottom_footer_cst footer__content-bottom{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %} {% if template == 'customers/login' or template == 'customers/register' %}no-padding-top{% endif %}"
-      {% comment %} {% if settings.animations_reveal_on_scroll %}
+      class="bottom_footer_cst footer__content-bottom {% if template == 'customers/login' or template == 'customers/register' %}no-padding-top{% endif %}"
+      {% comment %} 
+      {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %} 
+      {% if settings.animations_reveal_on_scroll %}
         data-cascade
       {% endif %} {% endcomment %}
     >
@@ -304,9 +306,8 @@
         <div class="footer__copyright caption bottom_layout">
           <div class="footer_wrap">
           <small class="copyright__content"
-            >&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url -}}
+            >&copy; Copyright {{ 'now' | date: '%Y' }}, All Rights Reserved
           </small>
-          <small class="copyright__content">{{ powered_by_link }}</small>
           </div>
           {%- if section.settings.show_policy -%}
             <ul class="policies list-unstyled footer_pages">

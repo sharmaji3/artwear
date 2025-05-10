@@ -22,7 +22,7 @@
 }
 
 .customer button {
-  margin: 3rem 0 1.5rem;
+  margin: 3rem 0;
 }
 
 .customer ul {
@@ -329,11 +329,11 @@
 }
 
 /* Login */
-.login a {
+/* .login a {
   display: block;
   margin: 0 auto;
   width: fit-content;
-}
+} */
 
 .login a[href='#recover'] {
   margin-left: 0;
