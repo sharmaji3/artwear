@@ -22,13 +22,13 @@
         <span>Add Text</span>
       </button>
       <button class="tab-link" data-tab="design">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="20" height="20" opacity="0.5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M7 12H17L13.55 7.5L11.25 10.5L9.7 8.5L7 12ZM6 16C5.45 16 4.97917 15.8042 4.5875 15.4125C4.19583 15.0208 4 14.55 4 14V2C4 1.45 4.19583 0.979167 4.5875 0.5875C4.97917 0.195833 5.45 0 6 0H18C18.55 0 19.0208 0.195833 19.4125 0.5875C19.8042 0.979167 20 1.45 20 2V14C20 14.55 19.8042 15.0208 19.4125 15.4125C19.0208 15.8042 18.55 16 18 16H6ZM6 14H18V2H6V14ZM2 20C1.45 20 0.979167 19.8042 0.5875 19.4125C0.195833 19.0208 0 18.55 0 18V4H2V18H16V20H2Z" fill="#12141D"/>
         </svg>
         <span>My Designs</span>
       </button>
       <button class="tab-link" data-tab="order">
-        <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="20" height="18" opacity="0.5" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1.9998 18V5.1L0.0498047 0.85L1.8498 0L4.1998 5.05H15.7998L18.1498 0L19.9498 0.85L17.9998 5.1V18H1.9998ZM7.9998 11H11.9998C12.2831 11 12.5206 10.9042 12.7123 10.7125C12.904 10.5208 12.9998 10.2833 12.9998 10C12.9998 9.71667 12.904 9.47917 12.7123 9.2875C12.5206 9.09583 12.2831 9 11.9998 9H7.9998C7.71647 9 7.47897 9.09583 7.2873 9.2875C7.09564 9.47917 6.9998 9.71667 6.9998 10C6.9998 10.2833 7.09564 10.5208 7.2873 10.7125C7.47897 10.9042 7.71647 11 7.9998 11ZM3.9998 16H15.9998V7.05H3.9998V16Z" fill="#12141D"/>
         </svg>
 
@@ -38,7 +38,7 @@
 
     <div class="main-tab-content">
       <div id="ai" class="tab-panel active">
-        <h3>Text Prompt</h3>
+        <h3 style="margin-bottom: 9px;">Text Prompt</h3>
         <div class="inner_tab_con">
           <div class="propmt">
               <div class="btn_ai_group">
@@ -98,49 +98,69 @@
 
       <div id="upload" class="tab-panel">
         <h3>Upload Image</h3>
-        <input type="file" id="upload-image" accept="image/*">
+        <div class="upload-main main_text_custom">
+          <p>Upload your own design or image to create your custom T-shirt. Make sure it’s high quality and follows our size and format guidelines.</p>
+          <ul class="list-point">
+            <li>Upload button (Upload Image)</li>
+            <li>Supported formats: PNG, JPG (max 10MB)</li>
+            <li>Optional crop/edit preview</li>
+          </ul>
+          <div class="upload_box">
+            <img src="{{ 'upload_box.svg' | asset_url }}" alt="">
+            <p>Upload Your Artwork</p>
+          </div>
+        </div>
+
+
       </div>
 
       <div id="text" class="tab-panel">
-        <h3>Add Text</h3>
+        <h3>Add Text to Your Design</h3>
+        <div class="main_text_custom">
+          <p>Customize your design with a quote, name, or any message. Play with fonts, colors, and placement to match your vibe.</p>
+          <div class="">
+
+          </div>
+        </div>
         <input type="text" id="text-input" placeholder="Your text">
         <button onclick="addTextToCanvas()">Add</button>
       </div>
 
       <div id="design" class="tab-panel">
-        <p>Your saved designs will appear here.</p>
+        <h3>My Designs</h3>
+        <div class="main_text_custom">
+          <p>View and manage all the designs you've created or uploaded. You can edit, duplicate, or delete any of them.</p>
+        </div>
       </div>
 
       <div id="order" class="tab-panel">
-        <p>Your order summary will appear here.</p>
+         <h3>My Orders</h3>
+          <div class="main_text_custom">
+            <p>Track all your orders here</p>
+          </div>
       </div>
     </div>
   <div class="content">
     <div class="controls">
-      <button onclick="switchView('front')" class="active btn_control">Front</button>
-      <button onclick="switchView('back')" class="btn_control">Back</button>
+      <button onclick="showFront()" class="active btn_control">Front</button>
+      <button onclick="showBack()" class="btn_control">Back</button>
+
     </div>
     <!-- <canvas id="tshirt-canvas" width="400" height="500"></canvas> -->
     <div>
-      <div style="text-align: center;">
-        <button onclick="showFront()">Front</button>
-        <button onclick="showBack()">Back</button>
-        <input type="file" id="imgUploader" accept="image/*" />
-        <button onclick="undo()">Undo</button>
-        <button onclick="redo()">Redo</button>
+      <div id="tshirt-container">
+        <img id="tshirt-image" src="{{ 'tshrit-front.png' | asset_url }}" alt="T-shirt Front" width="100%" height="auto" />
+        <canvas id="tshirt-canvas" width="400" height="500"></canvas>
       </div>
-
-      <!-- <canvas id="tshirtCanvas" width="500" height="600" style="border:1px solid #ccc; margin-top:10px;"></canvas> -->
-
     </div>
     <div class="footer-actions">
-      <button class="generate-btn" onclick="addToCart()">Continue</button>
+      <button class="btn-black-tshirt" onclick="addToCart()">Continue</button>
     </div>
   </div>
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js" defer></script>
 <script>
   // Tabs
   const tabLinks = document.querySelectorAll('.tab-link');
@@ -154,14 +174,6 @@
     });
   });
 
-  // Fabric Canvas Setup
-  // const canvas = new fabric.Canvas('tshirt-canvas');
-
-  // Switch View
-  // function switchView(view) {
-  //   alert('Switched to ' + view + ' view (logic needed)');
-  // }
-
   // Upload Image
   document.getElementById('upload-image').addEventListener('change', (e) => {
     const reader = new FileReader();
@@ -173,25 +185,4 @@
     };
     reader.readAsDataURL(e.target.files[0]);
   });
-
-  // Add Text
-  // function addTextToCanvas() {
-  //   const text = document.getElementById('text-input').value;
-  //   const textObj = new fabric.Text(text, { left: 100, top: 100, fill: 'black' });
-  //   canvas.add(textObj);
-  // }
-
-  // Simulate AI image generation
-  // function generateAIImage() {
-  //   const prompt = document.getElementById('ai-prompt').value;
-  //   fabric.Image.fromURL('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/tshrit-front.png?v=1746960013', function (img) {
-  //     img.scaleToWidth(200);
-  //     canvas.add(img);
-  //   });
-  // }
-
-  // Add to Cart (mock)
-  // function addToCart() {
-  //   alert('Design added to cart. Add logic to capture canvas and pass to Shopify cart.');
-  // }
 </script>

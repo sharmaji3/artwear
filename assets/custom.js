@@ -30,99 +30,116 @@
   
 
 
+// let frontImage = "{{ 'tshirt-front.png' | asset_url }}";
+// let backImage = "{{ 'tshirt-back.png' | asset_url }}";
 
-  let canvas = new fabric.Canvas('tshirtCanvas', {
-  preserveObjectStacking: true
-});
+// function showFront() {
+//   document.getElementById('tshirt-front').src = frontImage;
+// }
 
-let frontTshirt = '{{ "front-tshirt.png" | asset_url }}'; // update with your front image path
-let backTshirt = '{{ "back-tshirt.png" | asset_url }}'; // update with your back image path
+// function showBack() {
+//   document.getElementById('tshirt-back').src = backImage;
+// }
 
-let currentView = 'front';
-let backgroundImage;
-let state = [];
-let mods = 0;
-let undoStack = [];
-let redoStack = [];
+// function addImageToShirt(imgSrc) {
+//   const designLayer = document.getElementById('design-layer');
+//   designLayer.innerHTML = `<img src="${imgSrc}" style="width:100%; height:auto;" />`;
+// }
 
-// Load front T-shirt initially
-function loadTshirtImage(url) {
-  fabric.Image.fromURL(url, function(img) {
-    canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
-      scaleX: canvas.width / img.width,
-      scaleY: canvas.height / img.height
-    });
+// function addTextToShirt(text) {
+//   const designLayer = document.getElementById('design-layer');
+//   designLayer.innerHTML = `<div style="font-size:20px; color:black;">${text}</div>`;
+// }
+
+
+  let canvas = new fabric.Canvas('tshirt-canvas', {
+    preserveObjectStacking: true,
   });
-}
 
-loadTshirtImage(frontTshirt);
+  let history = [];
+  let mods = 0;
 
-// Switch Views
-function showFront() {
-  currentView = 'front';
-  loadTshirtImage(frontTshirt);
-}
-function showBack() {
-  currentView = 'back';
-  loadTshirtImage(backTshirt);
-}
+  function saveHistory() {
+    history.push(JSON.stringify(canvas));
+    mods = 0;
+  }
 
-// Upload image
-document.getElementById('imgUploader').addEventListener('change', function (e) {
-  let reader = new FileReader();
-  reader.onload = function (f) {
-    fabric.Image.fromURL(f.target.result, function (img) {
-      img.set({
-        left: canvas.width / 2 - 75,
-        top: canvas.height / 2 - 75,
-        scaleX: 0.3,
-        scaleY: 0.3,
-        originX: 'center',
-        originY: 'center'
+  canvas.on('object:added', saveHistory);
+  canvas.on('object:modified', saveHistory);
+  canvas.on('object:removed', saveHistory);
+
+  // Undo
+  function undo() {
+    if (history.length > 0) {
+      canvas.loadFromJSON(history.pop(), canvas.renderAll.bind(canvas));
+    }
+  }
+
+  // Zoom
+  function zoomIn() {
+    canvas.setZoom(canvas.getZoom() * 1.1);
+  }
+
+  function zoomOut() {
+    canvas.setZoom(canvas.getZoom() / 1.1);
+  }
+
+  // Rotate selected
+  function rotateSelected() {
+    let obj = canvas.getActiveObject();
+    if (obj) {
+      obj.rotate((obj.angle + 15) % 360);
+      canvas.renderAll();
+    }
+  }
+
+  // Add uploaded image
+  document.getElementById('upload-image').addEventListener('change', (e) => {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      fabric.Image.fromURL(event.target.result, function (img) {
+        img.scaleToWidth(200);
+        img.set({ left: 100, top: 100 });
+        canvas.add(img);
       });
-      canvas.add(img).setActiveObject(img);
-      saveState();
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  });
+
+  // Add text
+  function addTextToCanvas() {
+    const textValue = document.getElementById('text-input').value;
+    const text = new fabric.Text(textValue, {
+      left: 100,
+      top: 100,
+      fontSize: 24,
+      fill: '#000'
     });
-  };
-  reader.readAsDataURL(e.target.files[0]);
-});
-
-// Enable undo/redo
-function saveState() {
-  undoStack.push(JSON.stringify(canvas));
-  redoStack = []; // clear redo
-}
-
-function undo() {
-  if (undoStack.length > 0) {
-    redoStack.push(JSON.stringify(canvas));
-    let prev = undoStack.pop();
-    canvas.loadFromJSON(prev, canvas.renderAll.bind(canvas));
+    canvas.add(text);
   }
-}
 
-function redo() {
-  if (redoStack.length > 0) {
-    undoStack.push(JSON.stringify(canvas));
-    let next = redoStack.pop();
-    canvas.loadFromJSON(next, canvas.renderAll.bind(canvas));
-  }
-}
+  // Change front/back image
+  let isFront = true;
+  const frontImageUrl = "{{ 'tshirt-front.png' | asset_url }}";
+  const backImageUrl = "{{ 'tshirt-back.png' | asset_url }}";
 
-// Save state on object modifications
-canvas.on('object:modified', saveState);
-canvas.on('object:added', saveState);
+  function setShirtSide(imageUrl) {
+    fabric.Image.fromURL(imageUrl, function(img) {
+      img.set({ selectable: false });
+      img.scaleToWidth(400);
+      canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+    });
+  }
 
-// Optional: Restrict image movement inside shirt
-canvas.on('object:moving', function(e) {
-  let obj = e.target;
-  obj.setCoords();
-  if (obj.left < 50) obj.left = 50;
-  if (obj.top < 100) obj.top = 100;
-  if (obj.left + obj.width * obj.scaleX > canvas.width - 50) {
-    obj.left = canvas.width - 50 - obj.width * obj.scaleX;
+  function showFront() {
+    isFront = true;
+    setShirtSide(frontImageUrl);
   }
-  if (obj.top + obj.height * obj.scaleY > canvas.height - 100) {
-    obj.top = canvas.height - 100 - obj.height * obj.scaleY;
+
+  function showBack() {
+    isFront = false;
+    setShirtSide(backImageUrl);
   }
-});
+
+  // Initial load
+  showFront();

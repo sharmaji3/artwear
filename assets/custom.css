@@ -298,7 +298,7 @@ body .no-padding-top {
   object-fit: contain;
 }
 
-.inspiration-gallery .btn {
+.btn-black-tshirt {
   background-color: var(--heading);
   color: #fff;
   padding: 2rem 7.8rem 2rem 7.9rem;
@@ -309,9 +309,10 @@ body .no-padding-top {
   font-size: 1.8rem;
   letter-spacing: 0;
   line-height: 2.8rem;
+  border: 1px solid var(--heading);
 }
 
-.inspiration-gallery .btn:hover {
+.btn-black-tshirt:hover {
   background-color: #1f2937;
 }
 
@@ -700,7 +701,7 @@ input[type='checkbox'] {
   padding: 15px 20px;
   display: grid;
   grid-template-columns: 90px 360px 1fr;
-  height: 100dvh;
+  /* height: 100dvh; */
 }
 
 .customizer h3 {
@@ -709,12 +710,12 @@ input[type='checkbox'] {
   font-size: 16px;
   line-height: 28px;
   letter-spacing: 0px;
-  margin-bottom: 9px;
+  margin-bottom: 1px;
 }
 
 .main-tab-content {
   background: #FFF;
-  padding: 23px 30px;
+  padding: 23px 20px;
   margin-left: 6px;
   box-shadow: 0px 0px 15px -3px #0000001A;
   border-radius: 10px;
@@ -787,24 +788,24 @@ input[type='checkbox'] {
 }
 
 .generate-btn {
-    background: var(--primary);
-    border: none;
-    padding: 19px 84px 19px 85px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 28px;
-    letter-spacing: 0px;
-    text-align: center;
-    max-width: 250px;
-    border-radius: 10px;
-    border: 1px solid var(--heading);
-    width: 100%;
+  background: var(--primary);
+  border: none;
+  padding: 19px 84px 19px 85px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0px;
+  text-align: center;
+  max-width: 250px;
+  border-radius: 10px;
+  border: 1px solid var(--heading);
+  width: 100%;
 }
 
 .btn_ai_group {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 8px;
   margin-bottom: 8px;
@@ -838,62 +839,115 @@ input[type='checkbox'] {
   bottom: 50px;
 }
 
-.search_prompt{
-      width: 100%;
-    min-height: 188px;
-    padding: 13px 20px 13px 13px;
-    font-family: var(--font-body-family);
-    border-radius: 10px;
+.search_prompt {
+  width: 100%;
+  min-height: 188px;
+  padding: 13px 20px 13px 13px;
+  font-family: var(--font-body-family);
+  border-radius: 10px;
 }
 
-.word_count_t{
-font-weight: 400;
-font-size: 1rem;
-line-height: 1.2rem;
-letter-spacing: 0%;
-text-align: right;
+.word_count_t {
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.2rem;
+  letter-spacing: 0%;
+  text-align: right;
 }
 
 .propmt {
-    margin-bottom: 16px;
+  margin-bottom: 16px;
 }
 
-.img_specific{
+.img_specific {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   gap: 8px;
 }
 
 .img-btn img {
-    border-radius: 10px;
-    border: 1px solid #E8E8E2;
+  border-radius: 10px;
+  border: 1px solid #E8E8E2;
 }
 
 .btn_margin {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translate(-50%, -0);
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translate(-50%, -0);
 }
 
 .search_prompt::placeholder {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 21px;
-    text-align: left;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  text-align: left;
 }
 
 
 .controls button {
-    padding: 8px 32px;
-    border: 1px solid var(--heading);
-    background: #FFF;
-    border-radius: 7px;
-    font-weight: 400;
-    font-size: 14px;
-    color: var(--heading);
-    line-height: 28px;
+  padding: 8px 32px;
+  border: 1px solid var(--heading);
+  background: #FFF;
+  border-radius: 7px;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--heading);
+  line-height: 28px;
 }
+
 .controls button.active {
-    font-weight: 700;
+  font-weight: 700;
+}
+
+div#tshirt-container {
+  position: relative;
+}
+
+#tshirt-canvas {
+  border: 1px dashed #ccc;
+  background: #fff;
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.upload_box {
+  height: 188px;
+  border-radius: 10px;
+  border: 1px dashed #12141D80;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+}
+
+.list-point {
+  padding: 0 0 0 18px;
+  margin: 0 0 30px;
+}
+
+:is(.list-point li, .main_text_custom p) {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 23px;
+  margin: 0 0 5px 0;
+}
+
+
+.footer-actions {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+.footer-actions button{
+  max-width: 250px;
+  width: 100%;
 }
