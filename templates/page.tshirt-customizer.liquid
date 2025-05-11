@@ -1,0 +1,197 @@
+{% layout 'theme' %}
+
+<div class="customizer">
+    <div class="tabs">
+      <button class="tab-link active" data-tab="ai" style="border-top-left-radius: 10px;border-top-right-radius: 10px;">
+        <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 16.7L17 13.7L18.4 12.3L21.4 15.3L20 16.7ZM16.4 4.7L15 3.3L18 0.3L19.4 1.7L16.4 4.7ZM5 4.7L2 1.7L3.4 0.3L6.4 3.3L5 4.7ZM1.4 16.7L0 15.3L3 12.3L4.4 13.7L1.4 16.7ZM7.55 14.825L10.7 12.925L13.85 14.85L13.025 11.25L15.8 8.85L12.15 8.525L10.7 5.125L9.25 8.5L5.6 8.825L8.375 11.25L7.55 14.825ZM4.525 19L6.15 11.975L0.7 7.25L7.9 6.625L10.7 0L13.5 6.625L20.7 7.25L15.25 11.975L16.875 19L10.7 15.275L4.525 19Z" fill="#12141D"/>
+        </svg>
+        <span>AI</span>
+      </button>
+      <button class="tab-link" data-tab="upload">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path opacity="0.5" d="M7 12V3.85L4.4 6.45L3 5L8 0L13 5L11.6 6.45L9 3.85V12H7ZM2 16C1.45 16 0.979167 15.8042 0.5875 15.4125C0.195833 15.0208 0 14.55 0 14V11H2V14H14V11H16V14C16 14.55 15.8042 15.0208 15.4125 15.4125C15.0208 15.8042 14.55 16 14 16H2Z" fill="#12141D"/>
+        </svg>
+        <span>Upload</span>
+      </button>
+      <button class="tab-link" data-tab="text">
+        <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path opacity="0.5" d="M5.875 16V3H0.375V0H14.375V3H8.875V16H5.875Z" fill="#12141D"/>
+        </svg>
+
+        <span>Add Text</span>
+      </button>
+      <button class="tab-link" data-tab="design">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 12H17L13.55 7.5L11.25 10.5L9.7 8.5L7 12ZM6 16C5.45 16 4.97917 15.8042 4.5875 15.4125C4.19583 15.0208 4 14.55 4 14V2C4 1.45 4.19583 0.979167 4.5875 0.5875C4.97917 0.195833 5.45 0 6 0H18C18.55 0 19.0208 0.195833 19.4125 0.5875C19.8042 0.979167 20 1.45 20 2V14C20 14.55 19.8042 15.0208 19.4125 15.4125C19.0208 15.8042 18.55 16 18 16H6ZM6 14H18V2H6V14ZM2 20C1.45 20 0.979167 19.8042 0.5875 19.4125C0.195833 19.0208 0 18.55 0 18V4H2V18H16V20H2Z" fill="#12141D"/>
+        </svg>
+        <span>My Designs</span>
+      </button>
+      <button class="tab-link" data-tab="order">
+        <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.9998 18V5.1L0.0498047 0.85L1.8498 0L4.1998 5.05H15.7998L18.1498 0L19.9498 0.85L17.9998 5.1V18H1.9998ZM7.9998 11H11.9998C12.2831 11 12.5206 10.9042 12.7123 10.7125C12.904 10.5208 12.9998 10.2833 12.9998 10C12.9998 9.71667 12.904 9.47917 12.7123 9.2875C12.5206 9.09583 12.2831 9 11.9998 9H7.9998C7.71647 9 7.47897 9.09583 7.2873 9.2875C7.09564 9.47917 6.9998 9.71667 6.9998 10C6.9998 10.2833 7.09564 10.5208 7.2873 10.7125C7.47897 10.9042 7.71647 11 7.9998 11ZM3.9998 16H15.9998V7.05H3.9998V16Z" fill="#12141D"/>
+        </svg>
+
+        <span>My Orders</span>
+      </button>
+    </div>
+
+    <div class="main-tab-content">
+      <div id="ai" class="tab-panel active">
+        <h3>Text Prompt</h3>
+        <div class="inner_tab_con">
+          <div class="propmt">
+              <div class="btn_ai_group">
+                <button class="btn_main_top" type="button">Try an example</button>
+                <button class="btn_main_top sec_btn" type="button">Enhance my prompt</button>
+              </div>
+              <textarea id="ai-prompt" class="search_prompt" maxlength="1000" placeholder="Type your idea, get your design! e.g. Space cat surfing a pizza galaxy" maxlength="1000" rows="4"  oninput="countChars('ai-prompt', 'tshirt-count')" ></textarea>
+          <div id="tshirt-count" class="word_count_t">(0/1000)</div>
+          </div>
+          <!-- <div class="style">
+            <h3>Style</h3>
+            <div class="img_specific">
+              <div class="img-btn text-center">
+                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
+                <span>Anime</span>
+              </div>
+              <div class="img-btn text-center">
+                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
+                <span>Anime</span>
+              </div>
+              <div class="img-btn text-center">
+                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
+                <span>Anime</span>
+              </div>
+              <div class="img-btn text-center">
+                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
+                <span>Anime</span>
+              </div>
+              <div class="img-btn text-center">
+                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
+                <span>Anime</span>
+              </div>
+              <div class="img-btn text-center">
+                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
+                <span>Anime</span>
+              </div>
+              <div class="img-btn text-center">
+                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
+                <span>Anime</span>
+              </div>
+              <div class="img-btn text-center">
+                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
+                <span>Anime</span>
+              </div>
+              <div class="img-btn text-center">
+                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
+                <span>Anime</span>
+              </div>
+            </div>
+          </div> -->
+          <div class="btn_margin text-center">
+              <button class="generate-btn" onclick="generateAIImage()">Generate</button>  
+            </div>
+          
+        </div>
+      </div>
+
+      <div id="upload" class="tab-panel">
+        <h3>Upload Image</h3>
+        <input type="file" id="upload-image" accept="image/*">
+      </div>
+
+      <div id="text" class="tab-panel">
+        <h3>Add Text</h3>
+        <input type="text" id="text-input" placeholder="Your text">
+        <button onclick="addTextToCanvas()">Add</button>
+      </div>
+
+      <div id="design" class="tab-panel">
+        <p>Your saved designs will appear here.</p>
+      </div>
+
+      <div id="order" class="tab-panel">
+        <p>Your order summary will appear here.</p>
+      </div>
+    </div>
+  <div class="content">
+    <div class="controls">
+      <button onclick="switchView('front')" class="active btn_control">Front</button>
+      <button onclick="switchView('back')" class="btn_control">Back</button>
+    </div>
+    <!-- <canvas id="tshirt-canvas" width="400" height="500"></canvas> -->
+    <div>
+      <div style="text-align: center;">
+        <button onclick="showFront()">Front</button>
+        <button onclick="showBack()">Back</button>
+        <input type="file" id="imgUploader" accept="image/*" />
+        <button onclick="undo()">Undo</button>
+        <button onclick="redo()">Redo</button>
+      </div>
+
+      <!-- <canvas id="tshirtCanvas" width="500" height="600" style="border:1px solid #ccc; margin-top:10px;"></canvas> -->
+
+    </div>
+    <div class="footer-actions">
+      <button class="generate-btn" onclick="addToCart()">Continue</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+<script>
+  // Tabs
+  const tabLinks = document.querySelectorAll('.tab-link');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+  tabLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      tabLinks.forEach((btn) => btn.classList.remove('active'));
+      tabPanels.forEach((panel) => panel.classList.remove('active'));
+      link.classList.add('active');
+      document.getElementById(link.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Fabric Canvas Setup
+  // const canvas = new fabric.Canvas('tshirt-canvas');
+
+  // Switch View
+  // function switchView(view) {
+  //   alert('Switched to ' + view + ' view (logic needed)');
+  // }
+
+  // Upload Image
+  document.getElementById('upload-image').addEventListener('change', (e) => {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      fabric.Image.fromURL(event.target.result, function (img) {
+        img.scaleToWidth(200);
+        canvas.add(img);
+      });
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  });
+
+  // Add Text
+  // function addTextToCanvas() {
+  //   const text = document.getElementById('text-input').value;
+  //   const textObj = new fabric.Text(text, { left: 100, top: 100, fill: 'black' });
+  //   canvas.add(textObj);
+  // }
+
+  // Simulate AI image generation
+  // function generateAIImage() {
+  //   const prompt = document.getElementById('ai-prompt').value;
+  //   fabric.Image.fromURL('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/tshrit-front.png?v=1746960013', function (img) {
+  //     img.scaleToWidth(200);
+  //     canvas.add(img);
+  //   });
+  // }
+
+  // Add to Cart (mock)
+  // function addToCart() {
+  //   alert('Design added to cart. Add logic to capture canvas and pass to Shopify cart.');
+  // }
+</script>
