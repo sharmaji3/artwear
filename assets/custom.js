@@ -1,4 +1,4 @@
-
+// Password field hide show function
   function togglePassword(inputId, iconElement) {
   const passwordField = document.getElementById(inputId);
 
@@ -11,7 +11,7 @@
   iconElement.classList.toggle('fa-eye-slash');
 }
 
-
+// Prompt text limit in 1000 words
   function countChars(inputId, displayId) {
     var input = document.getElementById(inputId);
     var display = document.getElementById(displayId);
@@ -27,119 +27,109 @@
   });
 
 
-  
-
-
-// let frontImage = "{{ 'tshirt-front.png' | asset_url }}";
-// let backImage = "{{ 'tshirt-back.png' | asset_url }}";
-
-// function showFront() {
-//   document.getElementById('tshirt-front').src = frontImage;
-// }
-
-// function showBack() {
-//   document.getElementById('tshirt-back').src = backImage;
-// }
-
-// function addImageToShirt(imgSrc) {
-//   const designLayer = document.getElementById('design-layer');
-//   designLayer.innerHTML = `<img src="${imgSrc}" style="width:100%; height:auto;" />`;
-// }
-
-// function addTextToShirt(text) {
-//   const designLayer = document.getElementById('design-layer');
-//   designLayer.innerHTML = `<div style="font-size:20px; color:black;">${text}</div>`;
-// }
-
-
-  let canvas = new fabric.Canvas('tshirt-canvas', {
-    preserveObjectStacking: true,
-  });
-
-  let history = [];
+  // Customizer page upload img and show preview in canvas
+ const canvas = new fabric.Canvas('tshirt-canvas');
+  let imgInstance = null;
+  let state = [];
   let mods = 0;
+  let redoState = [];
 
-  function saveHistory() {
-    history.push(JSON.stringify(canvas));
-    mods = 0;
-  }
+  // Image upload handler
+  document.getElementById('uploadImage').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
 
-  canvas.on('object:added', saveHistory);
-  canvas.on('object:modified', saveHistory);
-  canvas.on('object:removed', saveHistory);
-
-  // Undo
-  function undo() {
-    if (history.length > 0) {
-      canvas.loadFromJSON(history.pop(), canvas.renderAll.bind(canvas));
-    }
-  }
-
-  // Zoom
-  function zoomIn() {
-    canvas.setZoom(canvas.getZoom() * 1.1);
-  }
-
-  function zoomOut() {
-    canvas.setZoom(canvas.getZoom() / 1.1);
-  }
-
-  // Rotate selected
-  function rotateSelected() {
-    let obj = canvas.getActiveObject();
-    if (obj) {
-      obj.rotate((obj.angle + 15) % 360);
-      canvas.renderAll();
-    }
-  }
-
-  // Add uploaded image
-  document.getElementById('upload-image').addEventListener('change', (e) => {
     const reader = new FileReader();
     reader.onload = function (event) {
       fabric.Image.fromURL(event.target.result, function (img) {
-        img.scaleToWidth(200);
-        img.set({ left: 100, top: 100 });
+        img.set({
+          left: canvas.width / 2,
+          top: canvas.height / 2,
+          originX: 'center',
+          originY: 'center',
+          scaleX: 0.5,
+          scaleY: 0.5,
+          selectable: true,
+        });
+        canvas.clear();
         canvas.add(img);
+        canvas.setActiveObject(img);
+        imgInstance = img;
+        saveState(); // Save initial state
       });
     };
-    reader.readAsDataURL(e.target.files[0]);
+    reader.readAsDataURL(file);
   });
 
-  // Add text
-  function addTextToCanvas() {
-    const textValue = document.getElementById('text-input').value;
-    const text = new fabric.Text(textValue, {
-      left: 100,
-      top: 100,
-      fontSize: 24,
-      fill: '#000'
-    });
-    canvas.add(text);
+  // Zoom In
+  document.getElementById('zoomInBtn').onclick = function () {
+    if (!imgInstance) return;
+    imgInstance.scaleX *= 1.1;
+    imgInstance.scaleY *= 1.1;
+    canvas.requestRenderAll();
+    saveState();
+  };
+
+  // Zoom Out
+  document.getElementById('zoomOutBtn').onclick = function () {
+    if (!imgInstance) return;
+    imgInstance.scaleX *= 0.9;
+    imgInstance.scaleY *= 0.9;
+    canvas.requestRenderAll();
+    saveState();
+  };
+
+  // Rotate Left
+  document.getElementById('rotateLeftBtn').onclick = function () {
+    if (!imgInstance) return;
+    imgInstance.angle -= 15;
+    canvas.requestRenderAll();
+    saveState();
+  };
+
+  // Rotate Right
+  document.getElementById('rotateRightBtn').onclick = function () {
+    if (!imgInstance) return;
+    imgInstance.angle += 15;
+    canvas.requestRenderAll();
+    saveState();
+  };
+
+  // Drag (Toggle Select/Move)
+  document.getElementById('dragBtn').onclick = function () {
+    canvas.isDrawingMode = false;
+    canvas.selection = true;
+    if (imgInstance) imgInstance.selectable = true;
+    canvas.requestRenderAll();
+  };
+
+  // Undo
+  document.getElementById('undoBtn').onclick = function () {
+    if (state.length > 1) {
+      redoState.push(state.pop());
+      canvas.loadFromJSON(state[state.length - 1], function () {
+        canvas.renderAll();
+      });
+    }
+  };
+
+  // Redo
+  document.getElementById('redoBtn').onclick = function () {
+    if (redoState.length > 0) {
+      const redo = redoState.pop();
+      state.push(redo);
+      canvas.loadFromJSON(redo, function () {
+        canvas.renderAll();
+      });
+    }
+  };
+
+  function saveState() {
+    mods += 1;
+    if (mods > 0) {
+      state.push(JSON.stringify(canvas));
+      redoState = []; // clear redo stack
+    }
   }
 
-  // Change front/back image
-  let isFront = true;
-  const frontImageUrl = "{{ 'tshirt-front.png' | asset_url }}";
-  const backImageUrl = "{{ 'tshirt-back.png' | asset_url }}";
-
-  function setShirtSide(imageUrl) {
-    fabric.Image.fromURL(imageUrl, function(img) {
-      img.set({ selectable: false });
-      img.scaleToWidth(400);
-      canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
-    });
-  }
-
-  function showFront() {
-    isFront = true;
-    setShirtSide(frontImageUrl);
-  }
-
-  function showBack() {
-    isFront = false;
-    setShirtSide(backImageUrl);
-  }
-
-  // Initial load
-  showFront();
+  canvas.on('object:modified', saveState);
