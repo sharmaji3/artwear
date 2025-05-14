@@ -12,13 +12,30 @@
 }
 
 // Prompt text limit in 1000 words
-  function countChars(inputId, displayId) {
-    var input = document.getElementById(inputId);
-    var display = document.getElementById(displayId);
-    var len = input.value.length;
-    var max = input.getAttribute('maxlength') || 1000;
-    display.innerHTML = `${len}/${max}`;
-  }
+function countChars(inputId, displayId) {
+  var input = document.getElementById(inputId);
+  var display = document.getElementById(displayId);
+
+  if (!input || !display) return;
+
+  var len = input.value.length;
+  var max = input.getAttribute('maxlength') || 1000;
+  display.innerHTML = `${len}/${max}`;
+}
+
+
+  // Tabs
+  const tabLinks = document.querySelectorAll('.tab-link');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+  tabLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      tabLinks.forEach((btn) => btn.classList.remove('active'));
+      tabPanels.forEach((panel) => panel.classList.remove('active'));
+      link.classList.add('active');
+      document.getElementById(link.dataset.tab).classList.add('active');
+    });
+  });
+
 
   // Initialize count on page load
   document.addEventListener('DOMContentLoaded', function() {
@@ -28,17 +45,276 @@
 
 
   // Customizer page upload img and show preview in canvas
- const canvas = new fabric.Canvas('tshirt-canvas');
-  let imgInstance = null;
-  let state = [];
-  let mods = 0;
-  let redoState = [];
+//  const canvas = new fabric.Canvas('tshirt-canvas');
+//   let imgInstance = null;
+//   let state = [];
+//   let mods = 0;
+//   let redoState = [];
 
-  // Image upload handler
-  document.getElementById('uploadImage').addEventListener('change', function (e) {
+//   // Image upload handler
+//   document.getElementById('uploadImage').addEventListener('change', function (e) {
+//     const file = e.target.files[0];
+//     if (!file || !file.type.startsWith('image/')) return;
+
+//     const reader = new FileReader();
+//     reader.onload = function (event) {
+//       fabric.Image.fromURL(event.target.result, function (img) {
+//         img.set({
+//           left: canvas.width / 2,
+//           top: canvas.height / 2,
+//           originX: 'center',
+//           originY: 'center',
+//           scaleX: 0.5,
+//           scaleY: 0.5,
+//           selectable: true,
+//         });
+//         canvas.clear();
+//         canvas.add(img);
+//         canvas.setActiveObject(img);
+//         imgInstance = img;
+//         saveState(); // Save initial state
+//       });
+//     };
+//     reader.readAsDataURL(file);
+//   });
+
+//   // Zoom In
+//   document.getElementById('zoomInBtn').onclick = function () {
+//     if (!imgInstance) return;
+//     imgInstance.scaleX *= 1.1;
+//     imgInstance.scaleY *= 1.1;
+//     canvas.requestRenderAll();
+//     saveState();
+//   };
+
+//   // Zoom Out
+//   document.getElementById('zoomOutBtn').onclick = function () {
+//     if (!imgInstance) return;
+//     imgInstance.scaleX *= 0.9;
+//     imgInstance.scaleY *= 0.9;
+//     canvas.requestRenderAll();
+//     saveState();
+//   };
+
+//   // Rotate Left
+//   document.getElementById('rotateLeftBtn').onclick = function () {
+//     if (!imgInstance) return;
+//     imgInstance.angle -= 15;
+//     canvas.requestRenderAll();
+//     saveState();
+//   };
+
+//   // Rotate Right
+//   document.getElementById('rotateRightBtn').onclick = function () {
+//     if (!imgInstance) return;
+//     imgInstance.angle += 15;
+//     canvas.requestRenderAll();
+//     saveState();
+//   };
+
+//   // Drag (Toggle Select/Move)
+//   document.getElementById('dragBtn').onclick = function () {
+//     canvas.isDrawingMode = false;
+//     canvas.selection = true;
+//     if (imgInstance) imgInstance.selectable = true;
+//     canvas.requestRenderAll();
+//   };
+
+//   // Undo
+//   document.getElementById('undoBtn').onclick = function () {
+//     if (state.length > 1) {
+//       redoState.push(state.pop());
+//       canvas.loadFromJSON(state[state.length - 1], function () {
+//         canvas.renderAll();
+//       });
+//     }
+//   };
+
+//   // Redo
+//   document.getElementById('redoBtn').onclick = function () {
+//     if (redoState.length > 0) {
+//       const redo = redoState.pop();
+//       state.push(redo);
+//       canvas.loadFromJSON(redo, function () {
+//         canvas.renderAll();
+//       });
+//     }
+//   };
+
+//   function saveState() {
+//     mods += 1;
+//     if (mods > 0) {
+//       state.push(JSON.stringify(canvas));
+//       redoState = []; // clear redo stack
+//     }
+//   }
+
+//   canvas.on('object:modified', saveState);
+
+// // Integrate Font Picker into Existing JS
+// let selectedFont = "ABeeZee";
+// let activeTextObj = null;
+
+// const fonts = [
+//   "ABeeZee", "Abel", "Abril Fatface", "Acme", "Actor", "Adamina", 
+//   "Advent Pro", "Aladin", "Alata"
+// ];
+
+// const fontListContainer = document.getElementById("fontList");
+
+// fonts.forEach(font => {
+//   const fontOption = document.createElement("div");
+//   fontOption.textContent = font;
+//   fontOption.style.fontFamily = font;
+//   fontOption.style.cursor = "pointer";
+//   fontOption.style.padding = "5px 0";
+//   fontOption.onclick = () => selectFont(font, fontOption);
+//   fontListContainer.appendChild(fontOption);
+// });
+
+// function selectFont(font, element) {
+//   selectedFont = font;
+
+//   WebFont.load({
+//     google: { families: [font] },
+//     active: () => {
+//       if (activeTextObj) {
+//         activeTextObj.set("fontFamily", font);
+//         canvas.requestRenderAll();
+//       }
+
+//       [...fontListContainer.children].forEach(child => {
+//         child.style.fontWeight = "normal";
+//         child.style.background = "transparent";
+//       });
+
+//       element.style.fontWeight = "bold";
+//       element.style.background = "#f0f0f0";
+//     }
+//   });
+// }
+
+// // Update Your addTextToCanvas to Use Selected Font
+// function addTextToCanvas() {
+//   const textValue = document.getElementById('text-input').value.trim();
+//   const fontSize = parseInt(document.getElementById('font-size').value) || 24;
+//   const fontColor = document.getElementById('font-color').value;
+
+//   if (!textValue) return;
+
+//   WebFont.load({
+//     google: { families: [selectedFont] },
+//     active: () => {
+//       const text = new fabric.Textbox(textValue, {
+//         left: canvas.width / 2,
+//         top: canvas.height / 2,
+//         originX: 'center',
+//         originY: 'center',
+//         fontFamily: selectedFont,
+//         fontSize: fontSize,
+//         fill: fontColor,
+//         editable: true,
+//         selectable: true
+//       });
+
+//       canvas.add(text);
+//       canvas.setActiveObject(text);
+//       activeTextObj = text;
+//       saveState();
+//     }
+//   });
+// }
+
+// // Keep Track of Selected Object
+// canvas.on("selection:created", e => {
+//   if (e.selected[0].type === "textbox") activeTextObj = e.selected[0];
+// });
+
+// canvas.on("selection:updated", e => {
+//   if (e.selected[0].type === "textbox") activeTextObj = e.selected[0];
+// });
+
+// canvas.on("selection:cleared", () => {
+//   activeTextObj = null;
+// });
+
+
+// function removeSelected() {
+//   const obj = canvas.getActiveObject();
+//   if (obj) {
+//     canvas.remove(obj);
+//     canvas.requestRenderAll();
+//     saveState();
+//   }
+// }
+
+
+
+
+
+
+
+
+const canvas = new fabric.Canvas("tshirt-canvas", {
+  preserveObjectStacking: true
+});
+let myDesigns = [];
+let designIdCounter = 0;
+
+let frontImageURL = "https://cdn.shopify.com/s/files/1/0744/8477/7193/files/tshrit-front.png?v=1746960013";
+let backImageURL = "https://cdn.shopify.com/s/files/1/0744/8477/7193/files/back.jpg?v=1747208335";
+
+let backgroundImg;
+let history = { front: [], back: [] };
+let redoStack = { front: [], back: [] };
+let currentSide = 'front';
+let frontObjects = [];
+let backObjects = [];
+
+function setTshirtView(imageUrl) {
+  fabric.Image.fromURL(imageUrl, function (img) {
+    img.scaleToWidth(canvas.getWidth());
+    img.scaleToHeight(canvas.getHeight());
+    img.selectable = false;
+    if (backgroundImg) {
+      canvas.remove(backgroundImg);
+    }
+    backgroundImg = img;
+    canvas.add(backgroundImg);
+    backgroundImg.sendToBack();
+    canvas.renderAll();
+  });
+}
+
+function showFront() {
+  currentSide = 'front';
+  clearCanvasExceptBg();
+  frontObjects.forEach(obj => canvas.add(obj));
+  setTshirtView(frontImageURL);
+  document.querySelector('.btn_control.active')?.classList.remove('active');
+  document.querySelector('.controls button:nth-child(1)').classList.add('active');
+}
+
+function showBack() {
+  currentSide = 'back';
+  clearCanvasExceptBg();
+  backObjects.forEach(obj => canvas.add(obj));
+  setTshirtView(backImageURL);
+  document.querySelector('.btn_control.active')?.classList.remove('active');
+  document.querySelector('.controls button:nth-child(2)').classList.add('active');
+}
+
+function clearCanvasExceptBg() {
+  const objects = canvas.getObjects().filter(obj => obj !== backgroundImg);
+  objects.forEach(obj => canvas.remove(obj));
+}
+
+// Upload image
+const uploadInput = document.getElementById('uploadImage');
+if (uploadInput) {
+  uploadInput.addEventListener('change', function (e) {
     const file = e.target.files[0];
     if (!file || !file.type.startsWith('image/')) return;
-
     const reader = new FileReader();
     reader.onload = function (event) {
       fabric.Image.fromURL(event.target.result, function (img) {
@@ -51,85 +327,291 @@
           scaleY: 0.5,
           selectable: true,
         });
-        canvas.clear();
         canvas.add(img);
-        canvas.setActiveObject(img);
-        imgInstance = img;
-        saveState(); // Save initial state
+        saveState();
+        getCurrentObjects().push(img);
+        saveDesignToMyDesigns(img);
       });
     };
     reader.readAsDataURL(file);
   });
+}
 
-  // Zoom In
-  document.getElementById('zoomInBtn').onclick = function () {
-    if (!imgInstance) return;
-    imgInstance.scaleX *= 1.1;
-    imgInstance.scaleY *= 1.1;
-    canvas.requestRenderAll();
-    saveState();
-  };
-
-  // Zoom Out
-  document.getElementById('zoomOutBtn').onclick = function () {
-    if (!imgInstance) return;
-    imgInstance.scaleX *= 0.9;
-    imgInstance.scaleY *= 0.9;
-    canvas.requestRenderAll();
-    saveState();
-  };
-
-  // Rotate Left
-  document.getElementById('rotateLeftBtn').onclick = function () {
-    if (!imgInstance) return;
-    imgInstance.angle -= 15;
-    canvas.requestRenderAll();
-    saveState();
-  };
-
-  // Rotate Right
-  document.getElementById('rotateRightBtn').onclick = function () {
-    if (!imgInstance) return;
-    imgInstance.angle += 15;
-    canvas.requestRenderAll();
-    saveState();
-  };
-
-  // Drag (Toggle Select/Move)
-  document.getElementById('dragBtn').onclick = function () {
-    canvas.isDrawingMode = false;
-    canvas.selection = true;
-    if (imgInstance) imgInstance.selectable = true;
-    canvas.requestRenderAll();
-  };
-
-  // Undo
-  document.getElementById('undoBtn').onclick = function () {
-    if (state.length > 1) {
-      redoState.push(state.pop());
-      canvas.loadFromJSON(state[state.length - 1], function () {
-        canvas.renderAll();
+// Font Picker
+let selectedFont = "ABeeZee";
+let activeTextObj = null;
+const fonts = ["ABeeZee", "Abel", "Abril Fatface", "Acme", "Actor", "Adamina", "Advent Pro", "Aladin", "Alata"];
+const fontListContainer = document.getElementById("fontList");
+fonts.forEach(font => {
+  const fontOption = document.createElement("div");
+  fontOption.textContent = font;
+  fontOption.style.fontFamily = font;
+  fontOption.style.cursor = "pointer";
+  fontOption.style.padding = "5px 0";
+  fontOption.onclick = () => selectFont(font, fontOption);
+  fontListContainer.appendChild(fontOption);
+});
+function selectFont(font, element) {
+  selectedFont = font;
+  WebFont.load({
+    google: { families: [font] },
+    active: () => {
+      if (activeTextObj) {
+        activeTextObj.set("fontFamily", font);
+        canvas.requestRenderAll();
+      }
+      [...fontListContainer.children].forEach(child => {
+        child.style.fontWeight = "normal";
+        child.style.background = "transparent";
       });
+      element.style.fontWeight = "bold";
+      element.style.background = "#f0f0f0";
     }
-  };
+  });
+}
 
-  // Redo
-  document.getElementById('redoBtn').onclick = function () {
-    if (redoState.length > 0) {
-      const redo = redoState.pop();
-      state.push(redo);
-      canvas.loadFromJSON(redo, function () {
-        canvas.renderAll();
+function addTextToCanvas() {
+  const textValue = document.getElementById('text-input').value.trim();
+  if (!textValue) return;
+  WebFont.load({
+    google: { families: [selectedFont] },
+    active: () => {
+      const text = new fabric.Textbox(textValue, {
+        left: canvas.width / 2,
+        top: canvas.height / 2,
+        originX: 'center',
+        originY: 'center',
+        fontFamily: selectedFont,
+        editable: true,
+        selectable: true
       });
+      canvas.add(text);
+      canvas.setActiveObject(text);
+      activeTextObj = text;
+      saveState();
+      getCurrentObjects().push(text);
+      saveDesignToMyDesigns(text);
     }
-  };
+  });
+}
 
-  function saveState() {
-    mods += 1;
-    if (mods > 0) {
-      state.push(JSON.stringify(canvas));
-      redoState = []; // clear redo stack
-    }
+canvas.on("selection:created", e => {
+  const obj = e.selected[0];
+  if (obj.type === "textbox") activeTextObj = obj;
+  document.getElementById("deleteBtn").style.display = "inline-block";
+});
+
+canvas.on("selection:updated", e => {
+  const obj = e.selected[0];
+  if (obj.type === "textbox") activeTextObj = obj;
+  document.getElementById("deleteBtn").style.display = "inline-block";
+});
+
+canvas.on("selection:cleared", () => {
+  activeTextObj = null;
+  document.getElementById("deleteBtn").style.display = "none";
+});
+
+function getCurrentObjects() {
+  return currentSide === 'front' ? frontObjects : backObjects;
+}
+
+function zoomCanvas(factor) {
+  canvas.setZoom(canvas.getZoom() * factor);
+  canvas.renderAll();
+}
+
+function rotateCanvas(angle) {
+  const obj = canvas.getActiveObject();
+  if (obj) {
+    obj.rotate((obj.angle || 0) + angle);
+    canvas.renderAll();
+    saveState();
+  }
+}
+
+function saveState() {
+  const state = JSON.stringify(canvas.toDatalessJSON());
+  history[currentSide].push(state);
+  redoStack[currentSide] = [];
+}
+
+function undo() {
+  if (history[currentSide].length > 1) {
+    redoStack[currentSide].push(history[currentSide].pop());
+    const prevState = history[currentSide][history[currentSide].length - 1];
+    canvas.loadFromJSON(prevState, canvas.renderAll.bind(canvas));
+  }
+}
+
+function redo() {
+  if (redoStack[currentSide].length > 0) {
+    const nextState = redoStack[currentSide].pop();
+    history[currentSide].push(nextState);
+    canvas.loadFromJSON(nextState, canvas.renderAll.bind(canvas));
+  }
+}
+
+function removeSelected() {
+  const obj = canvas.getActiveObject();
+  if (obj && obj !== backgroundImg) {
+    canvas.remove(obj);
+    const objs = getCurrentObjects();
+    const idx = objs.indexOf(obj);
+    if (idx !== -1) objs.splice(idx, 1);
+    canvas.discardActiveObject();
+    canvas.requestRenderAll();
+    saveState();
+  }
+}
+
+const deleteBtn = document.getElementById("deleteBtn");
+if (deleteBtn) {
+  deleteBtn.addEventListener("click", removeSelected);
+}
+
+function addToCart() {
+  alert("Send design to cart logic goes here.");
+}
+
+// Toolbar bindings
+document.getElementById("zoomInBtn").onclick = () => zoomCanvas(1.1);
+document.getElementById("zoomOutBtn").onclick = () => zoomCanvas(0.9);
+document.getElementById("rotateLeftBtn").onclick = () => rotateCanvas(-15);
+document.getElementById("rotateRightBtn").onclick = () => rotateCanvas(15);
+document.getElementById("dragBtn").onclick = () => {
+  canvas.isDrawingMode = false;
+  canvas.selection = true;
+  const obj = canvas.getActiveObject();
+  if (obj) obj.selectable = true;
+  canvas.requestRenderAll();
+};
+document.getElementById("undoBtn").onclick = undo;
+document.getElementById("redoBtn").onclick = redo;
+
+// Initialize
+window.onload = () => {
+  showFront();
+  saveState();
+};
+
+
+
+
+
+
+
+function saveDesignToMyDesigns(object) {
+  designIdCounter++;
+  const clone = fabric.util.object.clone(object);
+  const id = "design-" + designIdCounter;
+
+  object.myDesignId = id;
+
+  clone.cloneAsImage(img => {
+    const design = {
+      id,
+      objectData: clone.toObject(['fontFamily']),
+      imageURL: img.toDataURL(),
+      side: currentSide
+    };
+
+    myDesigns.push(design);
+    renderMyDesigns();
+  });
+}
+
+
+
+function renderMyDesigns() {
+  const container = document.getElementById("myDesigns");
+  container.innerHTML = "";
+
+  myDesigns.forEach(design => {
+    const div = document.createElement("div");
+    div.className = "my-design";
+
+    const img = document.createElement("img");
+    img.src = design.imageURL;
+
+    const iconBox = document.createElement("div");
+    iconBox.className = "icons";
+
+    const editBtn = document.createElement("i");
+    editBtn.className = "fa-solid fa-pen-to-square";
+    editBtn.onclick = () => loadDesignOnCanvas(design);
+
+    const duplicateBtn = document.createElement("i");
+    duplicateBtn.className = "fa-solid fa-clone";
+    duplicateBtn.onclick = () => duplicateDesign(design);
+
+    const deleteBtn = document.createElement("i");
+    deleteBtn.className = "fa-solid fa-trash";
+    deleteBtn.onclick = () => deleteDesign(design.id);
+
+    iconBox.append(editBtn, duplicateBtn, deleteBtn);
+    div.append(img, iconBox);
+    container.appendChild(div);
+  });
+}
+
+
+
+function loadDesignOnCanvas(design) {
+  // Switch to correct side if needed
+  if (design.side !== currentSide) {
+    design.side === 'front' ? showFront() : showBack();
   }
 
-  canvas.on('object:modified', saveState);
+  // Check if already exists on canvas
+  const existingObj = canvas.getObjects().find(obj => obj.myDesignId === design.id);
+  
+  if (existingObj) {
+    // Just select it
+    canvas.setActiveObject(existingObj);
+    canvas.renderAll();
+  } else {
+    fabric.util.enlivenObjects([design.objectData], (objects) => {
+      objects.forEach(obj => {
+        obj.myDesignId = design.id;
+        canvas.add(obj);
+        canvas.setActiveObject(obj);
+        getCurrentObjects().push(obj);
+      });
+      canvas.renderAll();
+      saveState();
+    });
+  }
+}
+
+
+function duplicateDesign(design) {
+  fabric.util.enlivenObjects([design.objectData], (objects) => {
+    objects.forEach(obj => {
+      obj.set({ left: obj.left + 10, top: obj.top + 10 }); 
+      canvas.add(obj);
+      getCurrentObjects().push(obj);
+      saveDesignToMyDesigns(obj); 
+    });
+    canvas.renderAll();
+    saveState();
+  });
+}
+
+function deleteDesign(id) {
+  // Remove from canvas
+  const canvasObjects = canvas.getObjects().filter(obj => obj.myDesignId === id);
+  canvasObjects.forEach(obj => {
+    canvas.remove(obj);
+    const objs = getCurrentObjects();
+    const idx = objs.indexOf(obj);
+    if (idx !== -1) objs.splice(idx, 1);
+  });
+
+  // Remove from designs
+  myDesigns = myDesigns.filter(d => d.id !== id);
+  renderMyDesigns();
+  canvas.requestRenderAll();
+  saveState();
+}
+

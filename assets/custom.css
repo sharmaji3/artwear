@@ -56,7 +56,7 @@ h6 {
   background-color: #E7E7E7;
 }
 
-textarea:focus-visible {
+:is(textarea, input):focus-visible{
   outline: none;
   outline-offset: unset;
   box-shadow: none;
@@ -789,6 +789,8 @@ input[type='checkbox'] {
 #tshirt-canvas {
   border: 1px dashed #ccc;
   background: #fff;
+  inset: 0;
+  margin: 0;
 }
 
 .footer-actions {
@@ -798,7 +800,7 @@ input[type='checkbox'] {
 .generate-btn {
   background: var(--primary);
   border: none;
-  padding: 19px 84px 19px 85px;
+  padding: 19px 78px 19px 79px;
   cursor: pointer;
   font-weight: 600;
   font-size: 18px;
@@ -902,26 +904,28 @@ input[type='checkbox'] {
   font-size: 14px;
   color: var(--heading);
   line-height: 28px;
+  cursor: pointer;
 }
 
 .controls button.active {
   font-weight: 700;
 }
 
-div#tshirt-container {
+/* div#tshirt-container {
   position: relative;
-}
-.customizer .canvas-container #tshirt-canvas {
+} */
+/* .customizer .canvas-container #tshirt-canvas {
     border: 1px dashed #ccc;
     background: #fff;
     position: absolute !important;
     width: 200px;
     height: 200px;
     z-index: 9;
-    top: 50% !important;
+    top: 30% !important;
     left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-}
+    transform: translate(-50%, -30%) !important;
+} 
+ */
 
 .upload_box {
   height: 188px;
@@ -969,12 +973,12 @@ input#uploadImage {
     cursor: pointer;
     opacity: 0;
 }
-
+/* 
 .canvas-container {
-    position: unset;
+    position: unset !important;
 }
-
-div#canvas-toolbar {
+ */
+.cst_toolbar {
     position: absolute;
     top: 0;
     right: 20px;
@@ -982,7 +986,81 @@ div#canvas-toolbar {
     flex-direction: column;
     gap: 10px;
     background: #ffffff;
-    padding: 20px;
+    padding:15px 20px;
     border-radius: 10px;
     z-index: 9;
+    box-shadow: 0px 0px 15px -3px #0000001A;
+}
+
+.cst_toolbar button {
+    background-color: #FFF;
+    border: none;
+    padding: 4px;
+      cursor: pointer;
+}
+
+.form_control {
+    padding: 10px;
+    width: 100%;
+    border-radius: 0;
+    border: 1px solid var(--heading);
+}
+
+.font-wrapper{
+      margin: 25px 0 42px;
+      font-family: sans-serif;
+      overflow-y: scroll;
+      height: 300px;
+}
+
+.design-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.design-list .my-design img {
+    max-width: 95px;
+    width: 100%;
+  overflow: hidden;
+  min-height: 95px;
+    margin: auto;
+    aspect-ratio: 2/2;
+    object-fit: contain;
+    border: 1px solid #E8E8E2;
+    border-radius: 10px;
+}
+
+.design-list .fa-solid {
+    background: var(--primary);
+    padding: 5px;
+    color: var(--heading);
+    border-radius: 4px;
+}
+
+.design-list .icons {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  font-size: 1.4rem;
+}
+
+.my-design:hover .icons {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    background: #00000047;
+    /* transform: translateY(-50%); */
+    height: 95px;
+    border-radius: 10px;
+    transition: hover .5s ease-in-out;
+}
+
+.my-design {
+    position: relative;
 }

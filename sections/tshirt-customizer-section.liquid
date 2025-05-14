@@ -119,18 +119,34 @@
         <h3>Add Text to Your Design</h3>
         <div class="main_text_custom">
           <p>Customize your design with a quote, name, or any message. Play with fonts, colors, and placement to match your vibe.</p>
-          <div class="">
+          <div class="main_input">
+            <input type="text" id="text-input" class="form_control" placeholder="Your text">
+          </div>
+         <div class="font-wrapper" style="margin-top: 15px; font-family: sans-serif; overflow-y: scroll; height: 300px;">
+            <strong style="display:block; margin-bottom: 10px;">Fonts</strong>
+            <div id="fontList"></div>
+        </div>
+          <!-- <div class="addons">
+            <input type="number" id="font-size" placeholder="Font size" value="24" style="width: 80px;" />
 
+            <button onclick="toggleStyle('bold')">B</button>
+            <button onclick="toggleStyle('italic')"><i>I</i></button>
+            <button onclick="toggleStyle('underline')"><u>U</u></button>
+
+            <input type="color" id="font-color" value="#000000" />
+          </div> -->
+          <div class="group_btn text-center">
+            <button type="button" class="generate-btn" onclick="addTextToCanvas()">Apply Text</button>
           </div>
         </div>
-        <input type="text" id="text-input" placeholder="Your text">
-        <button onclick="addTextToCanvas()">Add</button>
       </div>
 
       <div id="design" class="tab-panel">
         <h3>My Designs</h3>
         <div class="main_text_custom">
+          <button id="clearBtn" style="display:none;">Clear</button>
           <p>View and manage all the designs you've created or uploaded. You can edit, duplicate, or delete any of them.</p>
+          <div class="design-list" id="myDesigns"></div>
         </div>
       </div>
 
@@ -149,22 +165,41 @@
     </div>
 
       <div id="tshirt-container">
-        <img id="tshirt-image" src="{{ 'tshrit-front.png' | asset_url }}" alt="T-shirt Front" width="100%" height="auto" />
-        <canvas id="tshirt-canvas" width="200" height="200"></canvas>
+        <!-- <img id="tshirt-image" src="{{ 'tshrit-front.png' | asset_url }}" alt="T-shirt Front" width="100%" height="auto" /> -->
+        <!-- <canvas id="tshirt-canvas" width="200" height="200"></canvas> -->
+         <canvas id="tshirt-canvas" width="500" height="500"></canvas>
       </div>
     <div class="footer-actions">
       <button class="btn-black-tshirt" onclick="addToCart()">Continue</button>
     </div>
 
     <!-- Toolbar -->  
-    <div id="canvas-toolbar" >
-      <button id="zoomInBtn" title="Zoom In">🔍+</button>
-      <button id="zoomOutBtn" title="Zoom Out">🔍-</button>
-      <button id="rotateLeftBtn" title="Rotate Left">⟲</button>
-      <button id="rotateRightBtn" title="Rotate Right">⟳</button>
-      <button id="dragBtn" title="Drag">✋</button>
-      <button id="undoBtn" title="Undo">↶</button>
-      <button id="redoBtn" title="Redo">↷</button>
+    <div id="canvas-toolbar" class="cst_toolbar" >
+      <button id="zoomInBtn" title="Zoom In">
+        <img src="{{ 'zoom-in.svg' | asset_url }}" alt="" width="20" height="20">
+      </button>
+      <button id="zoomOutBtn" title="Zoom Out">
+        <img src="{{ 'zoom-out.svg' | asset_url }}" alt="" width="20" height="20">
+      </button>
+      <button id="rotateLeftBtn" title="Rotate Left">
+        <img src="{{ 'rotate-left.svg' | asset_url }}" alt="" width="20" height="20">
+      </button>
+      <button id="rotateRightBtn" title="Rotate Right">
+        <img src="{{ 'rotate-right.svg' | asset_url }}" alt="" width="20" height="20">
+      </button>
+      <button id="dragBtn" title="Drag">
+        <img src="{{ 'drag.svg' | asset_url }}" alt="" width="20" height="20">
+      </button>
+      <button id="undoBtn" title="Undo">
+        <img src="{{ 'undo.svg' | asset_url }}" alt="" width="20" height="20">
+      </button>
+      <button id="redoBtn" title="Redo">
+        <img src="{{ 'redo.svg' | asset_url }}" alt="" width="20" height="20">
+      </button>
+      <button id="deleteBtn" title="Delete" style="display: none;">
+        <img src="{{ 'delete.svg' | asset_url }}" alt="Delete" width="20" height="20">
+    </button>
+
     </div>
 
   </div>
@@ -172,28 +207,3 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js" defer></script>
-<script>
-  // Tabs
-  const tabLinks = document.querySelectorAll('.tab-link');
-  const tabPanels = document.querySelectorAll('.tab-panel');
-  tabLinks.forEach((link) => {
-    link.addEventListener('click', () => {
-      tabLinks.forEach((btn) => btn.classList.remove('active'));
-      tabPanels.forEach((panel) => panel.classList.remove('active'));
-      link.classList.add('active');
-      document.getElementById(link.dataset.tab).classList.add('active');
-    });
-  });
-
-  // Upload Image
-  // document.getElementById('upload-image').addEventListener('change', (e) => {
-  //   const reader = new FileReader();
-  //   reader.onload = function (event) {
-  //     fabric.Image.fromURL(event.target.result, function (img) {
-  //       img.scaleToWidth(200);
-  //       canvas.add(img);
-  //     });
-  //   };
-  //   reader.readAsDataURL(e.target.files[0]);
-  // });
-</script>
