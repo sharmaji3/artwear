@@ -329,7 +329,7 @@
     </a>
 {% endif %}
 
-    {% unless template == 'customers/login' or template == 'customers/register' %}  
+    {% unless template == 'customers/login' or template == 'customers/register' or template == 'page.tshirt-customizer' %}  
         {% if section.settings.show_custom_button %}
           <a href="{{ section.settings.custom_button_link }}" class="custom-header-button">
             {{ section.settings.custom_button_label }}

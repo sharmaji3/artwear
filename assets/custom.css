@@ -738,7 +738,7 @@ input[type='checkbox'] {
   background: #ffffff;
   cursor: pointer;
   text-align: left;
-  /* border-radius: 5px; */
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -756,10 +756,24 @@ input[type='checkbox'] {
   opacity: .5;
 }
 
+.tabs button.tab-link.active svg{
+    z-index: 9;
+}
 .tabs button.tab-link.active svg path,
 .tabs button.tab-link.active span {
     opacity: 1;
     font-weight: 700;
+    z-index: 9;
+}
+
+button.tab-link.active::after {
+    content: '';
+    background: #ffffff;
+    position: absolute;
+    width: 105%;
+    height: 100%;
+    right: -10px;
+    z-index: 1;
 }
 
 .tab-panel {
