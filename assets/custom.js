@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (data.imageUrls && data.imageUrls.length > 0) {
           const imageContainer = document.getElementById("generated-image");
           if (imageContainer) {
-            imageContainer.innerHTML = ''; // Clear previous images
+            imageContainer.innerHTML = '';
 
             // Display each image
             data.imageUrls.forEach(imageUrl => {
@@ -93,7 +93,6 @@ document.addEventListener("DOMContentLoaded", function () {
               imageDiv.appendChild(img);
               imageContainer.appendChild(imageDiv);
 
-              // Hook click event AFTER inserting into DOM
               img.addEventListener("click", function () {
                 addAiImageToCanvas(imageUrl);
               });
@@ -102,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Clear the prompt + reset counter
-        promptTextarea.value = "";
+        // promptTextarea.value = "";
         countChars("ai-prompt", "tshirt-count");
 
       } catch (error) {

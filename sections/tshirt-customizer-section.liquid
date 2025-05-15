@@ -134,16 +134,15 @@
                             <div class="order_inner-wrap">
                               <img src="{{ item.image | img_url: 'small' }}" width="100%" height="auto" alt="{{ item.title }}">
                               <div class="order-details">
-                                <p><strong>{{ item.title }}</strong></p>
+                                <h5>{{ item.title }}</h5>
                                 {% if item.variant_title != 'Default Title' %}
                                   <p>Variant: {{ item.variant_title }}</p>
                                 {% endif %}
-                                <p>Price: {{ item.price | money }}</p>
+                                 <strong class="price">{{ item.price | money }}</strong>
                               </div>
                             </div>
                           {% endfor %}
                         </div>
-                        <hr>
                       </div>
                     {% endif %}
                   {% endfor %}
@@ -164,11 +163,11 @@
                             <div class="order_inner-wrap">
                               <img src="{{ item.image | img_url: 'small' }}" width="100%" height="auto" alt="{{ item.title }}">
                               <div class="order-details">
-                                <p><strong>{{ item.title }}</strong></p>
+                                 <h5>{{ item.title }}</h5>
                                 {% if item.variant_title != 'Default Title' %}
                                   <p>Variant: {{ item.variant_title }}</p>
                                 {% endif %}
-                                <p>Price: {{ item.price | money }}</p>
+                                 <strong class="price">{{ item.price | money }}</strong>
                               </div>
                             </div>
                           {% endfor %}
@@ -194,11 +193,11 @@
                             <div class="order_inner-wrap">
                               <img src="{{ item.image | img_url: 'small' }}" width="100%" height="auto" alt="{{ item.title }}">
                               <div class="order-details">
-                                <p><strong>{{ item.title }}</strong></p>
+                                 <h5>{{ item.title }}</h5>
                                 {% if item.variant_title != 'Default Title' %}
                                   <p>Variant: {{ item.variant_title }}</p>
                                 {% endif %}
-                                <p>Price: {{ item.price | money }}</p>
+                                <strong class="price">{{ item.price | money }}</strong>
                               </div>
                             </div>
                           {% endfor %}
