@@ -1,5 +1,5 @@
 // Password field hide show function
-  function togglePassword(inputId, iconElement) {
+function togglePassword(inputId, iconElement) {
   const passwordField = document.getElementById(inputId);
 
   if (!passwordField) return;
@@ -23,31 +23,31 @@ function countChars(inputId, displayId) {
   display.innerHTML = `${len}/${max}`;
 }
 //Initialize count on page load
-  document.addEventListener('DOMContentLoaded', function() {
-    countChars('custom-textarea', 'word-count-display');
-    countChars('ai-prompt', 'tshirt-count');
-  });
+document.addEventListener('DOMContentLoaded', function () {
+  countChars('custom-textarea', 'word-count-display');
+  countChars('ai-prompt', 'tshirt-count');
+});
 
-  // Tabs
-  const tabLinks = document.querySelectorAll('.tab-link');
-  const tabPanels = document.querySelectorAll('.tab-panel');
-  tabLinks.forEach((link) => {
-    link.addEventListener('click', () => {
-      tabLinks.forEach((btn) => btn.classList.remove('active'));
-      tabPanels.forEach((panel) => panel.classList.remove('active'));
-      link.classList.add('active');
-      document.getElementById(link.dataset.tab).classList.add('active');
-    });
+// Tabs
+const tabLinks = document.querySelectorAll('.tab-link');
+const tabPanels = document.querySelectorAll('.tab-panel');
+tabLinks.forEach((link) => {
+  link.addEventListener('click', () => {
+    tabLinks.forEach((btn) => btn.classList.remove('active'));
+    tabPanels.forEach((panel) => panel.classList.remove('active'));
+    link.classList.add('active');
+    document.getElementById(link.dataset.tab).classList.add('active');
   });
+});
 
 
 document.addEventListener("DOMContentLoaded", function () {
   const generateButton = document.getElementById("AiGenButton");
   const promptTextarea = document.getElementById("ai-prompt");
+
   if (generateButton && promptTextarea) {
     generateButton.addEventListener("click", async function () {
       const prompt = promptTextarea.value.trim();
-debugger;
 
       if (!prompt) {
         alert("Please enter a prompt.");
@@ -73,23 +73,31 @@ debugger;
 
         const data = await response.json();
         console.log("Generated Image Response:", data);
-         console.log(data);
-        if (data.imageUrl) {
+
+        if (data.imageUrls && data.imageUrls.length > 0) {
           const imageContainer = document.getElementById("generated-image");
           if (imageContainer) {
-            imageContainer.innerHTML = `
-              <div class="ai_img">
-                <img src="${data.imageUrl}" alt="Generated Image" id="ai-generated-click" style="cursor:pointer;" />
-              </div>`;
-             
+            imageContainer.innerHTML = ''; // Clear previous images
 
-            // Hook click event AFTER inserting into DOM
-            const aiImg = document.getElementById("ai-generated-click");
-            if (aiImg) {
-              aiImg.addEventListener("click", function () {
-                addAiImageToCanvas(data.imageUrl);
+            // Display each image
+            data.imageUrls.forEach(imageUrl => {
+              const imageDiv = document.createElement("div");
+              imageDiv.classList.add("ai_img");
+
+              const img = document.createElement("img");
+              img.src = imageUrl;
+              img.alt = "Generated Image";
+              img.style.cursor = "pointer";
+              img.id = "ai-generated-click";
+
+              imageDiv.appendChild(img);
+              imageContainer.appendChild(imageDiv);
+
+              // Hook click event AFTER inserting into DOM
+              img.addEventListener("click", function () {
+                addAiImageToCanvas(imageUrl);
               });
-            }
+            });
           }
         }
 
@@ -107,6 +115,7 @@ debugger;
     });
   }
 });
+
 
 
 const canvas = new fabric.Canvas("tshirt-canvas", {
@@ -188,7 +197,7 @@ function addAiImageToCanvas(imageUrl) {
           getCurrentObjects().push(img);
           saveState();
 
-          saveDesignToMyDesigns(img); // ✅ Now this works with .toDataURL()
+          saveDesignToMyDesigns(img);
         });
       };
       reader.readAsDataURL(blob);
@@ -197,8 +206,6 @@ function addAiImageToCanvas(imageUrl) {
       console.error("Error loading AI image for canvas:", error);
     });
 }
-
-
 
 
 // Upload image
@@ -243,6 +250,7 @@ fonts.forEach(font => {
   fontOption.onclick = () => selectFont(font, fontOption);
   fontListContainer.appendChild(fontOption);
 });
+
 function selectFont(font, element) {
   selectedFont = font;
   WebFont.load({
@@ -263,7 +271,8 @@ function selectFont(font, element) {
 }
 
 function addTextToCanvas() {
-  const textValue = document.getElementById('text-input').value.trim();
+  const textInput = document.getElementById('text-input');
+  const textValue = textInput.value.trim();
   if (!textValue) return;
   WebFont.load({
     google: { families: [selectedFont] },
@@ -283,9 +292,47 @@ function addTextToCanvas() {
       saveState();
       getCurrentObjects().push(text);
       saveDesignToMyDesigns(text);
+      textInput.value = "";
     }
   });
 }
+
+function toggleStyle(style, buttonEl) {
+  if (!activeTextObj) return;
+
+  switch (style) {
+    case 'bold':
+      const isBold = activeTextObj.fontWeight === 'bold';
+      activeTextObj.set('fontWeight', isBold ? 'normal' : 'bold');
+      buttonEl.classList.toggle('active', !isBold);
+      break;
+
+    case 'italic':
+      const isItalic = activeTextObj.fontStyle === 'italic';
+      activeTextObj.set('fontStyle', isItalic ? 'normal' : 'italic');
+      buttonEl.classList.toggle('active', !isItalic);
+      break;
+
+    case 'underline':
+      const isUnderline = activeTextObj.underline;
+      activeTextObj.set('underline', !isUnderline);
+      buttonEl.classList.toggle('active', !isUnderline);
+      break;
+  }
+
+  canvas.requestRenderAll();
+  saveState();
+}
+
+
+function changeFontColor(color) {
+  if (activeTextObj) {
+    activeTextObj.set('fill', color);
+    canvas.requestRenderAll();
+    saveState();
+  }
+}
+
 
 canvas.on("selection:created", e => {
   const obj = e.selected[0];
@@ -396,18 +443,18 @@ function saveDesignToMyDesigns(object) {
   object.myDesignId = id;
 
   setTimeout(() => {
-  clone.cloneAsImage(img => {
-    const design = {
-      id,
-      objectData: clone.toObject(['fontFamily']),
-      imageURL: img.toDataURL(),
-      side: currentSide
-    };
-    console.log("💾 Saving design to My Designs:", design); // ✅ Console log here
-    myDesigns.push(design);
-    renderMyDesigns();
-  });
-}, 100);
+    clone.cloneAsImage(img => {
+      const design = {
+        id,
+        objectData: clone.toObject(['fontFamily']),
+        imageURL: img.toDataURL(),
+        side: currentSide
+      };
+      console.log("💾 Saving design to My Designs:", design); // ✅ Console log here
+      myDesigns.push(design);
+      renderMyDesigns();
+    });
+  }, 100);
 
 }
 
@@ -472,10 +519,10 @@ function loadDesignOnCanvas(design) {
 function duplicateDesign(design) {
   fabric.util.enlivenObjects([design.objectData], (objects) => {
     objects.forEach(obj => {
-      obj.set({ left: obj.left + 10, top: obj.top + 10 }); 
+      obj.set({ left: obj.left + 10, top: obj.top + 10 });
       canvas.add(obj);
       getCurrentObjects().push(obj);
-      saveDesignToMyDesigns(obj); 
+      saveDesignToMyDesigns(obj);
     });
     canvas.renderAll();
     saveState();
@@ -499,13 +546,13 @@ function deleteDesign(id) {
 }
 
 // tabs script
-  function showTab(tabId) {
-    const tabs = document.querySelectorAll('.order-tab-content');
-    const buttons = document.querySelectorAll('.tab-button');
+function showTab(tabId) {
+  const tabs = document.querySelectorAll('.order-tab-content');
+  const buttons = document.querySelectorAll('.tab-button');
 
-    tabs.forEach(tab => tab.style.display = 'none');
-    buttons.forEach(btn => btn.classList.remove('active'));
+  tabs.forEach(tab => tab.style.display = 'none');
+  buttons.forEach(btn => btn.classList.remove('active'));
 
-    document.getElementById(tabId).style.display = 'block';
-    event.currentTarget.classList.add('active');
-  }
+  document.getElementById(tabId).style.display = 'block';
+  event.currentTarget.classList.add('active');
+}

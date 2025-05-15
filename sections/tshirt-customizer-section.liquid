@@ -86,16 +86,16 @@
             <strong style="display:block; margin-bottom: 10px;">Fonts</strong>
             <div id="fontList"></div>
         </div>
-          <!-- <div class="addons">
-            <input type="number" id="font-size" placeholder="Font size" value="24" style="width: 80px;" />
+            <div class="addons">
+              <button id="bold-btn" onclick="toggleStyle('bold', this)"><b>B</b></button>
+              <button id="italic-btn" onclick="toggleStyle('italic', this)"><i>I</i></button>
+              <button id="underline-btn" onclick="toggleStyle('underline', this)"><u>U</u></button>
 
-            <button onclick="toggleStyle('bold')">B</button>
-            <button onclick="toggleStyle('italic')"><i>I</i></button>
-            <button onclick="toggleStyle('underline')"><u>U</u></button>
 
-            <input type="color" id="font-color" value="#000000" />
-          </div> -->
-          <div class="group_btn text-center">
+              <input type="color" id="font-color" value="#000000" onchange="changeFontColor(this.value)" />
+            </div>
+
+          <div class="group_btn">
             <button type="button" class="generate-btn" onclick="addTextToCanvas()">Apply Text</button>
           </div>
         </div>
@@ -132,7 +132,7 @@
                         <div class="main-order-cst">
                           {% for item in order.line_items %}
                             <div class="order_inner-wrap">
-                              <img src="{{ item.image | img_url: 'small' }}" style="width:60px;" alt="{{ item.title }}">
+                              <img src="{{ item.image | img_url: 'small' }}" width="100%" height="auto" alt="{{ item.title }}">
                               <div class="order-details">
                                 <p><strong>{{ item.title }}</strong></p>
                                 {% if item.variant_title != 'Default Title' %}
@@ -162,7 +162,7 @@
                         <div class="main-order-cst">
                           {% for item in order.line_items %}
                             <div class="order_inner-wrap">
-                              <img src="{{ item.image | img_url: 'small' }}" style="width:60px;" alt="{{ item.title }}">
+                              <img src="{{ item.image | img_url: 'small' }}" width="100%" height="auto" alt="{{ item.title }}">
                               <div class="order-details">
                                 <p><strong>{{ item.title }}</strong></p>
                                 {% if item.variant_title != 'Default Title' %}
@@ -192,7 +192,7 @@
                         <div class="main-order-cst">
                           {% for item in order.line_items %}
                             <div class="order_inner-wrap">
-                              <img src="{{ item.image | img_url: 'small' }}" style="width:60px;" alt="{{ item.title }}">
+                              <img src="{{ item.image | img_url: 'small' }}" width="100%" height="auto" alt="{{ item.title }}">
                               <div class="order-details">
                                 <p><strong>{{ item.title }}</strong></p>
                                 {% if item.variant_title != 'Default Title' %}
