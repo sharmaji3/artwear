@@ -22,7 +22,11 @@ function countChars(inputId, displayId) {
   var max = input.getAttribute('maxlength') || 1000;
   display.innerHTML = `${len}/${max}`;
 }
-
+//Initialize count on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    countChars('custom-textarea', 'word-count-display');
+    countChars('ai-prompt', 'tshirt-count');
+  });
 
   // Tabs
   const tabLinks = document.querySelectorAll('.tab-link');
@@ -37,222 +41,72 @@ function countChars(inputId, displayId) {
   });
 
 
-  // Initialize count on page load
-  document.addEventListener('DOMContentLoaded', function() {
-    countChars('custom-textarea', 'word-count-display');
-    countChars('ai-prompt', 'tshirt-count');
-  });
+document.addEventListener("DOMContentLoaded", function () {
+  const generateButton = document.getElementById("AiGenButton");
+  const promptTextarea = document.getElementById("ai-prompt");
+  if (generateButton && promptTextarea) {
+    generateButton.addEventListener("click", async function () {
+      const prompt = promptTextarea.value.trim();
+debugger;
 
+      if (!prompt) {
+        alert("Please enter a prompt.");
+        return;
+      }
 
-  // Customizer page upload img and show preview in canvas
-//  const canvas = new fabric.Canvas('tshirt-canvas');
-//   let imgInstance = null;
-//   let state = [];
-//   let mods = 0;
-//   let redoState = [];
+      const originalText = generateButton.innerHTML;
+      generateButton.disabled = true;
+      generateButton.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0744/8477/7193/files/loader.svg?v=1747284680" alt="loader" width="32" height="32"/>`;
 
-//   // Image upload handler
-//   document.getElementById('uploadImage').addEventListener('change', function (e) {
-//     const file = e.target.files[0];
-//     if (!file || !file.type.startsWith('image/')) return;
+      try {
+        const response = await fetch("https://gulshan-backend-1.onrender.com/generate-image", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ prompt })
+        });
 
-//     const reader = new FileReader();
-//     reader.onload = function (event) {
-//       fabric.Image.fromURL(event.target.result, function (img) {
-//         img.set({
-//           left: canvas.width / 2,
-//           top: canvas.height / 2,
-//           originX: 'center',
-//           originY: 'center',
-//           scaleX: 0.5,
-//           scaleY: 0.5,
-//           selectable: true,
-//         });
-//         canvas.clear();
-//         canvas.add(img);
-//         canvas.setActiveObject(img);
-//         imgInstance = img;
-//         saveState(); // Save initial state
-//       });
-//     };
-//     reader.readAsDataURL(file);
-//   });
+        if (!response.ok) {
+          throw new Error("Failed to generate image.");
+        }
 
-//   // Zoom In
-//   document.getElementById('zoomInBtn').onclick = function () {
-//     if (!imgInstance) return;
-//     imgInstance.scaleX *= 1.1;
-//     imgInstance.scaleY *= 1.1;
-//     canvas.requestRenderAll();
-//     saveState();
-//   };
+        const data = await response.json();
+        console.log("Generated Image Response:", data);
+         console.log(data);
+        if (data.imageUrl) {
+          const imageContainer = document.getElementById("generated-image");
+          if (imageContainer) {
+            imageContainer.innerHTML = `
+              <div class="ai_img">
+                <img src="${data.imageUrl}" alt="Generated Image" id="ai-generated-click" style="cursor:pointer;" />
+              </div>`;
+             
 
-//   // Zoom Out
-//   document.getElementById('zoomOutBtn').onclick = function () {
-//     if (!imgInstance) return;
-//     imgInstance.scaleX *= 0.9;
-//     imgInstance.scaleY *= 0.9;
-//     canvas.requestRenderAll();
-//     saveState();
-//   };
+            // Hook click event AFTER inserting into DOM
+            const aiImg = document.getElementById("ai-generated-click");
+            if (aiImg) {
+              aiImg.addEventListener("click", function () {
+                addAiImageToCanvas(data.imageUrl);
+              });
+            }
+          }
+        }
 
-//   // Rotate Left
-//   document.getElementById('rotateLeftBtn').onclick = function () {
-//     if (!imgInstance) return;
-//     imgInstance.angle -= 15;
-//     canvas.requestRenderAll();
-//     saveState();
-//   };
+        // Clear the prompt + reset counter
+        promptTextarea.value = "";
+        countChars("ai-prompt", "tshirt-count");
 
-//   // Rotate Right
-//   document.getElementById('rotateRightBtn').onclick = function () {
-//     if (!imgInstance) return;
-//     imgInstance.angle += 15;
-//     canvas.requestRenderAll();
-//     saveState();
-//   };
-
-//   // Drag (Toggle Select/Move)
-//   document.getElementById('dragBtn').onclick = function () {
-//     canvas.isDrawingMode = false;
-//     canvas.selection = true;
-//     if (imgInstance) imgInstance.selectable = true;
-//     canvas.requestRenderAll();
-//   };
-
-//   // Undo
-//   document.getElementById('undoBtn').onclick = function () {
-//     if (state.length > 1) {
-//       redoState.push(state.pop());
-//       canvas.loadFromJSON(state[state.length - 1], function () {
-//         canvas.renderAll();
-//       });
-//     }
-//   };
-
-//   // Redo
-//   document.getElementById('redoBtn').onclick = function () {
-//     if (redoState.length > 0) {
-//       const redo = redoState.pop();
-//       state.push(redo);
-//       canvas.loadFromJSON(redo, function () {
-//         canvas.renderAll();
-//       });
-//     }
-//   };
-
-//   function saveState() {
-//     mods += 1;
-//     if (mods > 0) {
-//       state.push(JSON.stringify(canvas));
-//       redoState = []; // clear redo stack
-//     }
-//   }
-
-//   canvas.on('object:modified', saveState);
-
-// // Integrate Font Picker into Existing JS
-// let selectedFont = "ABeeZee";
-// let activeTextObj = null;
-
-// const fonts = [
-//   "ABeeZee", "Abel", "Abril Fatface", "Acme", "Actor", "Adamina", 
-//   "Advent Pro", "Aladin", "Alata"
-// ];
-
-// const fontListContainer = document.getElementById("fontList");
-
-// fonts.forEach(font => {
-//   const fontOption = document.createElement("div");
-//   fontOption.textContent = font;
-//   fontOption.style.fontFamily = font;
-//   fontOption.style.cursor = "pointer";
-//   fontOption.style.padding = "5px 0";
-//   fontOption.onclick = () => selectFont(font, fontOption);
-//   fontListContainer.appendChild(fontOption);
-// });
-
-// function selectFont(font, element) {
-//   selectedFont = font;
-
-//   WebFont.load({
-//     google: { families: [font] },
-//     active: () => {
-//       if (activeTextObj) {
-//         activeTextObj.set("fontFamily", font);
-//         canvas.requestRenderAll();
-//       }
-
-//       [...fontListContainer.children].forEach(child => {
-//         child.style.fontWeight = "normal";
-//         child.style.background = "transparent";
-//       });
-
-//       element.style.fontWeight = "bold";
-//       element.style.background = "#f0f0f0";
-//     }
-//   });
-// }
-
-// // Update Your addTextToCanvas to Use Selected Font
-// function addTextToCanvas() {
-//   const textValue = document.getElementById('text-input').value.trim();
-//   const fontSize = parseInt(document.getElementById('font-size').value) || 24;
-//   const fontColor = document.getElementById('font-color').value;
-
-//   if (!textValue) return;
-
-//   WebFont.load({
-//     google: { families: [selectedFont] },
-//     active: () => {
-//       const text = new fabric.Textbox(textValue, {
-//         left: canvas.width / 2,
-//         top: canvas.height / 2,
-//         originX: 'center',
-//         originY: 'center',
-//         fontFamily: selectedFont,
-//         fontSize: fontSize,
-//         fill: fontColor,
-//         editable: true,
-//         selectable: true
-//       });
-
-//       canvas.add(text);
-//       canvas.setActiveObject(text);
-//       activeTextObj = text;
-//       saveState();
-//     }
-//   });
-// }
-
-// // Keep Track of Selected Object
-// canvas.on("selection:created", e => {
-//   if (e.selected[0].type === "textbox") activeTextObj = e.selected[0];
-// });
-
-// canvas.on("selection:updated", e => {
-//   if (e.selected[0].type === "textbox") activeTextObj = e.selected[0];
-// });
-
-// canvas.on("selection:cleared", () => {
-//   activeTextObj = null;
-// });
-
-
-// function removeSelected() {
-//   const obj = canvas.getActiveObject();
-//   if (obj) {
-//     canvas.remove(obj);
-//     canvas.requestRenderAll();
-//     saveState();
-//   }
-// }
-
-
-
-
-
-
+      } catch (error) {
+        console.error("Error:", error);
+        alert("There was an error generating the image.");
+      } finally {
+        generateButton.disabled = false;
+        generateButton.innerHTML = originalText;
+      }
+    });
+  }
+});
 
 
 const canvas = new fabric.Canvas("tshirt-canvas", {
@@ -308,6 +162,44 @@ function clearCanvasExceptBg() {
   const objects = canvas.getObjects().filter(obj => obj !== backgroundImg);
   objects.forEach(obj => canvas.remove(obj));
 }
+
+// ai image 
+function addAiImageToCanvas(imageUrl) {
+  fetch(imageUrl)
+    .then(response => response.blob())
+    .then(blob => {
+      const reader = new FileReader();
+      reader.onloadend = function () {
+        const base64data = reader.result;
+
+        fabric.Image.fromURL(base64data, function (img) {
+          img.set({
+            left: canvas.width / 2,
+            top: canvas.height / 2,
+            originX: 'center',
+            originY: 'center',
+            scaleX: 0.5,
+            scaleY: 0.5,
+            selectable: true
+          });
+
+          canvas.add(img);
+          canvas.setActiveObject(img);
+          getCurrentObjects().push(img);
+          saveState();
+
+          saveDesignToMyDesigns(img); // ✅ Now this works with .toDataURL()
+        });
+      };
+      reader.readAsDataURL(blob);
+    })
+    .catch(error => {
+      console.error("Error loading AI image for canvas:", error);
+    });
+}
+
+
+
 
 // Upload image
 const uploadInput = document.getElementById('uploadImage');
@@ -495,12 +387,7 @@ window.onload = () => {
   saveState();
 };
 
-
-
-
-
-
-
+// My design tabs code
 function saveDesignToMyDesigns(object) {
   designIdCounter++;
   const clone = fabric.util.object.clone(object);
@@ -508,6 +395,7 @@ function saveDesignToMyDesigns(object) {
 
   object.myDesignId = id;
 
+  setTimeout(() => {
   clone.cloneAsImage(img => {
     const design = {
       id,
@@ -515,14 +403,15 @@ function saveDesignToMyDesigns(object) {
       imageURL: img.toDataURL(),
       side: currentSide
     };
-
+    console.log("💾 Saving design to My Designs:", design); // ✅ Console log here
     myDesigns.push(design);
     renderMyDesigns();
   });
+}, 100);
+
 }
 
-
-
+// render my design images
 function renderMyDesigns() {
   const container = document.getElementById("myDesigns");
   container.innerHTML = "";
@@ -556,18 +445,13 @@ function renderMyDesigns() {
 }
 
 
-
+// edit design
 function loadDesignOnCanvas(design) {
-  // Switch to correct side if needed
   if (design.side !== currentSide) {
     design.side === 'front' ? showFront() : showBack();
   }
-
-  // Check if already exists on canvas
   const existingObj = canvas.getObjects().find(obj => obj.myDesignId === design.id);
-  
   if (existingObj) {
-    // Just select it
     canvas.setActiveObject(existingObj);
     canvas.renderAll();
   } else {
@@ -584,7 +468,7 @@ function loadDesignOnCanvas(design) {
   }
 }
 
-
+// duplicate Design
 function duplicateDesign(design) {
   fabric.util.enlivenObjects([design.objectData], (objects) => {
     objects.forEach(obj => {
@@ -598,8 +482,8 @@ function duplicateDesign(design) {
   });
 }
 
+// delete design
 function deleteDesign(id) {
-  // Remove from canvas
   const canvasObjects = canvas.getObjects().filter(obj => obj.myDesignId === id);
   canvasObjects.forEach(obj => {
     canvas.remove(obj);
@@ -608,10 +492,20 @@ function deleteDesign(id) {
     if (idx !== -1) objs.splice(idx, 1);
   });
 
-  // Remove from designs
   myDesigns = myDesigns.filter(d => d.id !== id);
   renderMyDesigns();
   canvas.requestRenderAll();
   saveState();
 }
 
+// tabs script
+  function showTab(tabId) {
+    const tabs = document.querySelectorAll('.order-tab-content');
+    const buttons = document.querySelectorAll('.tab-button');
+
+    tabs.forEach(tab => tab.style.display = 'none');
+    buttons.forEach(btn => btn.classList.remove('active'));
+
+    document.getElementById(tabId).style.display = 'block';
+    event.currentTarget.classList.add('active');
+  }

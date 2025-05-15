@@ -825,6 +825,14 @@ button.tab-link.active::after {
   border-radius: 10px;
   border: 1px solid var(--heading);
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.generate-btn[disabled] {
+    cursor: not-allowed;
+    opacity: .7;
 }
 
 .btn_ai_group {
@@ -1027,13 +1035,15 @@ input#uploadImage {
       height: 300px;
 }
 
-.design-list {
+.design-list,
+.ai-image-wrap{
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
 }
 
-.design-list .my-design img {
+.design-list .my-design img,
+.ai_img img{
     max-width: 95px;
     width: 100%;
   overflow: hidden;
@@ -1077,4 +1087,15 @@ input#uploadImage {
 
 .my-design {
     position: relative;
+}
+
+.main_bottom_login {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order_inner-wrap {
+    display: flex;
+    gap: 8px;
 }

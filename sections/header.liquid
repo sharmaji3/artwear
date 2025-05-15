@@ -247,7 +247,7 @@
           </localization-form>
         {%- endif -%}
       </div>
-      {% if section.settings.show_search_icon %}
+       {% if customer %}
         {% render 'header-search', input_id: 'Search-In-Modal' %}
       {% endif %}
 
@@ -304,16 +304,14 @@
             {% render block %}
         {%- endcase -%}
       {%- endfor -%}
-{% if section.settings.show_cart_icon %}
+{% if customer %}
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
-      {% if section.settings.show_cart_icon %}
+      {% if customer %}
         {% if cart == empty %}
           <span class="svg-wrapper">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>
         {% else %}
           <span class="svg-wrapper">{{ 'icon-cart.svg' | inline_asset_content }}</span>
         {% endif %}
-      {% else %}
-        <span>{{ section.settings.custom_label | default: 'Cart' }}</span>
       {% endif %}
     
       <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
@@ -330,7 +328,7 @@
 {% endif %}
 
     {% unless template == 'customers/login' or template == 'customers/register' or template == 'page.tshirt-customizer' %}  
-        {% if section.settings.show_custom_button %}
+        {% if section.settings.show_custom_button and customer == nil  %}
           <a href="{{ section.settings.custom_button_link }}" class="custom-header-button">
             {{ section.settings.custom_button_label }}
           </a>
@@ -682,16 +680,6 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 20
-    },
-    {
-      "type": "checkbox",
-      "id": "show_search_icon",
-      "label": "Show Search Icon"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_cart_icon",
-      "label": "Show Cart Icon"
     },
     {
       "type": "checkbox",

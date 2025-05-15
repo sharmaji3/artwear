@@ -46,51 +46,11 @@
                 <button class="btn_main_top sec_btn" type="button">Enhance my prompt</button>
               </div>
               <textarea id="ai-prompt" class="search_prompt" maxlength="1000" placeholder="Type your idea, get your design! e.g. Space cat surfing a pizza galaxy" maxlength="1000" rows="4"  oninput="countChars('ai-prompt', 'tshirt-count')" ></textarea>
-          <div id="tshirt-count" class="word_count_t">(0/1000)</div>
+              <div id="tshirt-count" class="word_count_t">(0/1000)</div>
+            <div id="generated-image" class="ai-image-wrap"></div>
           </div>
-          <!-- <div class="style">
-            <h3>Style</h3>
-            <div class="img_specific">
-              <div class="img-btn text-center">
-                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
-                <span>Anime</span>
-              </div>
-              <div class="img-btn text-center">
-                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
-                <span>Anime</span>
-              </div>
-              <div class="img-btn text-center">
-                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
-                <span>Anime</span>
-              </div>
-              <div class="img-btn text-center">
-                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
-                <span>Anime</span>
-              </div>
-              <div class="img-btn text-center">
-                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
-                <span>Anime</span>
-              </div>
-              <div class="img-btn text-center">
-                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
-                <span>Anime</span>
-              </div>
-              <div class="img-btn text-center">
-                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
-                <span>Anime</span>
-              </div>
-              <div class="img-btn text-center">
-                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
-                <span>Anime</span>
-              </div>
-              <div class="img-btn text-center">
-                <img src="{{ 'style-2.png' | asset_url }}" alt="" width="100%">
-                <span>Anime</span>
-              </div>
-            </div>
-          </div> -->
           <div class="btn_margin text-center">
-              <button class="generate-btn" onclick="generateAIImage()">Generate</button>  
+              <button class="generate-btn" id="AiGenButton">Generate</button>  
             </div>
           
         </div>
@@ -150,13 +110,114 @@
         </div>
       </div>
 
-      <div id="order" class="tab-panel">
-         <h3>My Orders</h3>
-          <div class="main_text_custom">
-            <p>Track all your orders here</p>
-            {{ customer.orders }}
+       <div id="order" class="tab-panel">
+            <h3>My Orders</h3>
+            <div class="main_text_custom">
+              {% if customer %}
+                <p>Track all your orders here</p>
+          
+                <div class="order-tabs">
+                  <button class="tab-button active" onclick="showTab('active-orders')">Active</button>
+                  <button class="tab-button" onclick="showTab('completed-orders')">Completed</button>
+                  <button class="tab-button" onclick="showTab('cancelled-orders')">Cancelled</button>
+                </div>
+          
+                <div id="active-orders" class="order-tab-content">
+                  {% assign found = false %}
+                  {% for order in customer.orders %}
+                    {% if order.cancelled_at == nil and order.fulfillment_status != 'fulfilled' %}
+                      {% assign found = true %}
+                      <div class="order">
+                        <!-- <h4>Order #{{ order.name }} — {{ order.created_at | date: "%B %d, %Y" }}</h4> -->
+                        <div class="main-order-cst">
+                          {% for item in order.line_items %}
+                            <div class="order_inner-wrap">
+                              <img src="{{ item.image | img_url: 'small' }}" style="width:60px;" alt="{{ item.title }}">
+                              <div class="order-details">
+                                <p><strong>{{ item.title }}</strong></p>
+                                {% if item.variant_title != 'Default Title' %}
+                                  <p>Variant: {{ item.variant_title }}</p>
+                                {% endif %}
+                                <p>Price: {{ item.price | money }}</p>
+                              </div>
+                            </div>
+                          {% endfor %}
+                        </div>
+                        <hr>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                  {% unless found %}
+                    <p>No active orders.</p>
+                  {% endunless %}
+                </div>
+          
+                <div id="completed-orders" class="order-tab-content" style="display:none;">
+                  {% assign found = false %}
+                  {% for order in customer.orders %}
+                    {% if order.fulfillment_status == 'fulfilled' and order.cancelled_at == nil %}
+                      {% assign found = true %}
+                      <div class="order">
+                        <!-- <h4>Order #{{ order.name }} — {{ order.created_at | date: "%B %d, %Y" }}</h4> -->
+                        <div class="main-order-cst">
+                          {% for item in order.line_items %}
+                            <div class="order_inner-wrap">
+                              <img src="{{ item.image | img_url: 'small' }}" style="width:60px;" alt="{{ item.title }}">
+                              <div class="order-details">
+                                <p><strong>{{ item.title }}</strong></p>
+                                {% if item.variant_title != 'Default Title' %}
+                                  <p>Variant: {{ item.variant_title }}</p>
+                                {% endif %}
+                                <p>Price: {{ item.price | money }}</p>
+                              </div>
+                            </div>
+                          {% endfor %}
+                          </div>
+                        <hr>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                  {% unless found %}
+                    <p>No completed orders.</p>
+                  {% endunless %}
+                </div>
+          
+                <div id="cancelled-orders" class="order-tab-content" style="display:none;">
+                  {% assign found = false %}
+                  {% for order in customer.orders %}
+                    {% if order.cancelled_at != nil %}
+                      {% assign found = true %}
+                      <div class="order">
+                        <!-- <h4>Order #{{ order.name }} — {{ order.created_at | date: "%B %d, %Y" }}</h4> -->
+                        <div class="main-order-cst">
+                          {% for item in order.line_items %}
+                            <div class="order_inner-wrap">
+                              <img src="{{ item.image | img_url: 'small' }}" style="width:60px;" alt="{{ item.title }}">
+                              <div class="order-details">
+                                <p><strong>{{ item.title }}</strong></p>
+                                {% if item.variant_title != 'Default Title' %}
+                                  <p>Variant: {{ item.variant_title }}</p>
+                                {% endif %}
+                                <p>Price: {{ item.price | money }}</p>
+                              </div>
+                            </div>
+                          {% endfor %}
+                        </div>
+                        <hr>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                  {% unless found %}
+                    <p>No cancelled orders.</p>
+                  {% endunless %}
+                </div>
+              {% else %}
+                <p>Please log in to view your orders.</p>
+              {% endif %}
+            </div>
           </div>
-      </div>
+
+      
     </div>
   <div class="content">
     <div class="controls">

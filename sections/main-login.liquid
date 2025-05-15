@@ -20,188 +20,150 @@
 
 <div class="auth_main">
   <div class="img_auth_main">
-      {% if section.settings.login_side_image != blank %}
-        <img src="{{ section.settings.login_side_image | image_url: width: 600 }}" alt="Login Image" width="100%" height="auto">
-      {% endif %}
-  </div>
-    <div class="customer login section-{{ section.id }}-padding">
-  <h2 id="recover" tabindex="-1">
-    {{ 'customer.recover_password.title' | t }}
-  </h2>
-  <div>
-    <p>
-      {{ 'customer.recover_password.subtext' | t }}
-    </p>
-
-    {%- form 'recover_customer_password' -%}
-      {% assign recover_success = form.posted_successfully? %}
-      <div class="field">
-        <input
-          type="email"
-          value=""
-          name="email"
-          id="RecoverEmail"
-          autocorrect="off"
-          autocapitalize="off"
-          autocomplete="email"
-          {% if form.errors %}
-            aria-invalid="true"
-            aria-describedby="RecoverEmail-email-error"
-            autofocus
-          {% endif %}
-          placeholder="{{ 'customer.login_page.email' | t }}"
-        >
-        <label for="RecoverEmail">
-          {{ 'customer.login_page.email' | t }}
-        </label>
-      </div>
-      {%- if form.errors -%}
-        <small id="RecoverEmail-email-error" class="form__message">
-          <span class="svg-wrapper">
-            {{- 'icon-error.svg' | inline_asset_content -}}
-          </span>
-          {{ form.errors.messages.form }}
-        </small>
-      {%- endif -%}
-
-      <button>
-        {{ 'customer.login_page.submit' | t }}
-      </button>
-
-      <a href="#login">
-        {{ 'customer.login_page.cancel' | t }}
-      </a>
-    {%- endform -%}
+    {% if section.settings.login_side_image != blank %}
+      <img src="{{ section.settings.login_side_image | image_url: width: 600 }}" alt="Login Image" width="100%" height="auto">
+    {% endif %}
   </div>
 
-  <div class="auth_heading">
-    <h1 id="login" tabindex="-1" class="main-auth-title">
-      <!-- {{ 'customer.login_page.title' | t }} -->
-      Sign in
-    </h1>
-        <p class="login_text">Please login to continue to your account.</p>
-  </div>
+  <div class="customer login section-{{ section.id }}-padding">
 
-  <div class="main-form">
-    {%- if recover_success == true -%}
-      <h3 class="form__message" tabindex="-1" autofocus>
-        <span class="svg-wrapper">
-          {{- 'icon-success.svg' | inline_asset_content -}}
-        </span>
-        {{ 'customer.recover_password.success' | t }}
-      </h3>
-    {%- endif -%}
-    {%- form 'customer_login', novalidate: 'novalidate' -%}
-      {%- if form.errors -%}
-        <h2 class="form__message" tabindex="-1" autofocus>
-          <span class="visually-hidden">{{ 'accessibility.error' | t }} </span>
-          <span class="svg-wrapper">
-            {{- 'icon-error.svg' | inline_asset_content -}}
-          </span>
-          {{ 'templates.contact.form.error_heading' | t }}
-        </h2>
-        {{ form.errors | default_errors }}
-      {%- endif -%}
+    <!-- Auth heading -->
+    <div class="auth_heading">
+      <h1 id="auth-heading" tabindex="-1" class="main-auth-title">Sign in</h1>
+      <p class="login_text" id="auth-subtext">Please login to continue to your account.</p>
+    </div>
 
-      {%- if shop.features.login_with_shop_classic_customer_accounts? -%}
-        <section name="sign-in-with-shop-provider">
-          {{ shop | login_button: hide_button: hide_shop_login_button }}
+    <!-- Recover password form -->
+    <div id="recover-form" style="display: none;">
+      <!-- <h2 tabindex="-1">{{ 'customer.recover_password.title' | t }}</h2>
+      <p>{{ 'customer.recover_password.subtext' | t }}</p> -->
 
-          {%- unless hide_shop_login_button -%}
-            <p>
-              {{ 'customer.login_page.alternate_provider_separator' | t }}
-            </p>
-          {%- endunless -%}
-        </section>
-      {%- endif -%}
-
-      <div class="field">
-        <input
-          type="email"
-          name="customer[email]"
-          id="CustomerEmail"
-          autocomplete="email"
-          autocorrect="off"
-          autocapitalize="off"
-          {% if form.errors contains 'form' %}
-            aria-invalid="true"
-          {% endif %}
-          placeholder="{{ 'customer.login_page.email' | t }}"
-        >
-        <label for="CustomerEmail">
-          {{ 'customer.login_page.email' | t }}
-        </label>
-      </div>
-
-      {%- if form.password_needed -%}
+      {%- form 'recover_customer_password' -%}
+        {% assign recover_success = form.posted_successfully? %}
         <div class="field">
-          <input
-            type="password"
-            value=""
-            name="customer[password]"
-            id="CustomerPassword"
-            autocomplete="current-password"
-            {% if form.errors contains 'form' %}
-              aria-invalid="true"
-            {% endif %}
-            placeholder="{{ 'customer.login_page.password' | t }}"
-          >
-            <i class="fa fa-eye pass-icon toggleIcon" onclick="togglePassword('CustomerPassword', this)"></i>
-            <label for="CustomerPassword">
-              {{ 'customer.login_page.password' | t }}
-            </label>
+          <input type="email" name="email" id="RecoverEmail" autocomplete="email" placeholder="{{ 'customer.login_page.email' | t }}">
+          <label for="RecoverEmail">{{ 'customer.login_page.email' | t }}</label>
         </div>
 
-        <!-- <a href="#recover">
-          {{ 'customer.login_page.forgot_password' | t }}
-        </a> -->
-      {%- endif -%}
+        {%- if form.errors -%}
+          <small class="form__message">
+            <span class="svg-wrapper">{{ 'icon-error.svg' | inline_asset_content }}</span>
+            {{ form.errors.messages.form }}
+          </small>
+        {%- endif -%}
 
-    <div class="keep-logged">
-      <input type="checkbox" id="remember_me" name="remember_me">
-      <label for="remember_me">Keep me logged in</label>
-    </div>
-
-
-      <button class="auth_btn">
-        {{ 'customer.login_page.sign_in' | t }}
-      </button>
-
-      <div class="or_text">
-        or
-      </div>
-
-      <a href="/" role="button" class="sign_google">
-        Continue with Google  <img  src="{{ 'google.svg' | asset_url }}" alt="Google"/>
-      </a>
-
-      <div class="sign_in">
-        Need an account?
-        <a href="{{ routes.account_register_url }}">
-           Create one
-        </a>
-    </div>
-    {%- endform -%}
-  </div>
-
-  {%- if shop.checkout.guest_login -%}
-    <div>
-      <hr>
-      <h2>{{ 'customer.login_page.guest_title' | t }}</h2>
-
-      {%- form 'guest_login' -%}
-        <button>
-          {{ 'customer.login_page.guest_continue' | t }}
-        </button>
+        <button type="submit">{{ 'customer.login_page.submit' | t }}</button>
+        <a href="#login" onclick="showLoginForm(event)">{{ 'customer.login_page.cancel' | t }}</a>
       {%- endform -%}
     </div>
-  {%- endif -%}
-</div>
+
+    <!-- Login form -->
+    <div id="login-form">
+      {%- if recover_success == true -%}
+        <h3 class="form__message" tabindex="-1">
+          <span class="svg-wrapper">{{ 'icon-success.svg' | inline_asset_content }}</span>
+          {{ 'customer.recover_password.success' | t }}
+        </h3>
+      {%- endif -%}
+
+      {%- form 'customer_login', novalidate: 'novalidate' -%}
+        {%- if form.errors -%}
+          <h2 class="form__message" tabindex="-1">
+            <span class="svg-wrapper">{{ 'icon-error.svg' | inline_asset_content }}</span>
+            {{ 'templates.contact.form.error_heading' | t }}
+          </h2>
+          {{ form.errors | default_errors }}
+        {%- endif -%}
+
+        {%- if shop.features.login_with_shop_classic_customer_accounts? -%}
+          <section name="sign-in-with-shop-provider">
+            {{ shop | login_button: hide_button: hide_shop_login_button }}
+            {%- unless hide_shop_login_button -%}
+              <p>{{ 'customer.login_page.alternate_provider_separator' | t }}</p>
+            {%- endunless -%}
+          </section>
+        {%- endif -%}
+
+        <div class="field">
+          <input type="email" name="customer[email]" id="CustomerEmail" autocomplete="email" placeholder="{{ 'customer.login_page.email' | t }}">
+          <label for="CustomerEmail">{{ 'customer.login_page.email' | t }}</label>
+        </div>
+
+        {%- if form.password_needed -%}
+          <div class="field">
+            <input type="password" name="customer[password]" id="CustomerPassword" autocomplete="current-password" placeholder="{{ 'customer.login_page.password' | t }}">
+            <i class="fa fa-eye pass-icon toggleIcon" onclick="togglePassword('CustomerPassword', this)"></i>
+            <label for="CustomerPassword">{{ 'customer.login_page.password' | t }}</label>
+          </div>
+          
+        {%- endif -%}
+
+        <div class="main_bottom_login">
+          <div class="keep-logged">
+            <input type="checkbox" id="remember_me" name="remember_me">
+            <label for="remember_me">Keep me logged in</label>
+          </div>
+          <a href="#recover" onclick="showRecoverForm(event)">{{ 'customer.login_page.forgot_password' | t }}</a>
+        </div>
+
+        <button class="auth_btn">{{ 'customer.login_page.sign_in' | t }}</button>
+
+        <div class="or_text">or</div>
+
+        <a href="/" role="button" class="sign_google">
+          Continue with Google <img src="{{ 'google.svg' | asset_url }}" alt="Google" />
+        </a>
+
+        <div class="sign_in">
+          Need an account? <a href="{{ routes.account_register_url }}">Create one</a>
+        </div>
+      {%- endform -%}
+    </div>
+
+    {%- if shop.checkout.guest_login -%}
+      <hr>
+      <h2>{{ 'customer.login_page.guest_title' | t }}</h2>
+      {%- form 'guest_login' -%}
+        <button>{{ 'customer.login_page.guest_continue' | t }}</button>
+      {%- endform -%}
+    {%- endif -%}
+  </div>
 </div>
 
+<!-- JavaScript -->
+<script>
+  function showRecoverForm(event) {
+    event.preventDefault();
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('recover-form').style.display = 'block';
+    document.getElementById('auth-heading').textContent = 'Forgot password';
+    document.getElementById('auth-subtext').textContent = 'We will send you an email to reset your password';
+  }
+
+  function showLoginForm(event) {
+    event.preventDefault();
+    document.getElementById('recover-form').style.display = 'none';
+    document.getElementById('login-form').style.display = 'block';
+    document.getElementById('auth-heading').textContent = 'Sign in';
+    document.getElementById('auth-subtext').textContent = 'Please login to continue to your account.';
+  }
+
+  function togglePassword(inputId, icon) {
+    const input = document.getElementById(inputId);
+    if (input.type === "password") {
+      input.type = "text";
+      icon.classList.add('active');
+    } else {
+      input.type = "password";
+      icon.classList.remove('active');
+    }
+  }
+</script>
+
+<!-- Section schema -->
 {% schema %}
 {
-  "name": "t:sections.main-login.name",
+  "name": "Login Page",
   "settings": [
     {
       "type": "image_picker",
@@ -211,12 +173,12 @@
     {
       "type": "checkbox",
       "id": "enable_shop_login_button",
-      "label": "t:sections.main-login.shop_login_button.enable",
+      "label": "Enable Shop login button",
       "default": true
     },
     {
       "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
+      "content": "Section padding"
     },
     {
       "type": "range",
@@ -225,7 +187,7 @@
       "max": 100,
       "step": 4,
       "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
+      "label": "Padding top",
       "default": 36
     },
     {
@@ -235,7 +197,7 @@
       "max": 100,
       "step": 4,
       "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
+      "label": "Padding bottom",
       "default": 36
     }
   ]

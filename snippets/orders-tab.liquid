@@ -1,0 +1,35 @@
+{% assign filtered_orders = '' | split: '' %}
+{% for order in orders %}
+  {% if filter == 'active' and order.cancelled_at == nil and order.fulfillment_status != 'fulfilled' %}
+    {% assign filtered_orders = filtered_orders | push: order %}
+  {% elsif filter == 'completed' and order.fulfillment_status == 'fulfilled' %}
+    {% assign filtered_orders = filtered_orders | push: order %}
+  {% elsif filter == 'cancelled' and order.cancelled_at != nil %}
+    {% assign filtered_orders = filtered_orders | push: order %}
+  {% endif %}
+{% endfor %}
+
+{% if filtered_orders.size > 0 %}
+  {% for order in filtered_orders %}
+    <div class="order">
+      <h4>Order #{{ order.name }} — {{ order.created_at | date: "%B %d, %Y" }}</h4>
+      <ul class="order-items">
+        {% for item in order.line_items %}
+          <li class="order-item" style="margin-bottom: 20px;">
+            <img src="{{ item.image | img_url: 'small' }}" alt="{{ item.title }}" style="width: 60px;">
+            <p><strong>{{ item.title }}</strong></p>
+            {% if item.variant_title != 'Default Title' %}
+              <p>Variant: {{ item.variant_title }}</p>
+            {% endif %}
+            <p>Quantity: {{ item.quantity }}</p>
+            <p>Price: {{ item.price | money }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+      <p><strong>Total: {{ order.total_price | money }}</strong></p>
+      <hr>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>No {{ filter }} orders found.</p>
+{% endif %}
