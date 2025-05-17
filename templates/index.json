@@ -17,7 +17,8 @@
         "heading": "Turn words into wearable art",
         "paragraph": "Turn your ideas into custom AI-designed T-shirts—crafted with premium quality and endless creativity. Let your imagination shape your next favorite outfit.",
         "textarea_placeholder": "Type your idea, get your design!  e.g. Space cat surfing a pizza galaxy",
-        "button_text": "Generate Your Design",
+        "dalle_button_text": "Try With Dall-E",
+        "leon_button_text": "Try With Leonardo",
         "footer_paragraph": "Looking for inspiration?  <br> Check out prompt examples"
       }
     },

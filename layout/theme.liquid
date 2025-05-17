@@ -51,7 +51,6 @@
     {%- endif -%}
 
     {{ content_for_header }}
-    <script src="{{ 'custom.js' | asset_url }}" defer="defer"></script>
 
     {%- liquid
       assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
@@ -411,6 +410,7 @@
     </ul>
 
     <script>
+      window.isUserLoggedIn = {{ customer ? 'true' : 'false' }};
       window.shopUrl = '{{ request.origin }}';
       window.routes = {
         cart_add_url: '{{ routes.cart_add_url }}',
@@ -462,7 +462,9 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js" defer="defer"></script>
+    
+     <script src="{{ 'custom.js' | asset_url }}" defer="defer"></script>
 
   </body>
 </html>

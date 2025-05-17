@@ -1,7 +1,53 @@
-{% comment %}
-  Custom Section with Background Image, Heading, Paragraph, Textarea, Button, and Paragraph
-{% endcomment %}
+{%- style -%}
+.ai-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.7);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+}
 
+.ai-modal-content {
+	background: white;
+	padding: 20px;
+	max-width:500px;
+	max-height: 450px;
+	overflow: auto;
+	border-radius: 8px;
+	position: relative;
+}
+
+.ai_img img {
+	width: 200px;
+	height: auto;
+	margin: 10px;
+	border: 2px solid transparent;
+}
+
+.ai_img img.active {
+	border-color: #f8ea69;
+}
+
+  .ai-modal-content span {
+    cursor: pointer;
+    position: absolute;
+    right: 14px;
+    top: 2px;
+    font-size: 20px;
+  }
+
+  
+.genImg_wrap{
+      display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+{%- endstyle -%}
 <section
   class="custom-bg-form-section "
   style="background: url({{ section.settings.bg_image | image_url: width: 1600 }}), #f8ea69; background-size: cover; background-position: center;"
@@ -10,16 +56,109 @@
     <h1 class="custom-form-heading">{{ section.settings.heading }}</h1>
     <p class="custom-form-subtext">{{ section.settings.paragraph }}</p>
 
-    <form method="post" action="#" class="form_sec_new">
-      <textarea class="custom-form-textarea" oninput="countChars('custom-textarea', 'word-count-display')" 
- id="custom-textarea" placeholder="{{ section.settings.textarea_placeholder }}"></textarea>
+    <div class="form_sec_new">
+      <div class="box_wraping">
+      <textarea class="custom-form-textarea" id="promptBox" oninput="countChars('promptBox', 'word-count-display')" 
+ placeholder="{{ section.settings.textarea_placeholder }}"></textarea>
         <div id="word-count-display" class="word_count">(0/1000)</div>
-      <button type="submit" class="custom-form-button">{{ section.settings.button_text }}</button>
-    </form>
+      </div>
+
+      <div class="btn_ai_group">
+       <button type="button" class="custom-form-button" id="dalle_genBtn_img">{{ section.settings.dalle_button_text }}</button>
+        <button type="button" class="custom-form-button" id="leonardo_genBtn_img">{{ section.settings.leon_button_text }}</button>
+      </div>
+    </div>
 
     <a href="/" class="custom-form-footer-text">{{ section.settings.footer_paragraph }}</a>
   </div>
 </section>
+
+<div id="aiModal" class="ai-modal" style="display: none;">
+  <div class="ai-modal-content">
+    <span id="aiModalClose" >&times;</span>
+    <div id="homeGenerated" class="genImg_wrap"></div>
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const dalleBtn = document.getElementById("dalle_genBtn_img");
+  const leoBtn = document.getElementById("leonardo_genBtn_img");
+  const promptTextarea = document.getElementById("promptBox");
+  const modal = document.getElementById("aiModal");
+  const modalClose = document.getElementById("aiModalClose");
+  const imageContainer = document.getElementById("homeGenerated");
+  const LeonoriginalText = leoBtn.innerHTML;
+
+  async function fetchImage(apiUrl, prompt, button) {
+        leoBtn.disabled = true;
+        dalleBtn.disabled = true;
+        leoBtn.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0744/8477/7193/files/white-loader.svg?v=1747381049" alt="loader" width="20" height="20"/>`;
+
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt })
+    });
+
+    if (!response.ok) throw new Error("API error");
+
+    const data = await response.json();
+    return data.imageUrls || [];
+  }
+
+ function showModal(images, prompt) {
+  imageContainer.innerHTML = '';
+  images.forEach(url => {
+    const imgWrap = document.createElement("div");
+    imgWrap.classList.add("ai_img");
+
+    const img = document.createElement("img");
+    img.src = url;
+    img.alt = "Generated Image";
+    img.style.cursor = "pointer";
+
+    img.addEventListener("click", () => {
+      localStorage.setItem("ai_images", JSON.stringify(images));
+      localStorage.setItem("ai_prompt", prompt);
+      localStorage.setItem("ai_selected_image", url);
+      window.location.href = "/pages/how-it-works"; 
+    });
+
+    imgWrap.appendChild(img);
+    imageContainer.appendChild(imgWrap);
+  });
+
+  modal.style.display = "flex";
+}
+
+  async function handleClick(apiType) {
+    const prompt = promptTextarea.value.trim();
+    if (!prompt) return alert("Please enter a prompt.");
+
+    try {
+      const apiUrl = apiType === 'dalle'
+        ? "https://gulshan-backend-1.onrender.com/generate-image"
+        : "https://gulshan-backend-1.onrender.com/generate-image";
+
+      const images = await fetchImage(apiUrl, prompt);
+      showModal(images, prompt);
+    } catch (err) {
+      console.error(err);
+      alert("Image generation failed.");
+    }finally {
+        leoBtn.disabled = false;
+         dalleBtn.disabled = false;
+        leoBtn.innerHTML = LeonoriginalText;
+      }
+  }
+
+  dalleBtn.addEventListener("click", () => handleClick("dalle"));
+  leoBtn.addEventListener("click", () => handleClick("leonardo"));
+  modalClose.addEventListener("click", () => { modal.style.display = "none"; });
+});
+</script>
 
 {% schema %}
 {
@@ -50,8 +189,14 @@
     },
     {
       "type": "text",
-      "id": "button_text",
-      "label": "Button Text",
+      "id": "dalle_button_text",
+      "label": "Dall-E Button Text",
+      "default": "Submit"
+    },
+    {
+      "type": "text",
+      "id": "leon_button_text",
+      "label": "Leonardo Button Text",
       "default": "Submit"
     },
     {

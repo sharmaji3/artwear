@@ -1,6 +1,7 @@
 {% layout 'theme' %}
 
 <div class="customizer">
+	<!-- Tabs -->
     <div class="tabs">
       <button class="tab-link active" data-tab="ai" style="border-top-left-radius: 10px;border-top-right-radius: 10px;">
         <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,234 +37,219 @@
       </button>
     </div>
 
+	<!-- tab content -->
     <div class="main-tab-content">
-      <div id="ai" class="tab-panel active">
-        <h3 style="margin-bottom: 9px;">Text Prompt</h3>
-        <div class="inner_tab_con">
-          <div class="propmt">
-              <div class="btn_ai_group">
-                <button class="btn_main_top" type="button">Try an example</button>
-                <button class="btn_main_top sec_btn" type="button">Enhance my prompt</button>
-              </div>
-              <textarea id="ai-prompt" class="search_prompt" maxlength="1000" placeholder="Type your idea, get your design! e.g. Space cat surfing a pizza galaxy" maxlength="1000" rows="4"  oninput="countChars('ai-prompt', 'tshirt-count')" ></textarea>
-              <div id="tshirt-count" class="word_count_t">(0/1000)</div>
-            <div id="generated-image" class="ai-image-wrap"></div>
+    <!-- AI TAB -->
+    <div id="ai" class="tab-panel active">
+      <h3 style="margin-bottom: 9px;">{{ section.settings.ai_heading }}</h3>
+      <div class="inner_tab_con">
+        <div class="propmt">
+          <div class="btn_ai_group">
+            <button class="btn_main_top" type="button">{{ section.settings.ai_button_1 }}</button>
+            <button class="btn_main_top sec_btn" type="button">{{ section.settings.ai_button_2 }}</button>
           </div>
-          <div class="btn_margin text-center">
-              <button class="generate-btn" id="AiGenButton">Generate</button>  
-            </div>
-          
+          <textarea id="ai-prompt" class="search_prompt" maxlength="1000" placeholder="Type your idea, get your design! e.g. Space cat surfing a pizza galaxy" rows="4" oninput="countChars('ai-prompt', 'tshirt-count')"></textarea>
+          <div id="tshirt-count" class="word_count_t">(0/1000)</div>
+          <div id="generated-image" class="ai-image-wrap"></div>
+        </div>
+        <div class="btn_margin text-center">
+          <button class="generate-btn" id="AiGenButton">Generate</button>
         </div>
       </div>
+    </div>
 
-      <div id="upload" class="tab-panel">
-        <h3>Upload Image</h3>
-        <div class="upload-main main_text_custom">
-          <p>Upload your own design or image to create your custom T-shirt. Make sure it’s high quality and follows our size and format guidelines.</p>
-          <ul class="list-point">
-            <li>Upload button (Upload Image)</li>
-            <li>Supported formats: PNG, JPG (max 10MB)</li>
-            <li>Optional crop/edit preview</li>
-          </ul>
-          <div class="main_new_cst">
-            <div class="upload_box">
-              <img src="{{ 'upload_box.svg' | asset_url }}" alt="upload_icon" accept="image/*" width="44" height="44"/> 
-              <p>Upload Your Artwork</p>
-            </div>
-            <input type="file" class="fileUpload_cst" id="uploadImage" style="opacity: 0;" />
+    <!-- Upload TAB -->
+    <div id="upload" class="tab-panel">
+      <h3>Upload Image</h3>
+      <div class="upload-main main_text_custom">
+        <p>{{ section.settings.upload_paragraph }}</p>
+        <ul class="list-point">
+          <li>Upload button (Upload Image)</li>
+          <li>Supported formats: PNG, JPG (max 10MB)</li>
+          <li>Optional crop/edit preview</li>
+        </ul>
+        <div class="main_new_cst">
+          <div class="upload_box">
+            <img src="{{ 'upload_box.svg' | asset_url }}" alt="upload_icon" accept="image/*" width="44" height="44"/>
+            <p>Upload Your Artwork</p>
           </div>
+          <input type="file" class="fileUpload_cst" id="uploadImage" style="opacity: 0;" />
         </div>
       </div>
+    </div>
 
-      <div id="text" class="tab-panel">
-        <h3>Add Text to Your Design</h3>
-        <div class="main_text_custom">
-          <p>Customize your design with a quote, name, or any message. Play with fonts, colors, and placement to match your vibe.</p>
-          <div class="main_input">
-            <input type="text" id="text-input" class="form_control" placeholder="Your text">
-          </div>
-         <div class="font-wrapper" style="margin-top: 15px; font-family: sans-serif; overflow-y: scroll; height: 300px;">
-            <strong style="display:block; margin-bottom: 10px;">Fonts</strong>
-            <div id="fontList"></div>
+    <!-- Text TAB -->
+    <div id="text" class="tab-panel">
+      <h3>{{ section.settings.text_heading }}</h3>
+      <div class="main_text_custom">
+        <p>{{ section.settings.text_paragraph }}</p>
+        <div class="main_input">
+          <input type="text" id="text-input" class="form_control" placeholder="Your text">
         </div>
-            <div class="addons">
-              <button id="bold-btn" onclick="toggleStyle('bold', this)"><b>B</b></button>
-              <button id="italic-btn" onclick="toggleStyle('italic', this)"><i>I</i></button>
-              <button id="underline-btn" onclick="toggleStyle('underline', this)"><u>U</u></button>
-
-
-              <input type="color" id="font-color" value="#000000" onchange="changeFontColor(this.value)" />
-            </div>
-
-          <div class="group_btn">
-            <button type="button" class="generate-btn" onclick="addTextToCanvas()">Apply Text</button>
-          </div>
+        <div class="font-wrapper" style="margin-top: 15px; font-family: sans-serif; overflow-y: scroll; height: 300px;">
+          <strong style="display:block; margin-bottom: 10px;">Fonts</strong>
+          <div id="fontList"></div>
         </div>
-      </div>
-
-      <div id="design" class="tab-panel">
-        <h3>My Designs</h3>
-        <div class="main_text_custom">
-          <button id="clearBtn" style="display:none;">Clear</button>
-          <p>View and manage all the designs you've created or uploaded. You can edit, duplicate, or delete any of them.</p>
-          <div class="design-list" id="myDesigns"></div>
+        <div class="addons">
+          <button id="bold-btn" onclick="toggleStyle('bold', this)"><b>B</b></button>
+          <button id="italic-btn" onclick="toggleStyle('italic', this)"><i>I</i></button>
+          <button id="underline-btn" onclick="toggleStyle('underline', this)"><u>U</u></button>
+          <input type="color" id="font-color" value="#000000" onchange="changeFontColor(this.value)" />
+        </div>
+        
+        <div class="group_btn">
+          <button type="button" class="generate-btn" onclick="addTextToCanvas()">
+            {{ section.settings.text_button }}
+          </button>
         </div>
       </div>
+    </div>
 
+    <!-- Design TAB -->
+    <div id="design" class="tab-panel">
+      <h3>{{ section.settings.design_heading }}</h3>
+      <div class="main_text_custom">
+        <p>{{ section.settings.design_paragraph }}</p>
+        <button id="clearBtn" style="display:none;">Clear</button>
+        <div class="design-list" id="myDesigns"></div>
+      </div>
+    </div>
+      
        <div id="order" class="tab-panel">
             <h3>My Orders</h3>
             <div class="main_text_custom">
-              {% if customer %}
-                <p>Track all your orders here</p>
-          
-                <div class="order-tabs">
-                  <button class="tab-button active" onclick="showTab('active-orders')">Active</button>
-                  <button class="tab-button" onclick="showTab('completed-orders')">Completed</button>
-                  <button class="tab-button" onclick="showTab('cancelled-orders')">Cancelled</button>
-                </div>
-          
-                <div id="active-orders" class="order-tab-content">
-                  {% assign found = false %}
-                  {% for order in customer.orders %}
-                    {% if order.cancelled_at == nil and order.fulfillment_status != 'fulfilled' %}
-                      {% assign found = true %}
-                      <div class="order">
-                        <!-- <h4>Order #{{ order.name }} — {{ order.created_at | date: "%B %d, %Y" }}</h4> -->
-                        <div class="main-order-cst">
-                          {% for item in order.line_items %}
-                            <div class="order_inner-wrap">
-                              <img src="{{ item.image | img_url: 'small' }}" width="100%" height="auto" alt="{{ item.title }}">
-                              <div class="order-details">
-                                <h5>{{ item.title }}</h5>
-                                {% if item.variant_title != 'Default Title' %}
-                                  <p>Variant: {{ item.variant_title }}</p>
-                                {% endif %}
-                                 <strong class="price">{{ item.price | money }}</strong>
-                              </div>
-                            </div>
-                          {% endfor %}
-                        </div>
-                      </div>
-                    {% endif %}
-                  {% endfor %}
-                  {% unless found %}
-                    <p>No active orders.</p>
-                  {% endunless %}
-                </div>
-          
-                <div id="completed-orders" class="order-tab-content" style="display:none;">
-                  {% assign found = false %}
-                  {% for order in customer.orders %}
-                    {% if order.fulfillment_status == 'fulfilled' and order.cancelled_at == nil %}
-                      {% assign found = true %}
-                      <div class="order">
-                        <!-- <h4>Order #{{ order.name }} — {{ order.created_at | date: "%B %d, %Y" }}</h4> -->
-                        <div class="main-order-cst">
-                          {% for item in order.line_items %}
-                            <div class="order_inner-wrap">
-                              <img src="{{ item.image | img_url: 'small' }}" width="100%" height="auto" alt="{{ item.title }}">
-                              <div class="order-details">
-                                 <h5>{{ item.title }}</h5>
-                                {% if item.variant_title != 'Default Title' %}
-                                  <p>Variant: {{ item.variant_title }}</p>
-                                {% endif %}
-                                 <strong class="price">{{ item.price | money }}</strong>
-                              </div>
-                            </div>
-                          {% endfor %}
-                          </div>
-                        <hr>
-                      </div>
-                    {% endif %}
-                  {% endfor %}
-                  {% unless found %}
-                    <p>No completed orders.</p>
-                  {% endunless %}
-                </div>
-          
-                <div id="cancelled-orders" class="order-tab-content" style="display:none;">
-                  {% assign found = false %}
-                  {% for order in customer.orders %}
-                    {% if order.cancelled_at != nil %}
-                      {% assign found = true %}
-                      <div class="order">
-                        <!-- <h4>Order #{{ order.name }} — {{ order.created_at | date: "%B %d, %Y" }}</h4> -->
-                        <div class="main-order-cst">
-                          {% for item in order.line_items %}
-                            <div class="order_inner-wrap">
-                              <img src="{{ item.image | img_url: 'small' }}" width="100%" height="auto" alt="{{ item.title }}">
-                              <div class="order-details">
-                                 <h5>{{ item.title }}</h5>
-                                {% if item.variant_title != 'Default Title' %}
-                                  <p>Variant: {{ item.variant_title }}</p>
-                                {% endif %}
-                                <strong class="price">{{ item.price | money }}</strong>
-                              </div>
-                            </div>
-                          {% endfor %}
-                        </div>
-                        <hr>
-                      </div>
-                    {% endif %}
-                  {% endfor %}
-                  {% unless found %}
-                    <p>No cancelled orders.</p>
-                  {% endunless %}
-                </div>
-              {% else %}
-                <p>Please log in to view your orders.</p>
-              {% endif %}
+               {% render 'orders-tab' %}
             </div>
+	  </div>
+    </div>
+
+	<!-- content -->
+	<div class="content">
+		<div class="controls">
+		<button onclick="showFront()" class="active btn_control">Front</button>
+		<button onclick="showBack()" class="btn_control">Back</button>
+		</div>
+		<div id="tshirt-container">
+			<canvas id="tshirt-canvas" width="500" height="500"></canvas>
+		</div>
+         <div class="color-main">
+            T-shirt Color:
+            <input type="color" id="color-picker" value="" />
           </div>
 
-      
-    </div>
-  <div class="content">
-    <div class="controls">
-      <button onclick="showFront()" class="active btn_control">Front</button>
-      <button onclick="showBack()" class="btn_control">Back</button>
-    </div>
+		<div class="footer-actions">
+		<button class="btn-black-tshirt" onclick="addToCart()">Continue</button>
+		</div>
+		<!-- Toolbar -->  
+		<div id="canvas-toolbar" class="cst_toolbar" >
+		<button id="zoomInBtn" title="Zoom In">
+			<img src="{{ 'zoom-in.svg' | asset_url }}" alt="" width="20" height="20">
+		</button>
+		<button id="zoomOutBtn" title="Zoom Out">
+			<img src="{{ 'zoom-out.svg' | asset_url }}" alt="" width="20" height="20">
+		</button>
+		<button id="rotateLeftBtn" title="Rotate Left">
+			<img src="{{ 'rotate-left.svg' | asset_url }}" alt="" width="20" height="20">
+		</button>
+		<button id="rotateRightBtn" title="Rotate Right">
+			<img src="{{ 'rotate-right.svg' | asset_url }}" alt="" width="20" height="20">
+		</button>
+		<button id="dragBtn" title="Drag">
+			<img src="{{ 'drag.svg' | asset_url }}" alt="" width="20" height="20">
+		</button>
+		<button id="undoBtn" title="Undo">
+			<img src="{{ 'undo.svg' | asset_url }}" alt="" width="20" height="20">
+		</button>
+		<button id="redoBtn" title="Redo">
+			<img src="{{ 'redo.svg' | asset_url }}" alt="" width="20" height="20">
+		</button>
+		<button id="deleteBtn" title="Delete" style="display: none;">
+			<img src="{{ 'delete.svg' | asset_url }}" alt="Delete" width="20" height="20">
+		</button>
 
-      <div id="tshirt-container">
-        <!-- <img id="tshirt-image" src="{{ 'tshrit-front.png' | asset_url }}" alt="T-shirt Front" width="100%" height="auto" /> -->
-        <!-- <canvas id="tshirt-canvas" width="200" height="200"></canvas> -->
-         <canvas id="tshirt-canvas" width="500" height="500"></canvas>
-      </div>
-    <div class="footer-actions">
-      <button class="btn-black-tshirt" onclick="addToCart()">Continue</button>
-    </div>
-
-    <!-- Toolbar -->  
-    <div id="canvas-toolbar" class="cst_toolbar" >
-      <button id="zoomInBtn" title="Zoom In">
-        <img src="{{ 'zoom-in.svg' | asset_url }}" alt="" width="20" height="20">
-      </button>
-      <button id="zoomOutBtn" title="Zoom Out">
-        <img src="{{ 'zoom-out.svg' | asset_url }}" alt="" width="20" height="20">
-      </button>
-      <button id="rotateLeftBtn" title="Rotate Left">
-        <img src="{{ 'rotate-left.svg' | asset_url }}" alt="" width="20" height="20">
-      </button>
-      <button id="rotateRightBtn" title="Rotate Right">
-        <img src="{{ 'rotate-right.svg' | asset_url }}" alt="" width="20" height="20">
-      </button>
-      <button id="dragBtn" title="Drag">
-        <img src="{{ 'drag.svg' | asset_url }}" alt="" width="20" height="20">
-      </button>
-      <button id="undoBtn" title="Undo">
-        <img src="{{ 'undo.svg' | asset_url }}" alt="" width="20" height="20">
-      </button>
-      <button id="redoBtn" title="Redo">
-        <img src="{{ 'redo.svg' | asset_url }}" alt="" width="20" height="20">
-      </button>
-      <button id="deleteBtn" title="Delete" style="display: none;">
-        <img src="{{ 'delete.svg' | asset_url }}" alt="Delete" width="20" height="20">
-    </button>
-
-    </div>
-
-  </div>
-
+		</div>
+	</div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js" defer></script>
+<script>
+    // Tabs
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+    tabLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        tabLinks.forEach((btn) => btn.classList.remove('active'));
+        tabPanels.forEach((panel) => panel.classList.remove('active'));
+        link.classList.add('active');
+        document.getElementById(link.dataset.tab).classList.add('active');
+      });
+    });
+  
+</script>
+
+{% schema %}
+{
+  "name": "Customizer Tabs",
+  "settings": [
+    {
+      "type": "text",
+      "id": "ai_heading",
+      "label": "AI Tab - Heading",
+      "default": "Text Prompt"
+    },
+    {
+      "type": "text",
+      "id": "ai_button_1",
+      "label": "AI Tab - Button 1",
+      "default": "Try an example"
+    },
+    {
+      "type": "text",
+      "id": "ai_button_2",
+      "label": "AI Tab - Button 2",
+      "default": "Enhance my prompt"
+    },
+    {
+      "type": "textarea",
+      "id": "upload_paragraph",
+      "label": "Upload Tab - Description",
+      "default": "Upload your own design or image to create your custom T-shirt. Make sure it’s high quality and follows our size and format guidelines."
+    },
+    {
+      "type": "text",
+      "id": "text_heading",
+      "label": "Text Tab - Heading",
+      "default": "Add Text to Your Design"
+    },
+    {
+      "type": "textarea",
+      "id": "text_paragraph",
+      "label": "Text Tab - Description",
+      "default": "Customize your design with a quote, name, or any message. Play with fonts, colors, and placement to match your vibe."
+    },
+    {
+      "type": "text",
+      "id": "text_button",
+      "label": "Text Tab - Button",
+      "default": "Apply Text"
+    },
+    {
+      "type": "text",
+      "id": "design_heading",
+      "label": "Design Tab - Heading",
+      "default": "My Designs"
+    },
+    {
+      "type": "textarea",
+      "id": "design_paragraph",
+      "label": "Design Tab - Description",
+      "default": "View and manage all the designs you've created or uploaded. You can edit, duplicate, or delete any of them."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customizer Section",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

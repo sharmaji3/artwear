@@ -1,35 +1,112 @@
-{% assign filtered_orders = '' | split: '' %}
-{% for order in orders %}
-  {% if filter == 'active' and order.cancelled_at == nil and order.fulfillment_status != 'fulfilled' %}
-    {% assign filtered_orders = filtered_orders | push: order %}
-  {% elsif filter == 'completed' and order.fulfillment_status == 'fulfilled' %}
-    {% assign filtered_orders = filtered_orders | push: order %}
-  {% elsif filter == 'cancelled' and order.cancelled_at != nil %}
-    {% assign filtered_orders = filtered_orders | push: order %}
-  {% endif %}
-{% endfor %}
+{% if customer %}
+  <p>Track all your orders here</p>
 
-{% if filtered_orders.size > 0 %}
-  {% for order in filtered_orders %}
-    <div class="order">
-      <h4>Order #{{ order.name }} — {{ order.created_at | date: "%B %d, %Y" }}</h4>
-      <ul class="order-items">
-        {% for item in order.line_items %}
-          <li class="order-item" style="margin-bottom: 20px;">
-            <img src="{{ item.image | img_url: 'small' }}" alt="{{ item.title }}" style="width: 60px;">
-            <p><strong>{{ item.title }}</strong></p>
-            {% if item.variant_title != 'Default Title' %}
-              <p>Variant: {{ item.variant_title }}</p>
-            {% endif %}
-            <p>Quantity: {{ item.quantity }}</p>
-            <p>Price: {{ item.price | money }}</p>
-          </li>
-        {% endfor %}
-      </ul>
-      <p><strong>Total: {{ order.total_price | money }}</strong></p>
-      <hr>
-    </div>
-  {% endfor %}
+  <div class="order-tabs">
+    <button class="tab-button active" onclick="showTab('active-orders')">Active</button>
+    <button class="tab-button" onclick="showTab('completed-orders')">Completed</button>
+    <button class="tab-button" onclick="showTab('cancelled-orders')">Cancelled</button>
+  </div>
+
+  <div id="active-orders" class="order-tab-content">
+    {% assign found = false %}
+    {% for order in customer.orders %}
+      {% if order.cancelled_at == null and order.fulfillment_status != 'fulfilled' %}
+        {% assign found = true %}
+        <div class="order">
+          <!-- <h4>Order #{{ order.name }} — {{ order.created_at | date: "%B %d, %Y" }}</h4> -->
+          <div class="main-order-cst">
+            {% for item in order.line_items %}
+              <div class="order_inner-wrap">
+                <img src="{{ item.image | img_url: 'small' }}" width="100%" height="auto" alt="{{ item.title }}">
+                <div class="order-details">
+                  <h5>{{ item.title }}</h5>
+                  {% if item.variant_title != 'Default Title' %}
+                    <p>Variant: {{ item.variant_title }}</p>
+                  {% endif %}
+                  <strong class="price">{{ item.price | money }}</strong>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+    {% unless found %}
+      <p>No active orders.</p>
+    {% endunless %}
+  </div>
+
+  <div id="completed-orders" class="order-tab-content" style="display:none;">
+    {% assign found = false %}
+    {% for order in customer.orders %}
+      {% if order.fulfillment_status == 'fulfilled' and order.cancelled_at == null %}
+        {% assign found = true %}
+        <div class="order">
+          <!-- <h4>Order #{{ order.name }} — {{ order.created_at | date: "%B %d, %Y" }}</h4> -->
+          <div class="main-order-cst">
+            {% for item in order.line_items %}
+              <div class="order_inner-wrap">
+                <img src="{{ item.image | img_url: 'small' }}" width="100%" height="auto" alt="{{ item.title }}">
+                <div class="order-details">
+                  <h5>{{ item.title }}</h5>
+                  {% if item.variant_title != 'Default Title' %}
+                    <p>Variant: {{ item.variant_title }}</p>
+                  {% endif %}
+                  <strong class="price">{{ item.price | money }}</strong>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+    {% unless found %}
+      <p>No completed orders.</p>
+    {% endunless %}
+  </div>
+
+  <div id="cancelled-orders" class="order-tab-content" style="display:none;">
+    {% assign found = false %}
+    {% for order in customer.orders %}
+      {% if order.cancelled_at != null %}
+        {% assign found = true %}
+        <div class="order">
+          <!-- <h4>Order #{{ order.name }} — {{ order.created_at | date: "%B %d, %Y" }}</h4> -->
+          <div class="main-order-cst">
+            {% for item in order.line_items %}
+              <div class="order_inner-wrap">
+                <img src="{{ item.image | img_url: 'small' }}" width="100%" height="auto" alt="{{ item.title }}">
+                <div class="order-details">
+                  <h5>{{ item.title }}</h5>
+                  {% if item.variant_title != 'Default Title' %}
+                    <p>Variant: {{ item.variant_title }}</p>
+                  {% endif %}
+                  <strong class="price">{{ item.price | money }}</strong>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+    {% unless found %}
+      <p>No cancelled orders.</p>
+    {% endunless %}
+  </div>
 {% else %}
-  <p>No {{ filter }} orders found.</p>
+  <p>Please log in to view your orders.</p>
 {% endif %}
+
+<script>
+  // my order tabs script
+  function showTab(tabId) {
+    const tabs = document.querySelectorAll('.order-tab-content');
+    const buttons = document.querySelectorAll('.tab-button');
+
+    tabs.forEach((tab) => (tab.style.display = 'none'));
+    buttons.forEach((btn) => btn.classList.remove('active'));
+
+    document.getElementById(tabId).style.display = 'block';
+    event.currentTarget.classList.add('active');
+  }
+</script>
