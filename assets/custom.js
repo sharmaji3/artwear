@@ -134,11 +134,6 @@ const canvas = new fabric.Canvas("tshirt-canvas", {
 let myDesigns = [];
 let designIdCounter = 0;
 
-// let frontImageURL =
-//   "https://cdn.shopify.com/s/files/1/0744/8477/7193/files/tshrit-front.png?v=1746960013";
-// let backImageURL =
-//   "https://cdn.shopify.com/s/files/1/0744/8477/7193/files/back.jpg?v=1747208335";
-
 let frontSvgURL = "https://cdn.shopify.com/s/files/1/0744/8477/7193/files/new.svg?v=1747399105";
 let backSvgURL = "https://yourdomain.com/tshirt-back.svg";
 
@@ -152,87 +147,17 @@ let backObjects = [];
 let frontColor = '#000000'; 
 let backColor = '#000000';   
 
-
-// function setTshirtView(imageUrl) {
-//   fabric.Image.fromURL(imageUrl, function (img) {
-//     img.scaleToWidth(canvas.getWidth());
-//     img.scaleToHeight(canvas.getHeight());
-//     img.selectable = false;
-//     if (backgroundImg) {
-//       canvas.remove(backgroundImg);
-//     }
-//     backgroundImg = img;
-//     canvas.add(backgroundImg);
-//     backgroundImg.sendToBack();
-//     canvas.renderAll();
-//   });
-// }
-
-// Initialize
-// window.onload = () => {
-//   showFront();
-//   saveState();
-// };
-
-// function showFront() {
-//   currentSide = "front";
-//   clearCanvasExceptBg();
-//   frontObjects.forEach((obj) => canvas.add(obj));
-//   setTshirtView(frontSvgURL);
-//   document.querySelector(".btn_control.active")?.classList.remove("active");
-//   document
-//     .querySelector(".controls button:nth-child(1)")
-//     .classList.add("active");
-// }
-
-// function showBack() {
-//   currentSide = "back";
-//   clearCanvasExceptBg();
-//   backObjects.forEach((obj) => canvas.add(obj));
-//   setTshirtView(backSvgURL);
-//   document.querySelector(".btn_control.active")?.classList.remove("active");
-//   document
-//     .querySelector(".controls button:nth-child(2)")
-//     .classList.add("active");
-// }
-
-// function clearCanvasExceptBg() {
-//   const objects = canvas.getObjects().filter((obj) => obj !== backgroundImg);
-//   objects.forEach((obj) => canvas.remove(obj));
-// }
-
-// Load the SVG (front or back) and display on canvas
-// function setTshirtView(svgUrl) {
-//   fabric.loadSVGFromURL(svgUrl, function (objects, options) {
-//     const obj = fabric.util.groupSVGElements(objects, options);
-//     obj.scaleToWidth(canvas.getWidth());
-//     obj.scaleToHeight(canvas.getHeight());
-//     obj.selectable = false;
-    
-//     if (backgroundImg) {
-//       canvas.remove(backgroundImg); 
-//     }
-
-//     backgroundImg = obj;
-//     canvas.add(backgroundImg);
-//     backgroundImg.sendToBack();
-//     canvas.renderAll();
-//   });
-// }
-
 function setTshirtView(svgUrl, color) {
   fabric.loadSVGFromURL(svgUrl, function (objects, options) {
     const obj = fabric.util.groupSVGElements(objects, options);
     obj.scaleToWidth(canvas.getWidth());
     obj.scaleToHeight(canvas.getHeight());
     obj.selectable = false;
-
-    // Apply the color to all relevant parts (shirt and collar)
     obj._objects.forEach(function (path) {
       if (path.id === 'shirt-shape') {
-        path.set('fill', color);  // Set shirt color
+        path.set('fill', color); 
       } else if (path.id === 'collar-shape') {
-        path.set('fill', color);  // Set collar color (example blue)
+        path.set('fill', color);
       }
     });
 
@@ -252,7 +177,7 @@ function setTshirtView(svgUrl, color) {
 function changeTshirtColor(color) {
   if (!backgroundImg || !backgroundImg._objects) {
     console.error("backgroundImg or _objects is undefined");
-    return; // Exit if backgroundImg is not set correctly
+    return;
   }
 
   // Find and update shirt shape
@@ -271,24 +196,6 @@ function changeTshirtColor(color) {
   console.log(backgroundImg._objects.map(obj => obj.id));
 }
 
-  // Initialize Canvas with Front View
-  // function showFront() {
-  //   currentSide = 'front';
-  //   clearCanvasExceptBg();
-  //   setTshirtView(frontSvgURL);
-  //   document.querySelector(".btn_control.active")?.classList.remove("active");
-  //   document.querySelector(".controls button:nth-child(1)").classList.add("active");
-  // }
-
-  // // Initialize Canvas with Back View
-  // function showBack() {
-  //   currentSide = 'back';
-  //   clearCanvasExceptBg();
-  //   setTshirtView(backSvgURL);
-  //   document.querySelector(".btn_control.active")?.classList.remove("active");
-  //   document.querySelector(".controls button:nth-child(2)").classList.add("active");
-  // }
-
 function showFront() {
   currentSide = "front";
   clearCanvasExceptBg();
@@ -306,22 +213,6 @@ function showBack() {
   document.querySelector(".btn_control.active")?.classList.remove("active");
   document.querySelector(".controls button:nth-child(2)").classList.add("active");
 }
-
-
-// Example color picker handler
-document.getElementById('color-picker').addEventListener('input', function (event) {
-  const selectedColor = event.target.value;
-
-  // Change the color depending on the side
-  if (currentSide === 'front') {
-    frontColor = selectedColor;
-    showFront(); // Re-load the front side with the new color
-  } else {
-    backColor = selectedColor;
-    showBack(); // Re-load the back side with the new color
-  }
-});
-
 
   // Clear Canvas Except Background Image
   function clearCanvasExceptBg() {
@@ -610,34 +501,6 @@ window.onload = () => {
 };
 
 // My design tabs code
-// function saveDesignToMyDesigns(object) {
-//   // Clone and prepare the design data
-//   const design = {
-//     id: "design-" + Date.now(),
-//     objectData: object.toObject(["fontFamily"]),
-//     imageURL: object.toDataURL(),
-//     side: currentSide,
-//   };
-
-//   // Save to localStorage for temporary persistence
-//   let savedDesigns = JSON.parse(localStorage.getItem("myDesigns") || "[]");
-//   savedDesigns.push(design);
-//   localStorage.setItem("myDesigns", JSON.stringify(savedDesigns));
-
-//   // If the user is logged in, save to Shopify Customer Metafields
-//   if (window.currentCustomerId) {
-//     fetch('/apps/my-proxy/save-design', {
-//       method: 'POST',
-//       body: JSON.stringify({ design }),
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'X-Shopify-Customer-ID': window.currentCustomerId
-//       }
-//     });
-//   }
-//   renderMyDesigns();
-// }
-
 function saveDesignToMyDesigns(object) {
   designIdCounter++;
   const clone = fabric.util.object.clone(object);
@@ -825,3 +688,54 @@ window.addEventListener("load", () => {
   loadFromLocalStorage();
   renderMyDesigns();
 });
+
+
+
+// color customizer code
+document.addEventListener('DOMContentLoaded', () => {
+  const colorPicker = document.getElementById('color-picker');
+  const previewInput = document.getElementById('colorCodePreview');
+
+  if (!colorPicker || !previewInput) return;
+
+  // When color is picked
+  colorPicker.addEventListener('input', (e) => {
+    const color = e.target.value;
+    previewInput.value = color;
+
+    if (typeof currentSide !== "undefined") {
+      if (currentSide === 'front') {
+        frontColor = color;
+        showFront();
+      } else {
+        backColor = color;
+        showBack();
+      }
+    }
+  });
+
+  // When hex code is typed manually
+  previewInput.addEventListener('input', (e) => {
+    const color = e.target.value;
+    colorPicker.value = color;
+
+    if (typeof currentSide !== "undefined") {
+      if (currentSide === 'front') {
+        frontColor = color;
+        showFront();
+      } else {
+        backColor = color;
+        showBack();
+      }
+    }
+  });
+});
+
+document.addEventListener('aos:in', ({ detail }) => {
+  console.log('animated in', detail);
+});
+
+document.addEventListener('aos:out', ({ detail }) => {
+  console.log('animated out', detail);
+});
+

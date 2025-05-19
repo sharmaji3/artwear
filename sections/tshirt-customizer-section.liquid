@@ -35,6 +35,12 @@
 
         <span>My Orders</span>
       </button>
+      <button class="tab-link" data-tab="tShirt">
+        <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path opacity="0.5" d="M1.9998 18V5.1L0.0498047 0.85L1.8498 0L4.1998 5.05H15.7998L18.1498 0L19.9498 0.85L17.9998 5.1V18H1.9998ZM7.9998 11H11.9998C12.2831 11 12.5206 10.9042 12.7123 10.7125C12.904 10.5208 12.9998 10.2833 12.9998 10C12.9998 9.71667 12.904 9.47917 12.7123 9.2875C12.5206 9.09583 12.2831 9 11.9998 9H7.9998C7.71647 9 7.47897 9.09583 7.2873 9.2875C7.09564 9.47917 6.9998 9.71667 6.9998 10C6.9998 10.2833 7.09564 10.5208 7.2873 10.7125C7.47897 10.9042 7.71647 11 7.9998 11ZM3.9998 16H15.9998V7.05H3.9998V16Z" fill="#12141D"/>
+        </svg>
+        <span>T-Shirt</span>
+      </button>
     </div>
 
 	<!-- tab content -->
@@ -115,12 +121,38 @@
       </div>
     </div>
       
-       <div id="order" class="tab-panel">
-            <h3>My Orders</h3>
-            <div class="main_text_custom">
-               {% render 'orders-tab' %}
+    <!-- Order TAB -->
+     <div id="order" class="tab-panel">
+          <h3>My Orders</h3>
+          <div class="main_text_custom">
+             {% render 'orders-tab' %}
+          </div>
+    </div>
+      
+      <!-- Tshirt Tab -->
+      <div id="tShirt" class="tab-panel">
+        <h3>T-shirt Customize </h3>
+          <div class="main_text_custom tshirt_tab">
+             <div class="customColorInput">
+               <h4>Color</h4>
+               <div class="color_wrap">
+            	<label for="colorCodePreview" class="visually-hidden">Color's code</label>
+            	<input type="text" id="colorCodePreview" name="themeIconLightBg" class="customColorInput__text-input jsColorValue" value="#FF7B00">
+            
+            	<input type="color" id="color-picker" class="customColorInput__select-input">
+            	<label for="color-picker" class="visually-hidden">Color Selection</label>
+               </div>
             </div>
-	  </div>
+             <div class="customColorInput">
+               <h4>T-shirt Type</h4>
+              	<div class="tshirt-type" style="border-bottom:0;">
+                    <button class="tab-button active">Rounded</button>
+                    <button class="tab-button">Collar</button>
+                    <button class="tab-button">V-Neck</button>
+                  </div>
+            </div>
+          </div>
+      </div>
     </div>
 
 	<!-- content -->
@@ -132,10 +164,10 @@
 		<div id="tshirt-container">
 			<canvas id="tshirt-canvas" width="500" height="500"></canvas>
 		</div>
-         <div class="color-main">
+         <!-- <div class="color-main">
             T-shirt Color:
             <input type="color" id="color-picker" value="" />
-          </div>
+          </div> -->
 
 		<div class="footer-actions">
 		<button class="btn-black-tshirt" onclick="addToCart()">Continue</button>

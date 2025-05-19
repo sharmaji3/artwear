@@ -1,0 +1,30 @@
+{% assign collection = collections['gallery'] %}
+
+<div class="gallery-products">
+  {% for product in collection.products %}
+    <div class="product-card">
+      <a href="{{ product.url }}">
+        <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}" width="100%" height="auto">
+        <h3>{{ product.title }}</h3>
+        <p>{{ product.price | money }}</p>
+      </a>
+    </div>
+  {% endfor %}
+</div>
+
+<style>
+.gallery-products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.product-card {
+  width: 23%;
+  border: 1px solid #eee;
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+.product-card img {
+  width: 100%;
+}
+</style>

@@ -1,3 +1,7 @@
+html{
+  scroll-behavior: smooth;
+}
+
 :root {
   --primary: #F7EA68;
   --heading: #12141D;
@@ -105,7 +109,7 @@ textarea.custom-form-textarea::placeholder {
   color: #FFF;
   padding: 16px;
   width: 100%;
-  min-height: 56px;
+  height: 56px;
   border: none;
   font-weight: 500;
   border-radius: 1rem;
@@ -1176,7 +1180,8 @@ input#font-color {
 }
 
 
-.order-tabs button.tab-button {
+.order-tabs button.tab-button,
+.tshirt-type button.tab-button {
   padding: 5px 17.5px;
   font-weight: 400;
   font-size: 14px;
@@ -1191,13 +1196,14 @@ input#font-color {
   cursor: pointer;
 }
 
-.order-tabs button.tab-button.active {
+.order-tabs button.tab-button.active,
+.tshirt-type button.tab-button.active{
   background: #FCF9DA;
   border: 1px solid var(--primary);
   opacity: 1;
 }
 
-.order-tabs {
+.order-tabs, .tshirt-type {
   margin: 11px 0 0;
   display: flex;
   justify-content: space-between;
@@ -1245,6 +1251,48 @@ input#font-color {
   }
 
 
-.color-main{
-  margin-top: 10px;
+.color_wrap {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #E8E8E2;
+    border-radius: 0;
+    justify-content: space-between;
+}
+
+.tshirt_tab h4 {
+    margin: 12px 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.tshirt_tab input::-webkit-color-swatch {
+	border: 0;
+}
+
+.tshirt_tab input::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+
+.tshirt_tab .customColorInput__text-input {
+	order: 1;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	font-size: 16px;
+	line-height: 1;
+	color: var(--heading);
+}
+
+
+.tshirt_tab .customColorInput__select-input {
+	flex-shrink: 0;
+	order: 2;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	border: 0;
+	border-radius: 100%;
+	overflow: hidden;
+	cursor: pointer;
 }

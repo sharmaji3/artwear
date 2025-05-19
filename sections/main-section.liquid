@@ -15,17 +15,17 @@
 .ai-modal-content {
 	background: white;
 	padding: 20px;
-	max-width:500px;
-	max-height: 450px;
+	max-width:480px;
+	max-height: 100%;
 	overflow: auto;
 	border-radius: 8px;
 	position: relative;
 }
 
 .ai_img img {
-	width: 200px;
+	max-width: 200px;
 	height: auto;
-	margin: 10px;
+	/* margin: 10px; */
 	border: 2px solid transparent;
 }
 
@@ -36,16 +36,18 @@
   .ai-modal-content span {
     cursor: pointer;
     position: absolute;
-    right: 14px;
-    top: 2px;
+    right: 7px;
+    top: -2px;
     font-size: 20px;
   }
 
   
 .genImg_wrap{
-      display: flex;
+    display: flex;
     gap: 20px;
     flex-wrap: wrap;
+    justify-content:space-between;
+    align-items:center;
 }
 {%- endstyle -%}
 <section
@@ -53,13 +55,17 @@
   style="background: url({{ section.settings.bg_image | image_url: width: 1600 }}), #f8ea69; background-size: cover; background-position: center;"
 >
   <div class="custom-bg-form-wrapper">
-    <h1 class="custom-form-heading">{{ section.settings.heading }}</h1>
-    <p class="custom-form-subtext">{{ section.settings.paragraph }}</p>
+    <h1 class="custom-form-heading" data-aos="fade-zoom-in"
+     data-aos-delay="300"
+     data-aos-offset="0">{{ section.settings.heading }}</h1>
+    <p class="custom-form-subtext" data-aos="fade-zoom-in"
+     data-aos-delay="400"
+     data-aos-offset="0">{{ section.settings.paragraph }}</p>
 
-    <div class="form_sec_new">
+    <div class="form_sec_new" data-aos="fade-up">
       <div class="box_wraping">
       <textarea class="custom-form-textarea" id="promptBox" oninput="countChars('promptBox', 'word-count-display')" 
- placeholder="{{ section.settings.textarea_placeholder }}"></textarea>
+ placeholder="{{ section.settings.textarea_placeholder }}" ></textarea>
         <div id="word-count-display" class="word_count">(0/1000)</div>
       </div>
 
@@ -69,7 +75,7 @@
       </div>
     </div>
 
-    <a href="/" class="custom-form-footer-text">{{ section.settings.footer_paragraph }}</a>
+    <a href="/" class="custom-form-footer-text" data-aos="fade-down">{{ section.settings.footer_paragraph }}</a>
   </div>
 </section>
 
@@ -82,7 +88,7 @@
 
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
   const dalleBtn = document.getElementById("dalle_genBtn_img");
   const leoBtn = document.getElementById("leonardo_genBtn_img");
   const promptTextarea = document.getElementById("promptBox");
@@ -91,10 +97,10 @@
   const imageContainer = document.getElementById("homeGenerated");
   const LeonoriginalText = leoBtn.innerHTML;
 
-  async function fetchImage(apiUrl, prompt, button) {
-        leoBtn.disabled = true;
-        dalleBtn.disabled = true;
-        leoBtn.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0744/8477/7193/files/white-loader.svg?v=1747381049" alt="loader" width="20" height="20"/>`;
+  async function fetchImage(apiUrl, prompt) {
+    leoBtn.disabled = true;
+    dalleBtn.disabled = true;
+    leoBtn.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0744/8477/7193/files/white-loader.svg?v=1747381049" alt="loader" width="20" height="20"/>`;
 
     const response = await fetch(apiUrl, {
       method: "POST",
@@ -108,30 +114,48 @@
     return data.imageUrls || [];
   }
 
- function showModal(images, prompt) {
-  imageContainer.innerHTML = '';
-  images.forEach(url => {
-    const imgWrap = document.createElement("div");
-    imgWrap.classList.add("ai_img");
+  function showModal(images, prompt) {
+    imageContainer.innerHTML = '';
+    let selectedImage = null;
 
-    const img = document.createElement("img");
-    img.src = url;
-    img.alt = "Generated Image";
-    img.style.cursor = "pointer";
+    images.forEach(url => {
+      const imgWrap = document.createElement("div");
+      imgWrap.classList.add("ai_img");
 
-    img.addEventListener("click", () => {
-      localStorage.setItem("ai_images", JSON.stringify(images));
-      localStorage.setItem("ai_prompt", prompt);
-      localStorage.setItem("ai_selected_image", url);
-      window.location.href = "/pages/how-it-works"; 
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = "Generated Image";
+      img.style.cursor = "pointer";
+
+      img.addEventListener("click", () => {
+        // Remove active from all, then set on clicked
+        document.querySelectorAll(".ai_img").forEach(div => div.classList.remove("active"));
+        imgWrap.classList.add("active");
+
+        // Store selected image in variable and localStorage
+        selectedImage = url;
+        localStorage.setItem("ai_selected_image", url);
+      });
+
+      imgWrap.appendChild(img);
+      imageContainer.appendChild(imgWrap);
     });
 
-    imgWrap.appendChild(img);
-    imageContainer.appendChild(imgWrap);
-  });
+    // Add "Try with Custom" button
+    const tryBtn = document.createElement("button");
+    tryBtn.textContent = "Add to Customizer";
+    tryBtn.classList.add("custom-form-button");
 
-  modal.style.display = "flex";
-}
+    tryBtn.addEventListener("click", () => {
+      localStorage.setItem("ai_images", JSON.stringify(images));
+      localStorage.setItem("ai_prompt", prompt);
+      // Only ai_selected_image is optional
+      window.location.href = "/pages/t-shirt-customize";
+    });
+
+    imageContainer.appendChild(tryBtn);
+    modal.style.display = "flex";
+  }
 
   async function handleClick(apiType) {
     const prompt = promptTextarea.value.trim();
@@ -147,16 +171,18 @@
     } catch (err) {
       console.error(err);
       alert("Image generation failed.");
-    }finally {
-        leoBtn.disabled = false;
-         dalleBtn.disabled = false;
-        leoBtn.innerHTML = LeonoriginalText;
-      }
+    } finally {
+      leoBtn.disabled = false;
+      dalleBtn.disabled = false;
+      leoBtn.innerHTML = LeonoriginalText;
+    }
   }
 
   dalleBtn.addEventListener("click", () => handleClick("dalle"));
   leoBtn.addEventListener("click", () => handleClick("leonardo"));
-  modalClose.addEventListener("click", () => { modal.style.display = "none"; });
+  modalClose.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
 });
 </script>
 
@@ -191,13 +217,13 @@
       "type": "text",
       "id": "dalle_button_text",
       "label": "Dall-E Button Text",
-      "default": "Submit"
+      "default": "Try With Dall-E"
     },
     {
       "type": "text",
       "id": "leon_button_text",
       "label": "Leonardo Button Text",
-      "default": "Submit"
+      "default": "Try With Leonardo"
     },
     {
       "type": "textarea",
