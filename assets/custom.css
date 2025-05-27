@@ -59,6 +59,10 @@ h6 {
   background-color: #E7E7E7;
   resize: none;
 }
+.custom-form-textarea:focus {
+outline: 2px solid black;
+outline-offset: 4px;
+}
 
 :is(textarea, input):focus-visible {
   outline: none;
@@ -97,7 +101,6 @@ textarea.custom-form-textarea::placeholder {
   font-size: 2rem;
   max-width: 348px;
   font-weight: 400;
-  font-size: 20px;
   line-height: 120%;
   font-family: var(--font-body-family);
   letter-spacing: 0%;
@@ -241,6 +244,7 @@ body .no-padding-top {
   font-weight: bold;
 }
 
+.main-head .desc,
 .main-head p,
 .auth _text {
   font-size: 1.8rem;
@@ -284,7 +288,7 @@ body .no-padding-top {
 
 /* inspiriation css */
 .inspiration-gallery {
-  padding: 94px 0 109px;
+  /* padding: 94px 0 109px; */
   background-color: #EEEEEE;
 }
 
@@ -293,19 +297,23 @@ body .no-padding-top {
   text-align: center;
 }
 
-.inspiration-gallery .gallery_head p {
+.inspiration-gallery .gallery_head .desc {
   margin-bottom: 46px;
   text-align: center;
 }
 
 .gallery-grid {
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 28px;
-  margin-bottom: 50px;
+  gap: 28px; */
+  margin-bottom: 50px !important;
+}
+.inspiration-gallery .card__inner,
+.inspiration-gallery .card__media{
+  border-radius: 20px !important;
 }
 
-.inspiration-gallery .gallery_wrapper {
+.inspiration-gallery .card__media .media {
   padding: 40px 16px;
   background: #FFFFFF;
   border-radius: 20px;
@@ -318,7 +326,8 @@ body .no-padding-top {
   object-fit: contain;
 }
 
-.btn-black-tshirt {
+.btn-black-tshirt,
+.customer a.cancel_btn{
   background-color: var(--heading);
   color: #fff;
   padding: 2rem 7.8rem 2rem 7.9rem;
@@ -423,14 +432,47 @@ body .no-padding-top {
   body .auth_main {
     flex-wrap: wrap;
   }
+
+  .custom-form-button {
+    padding: 8px;
+    line-height: 2rem;
+    font-size: 1.2rem;
+}
 }
 
 @media screen and (max-width:767px) {
+
+  footer .bottom_layout{
+    flex-direction: column;
+    padding: 20px 0 0;
+  }
+
+  .bottom_layout .copyright__content {
+    font-size: 1.4rem;
+}
 
  .shopify-section .customizer {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
   }
+
+  .main_stat_wrap {
+      grid-template-columns: repeat(auto-fill,minmax(250px,3fr));
+    }
+
+  .gallery-grid {
+    margin-bottom: 0 !important;
+  }
+
+  .slider-buttons {
+    margin-bottom: 3rem;
+  }
+
+  textarea.custom-form-textarea::placeholder {
+  font-size: 1.4rem;
+  max-width: 348px;
+
+}
 
   .tab-bar,
   .tab-content,
@@ -500,7 +542,7 @@ body .no-padding-top {
   .custom_footer ul.footer-block__details-content {
     display: flex;
     flex-wrap: wrap;
-    gap: 24px;
+    gap: 10px;
     width: 100%;
     margin: 0 0 1rem;
   }
@@ -642,11 +684,12 @@ body .no-padding-top {
 }
 
 .pass-icon {
-  position: absolute;
-  top: 20.5px;
-  right: 18.8px;
-  cursor: pointer;
-  color: rgba(18, 20, 29, 0.5);
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    cursor: pointer;
+    color: #12141d80;
+    translate: -50% -50%;
 }
 
 .auth_btn::before,
@@ -654,7 +697,8 @@ body .no-padding-top {
   display: none;
 }
 
-.auth_main .main-form .auth_btn {
+.auth_main .auth_btn,
+.cst_password .auth_btn{
   width: 100%;
   background: var(--primary);
   color: #12141D;
@@ -697,7 +741,7 @@ input[type='checkbox'] {
   top: 50%;
 }
 
-.auth_main .sign_google {
+.auth_main button#google-login {
   margin-bottom: 4.3rem;
   padding: 14px 0;
   width: 100%;
@@ -713,7 +757,13 @@ input[type='checkbox'] {
   gap: 8px;
 }
 
-
+.auth_main button#google-login:hover {
+    background-color: #ffffff;
+    box-shadow: none;
+    border-color: var(--heading);
+    scale: 1.1;
+    transition: all .5s ease-in-out;
+}
 /* tshirt customize */
 .customizer {
   background: #F5F5EF;
@@ -821,8 +871,8 @@ button.tab-link.active::after {
 }
 
 #tshirt-canvas {
-  border: 1px dashed #ccc;
-  background: #fff;
+   border: 1px dashed #111111;
+  /*background: #fff; */
   inset: 0;
   margin: 0;
 }
@@ -913,12 +963,11 @@ button.tab-link.active::after {
 }
 
 .btn_margin {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translate(-50%, -0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
 }
-
 .search_prompt::placeholder {
   font-weight: 400;
   font-size: 14px;
@@ -969,11 +1018,11 @@ button.tab-link.active::after {
 
 .footer-actions {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   width: 100%;
 }
 
-.footer-actions button {
+.footer-actions button.continue {
   max-width: 250px;
   width: 100%;
 }
@@ -1018,10 +1067,11 @@ input#uploadImage {
 }
 
 .form_control {
-  padding: 10px;
-  width: 100%;
-  border-radius: 0;
-  border: 1px solid var(--heading);
+    padding: 10px;
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid var(--heading);
 }
 
 .font-wrapper {
@@ -1181,6 +1231,7 @@ input#font-color {
 
 
 .order-tabs button.tab-button,
+.footer-actions button.btn_control ,
 .tshirt-type button.tab-button {
   padding: 5px 17.5px;
   font-weight: 400;
@@ -1197,6 +1248,7 @@ input#font-color {
 }
 
 .order-tabs button.tab-button.active,
+.footer-actions button.btn_control.active,
 .tshirt-type button.tab-button.active{
   background: #FCF9DA;
   border: 1px solid var(--primary);
@@ -1250,16 +1302,6 @@ input#font-color {
     }
   }
 
-
-.color_wrap {
-    display: flex;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #E8E8E2;
-    border-radius: 0;
-    justify-content: space-between;
-}
-
 .tshirt_tab h4 {
     margin: 12px 0;
     font-size: 14px;
@@ -1295,4 +1337,82 @@ input#font-color {
 	border-radius: 100%;
 	overflow: hidden;
 	cursor: pointer;
+}
+
+
+.color_wrap .color-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin: 2rem 0 8.6rem;
+}
+
+.color_wrap .swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.2s ease;
+  display: inline-block !important;
+}
+
+.color_wrap .swatch:hover {
+  outline: 1px solid #12121266;
+}
+
+.color_wrap .swatch.active {
+    outline: 1px solid #000;
+    outline-offset: 3px;
+}
+
+
+.main-form .errors ul {
+    list-style: none;
+    padding: 8px 16px;
+    margin: 0;
+    background: #FFF6F6;
+    border-radius: 10px;
+    border: 3px solid #ff3030;
+}
+
+.form__message{
+  display: none;
+}
+
+.customer a.cancel_btn {
+    width: 100%;
+    padding: 12px;
+    text-align: center;
+}
+
+.customer a.cancel_btn:hover {
+    background-color: transparent;
+}
+
+.cst_password {
+    max-width: 500px;
+    margin: auto;
+}
+
+.tshit_btngroup{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+}
+
+#customDesignInput{
+  display: block !important;
+}
+
+.cst_toolbar button.active img {
+    filter: brightness(0) saturate(100%) invert(80%) sepia(85%) saturate(309%) hue-rotate(353deg) brightness(104%) contrast(94%);
+}
+
+.font_heading_top{
+  position: sticky;
+  top: 0;
+  background-color: #FFFFFF;
+  display: block;
+  margin-bottom: 10px;
 }

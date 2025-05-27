@@ -34,7 +34,7 @@
     </div>
 
     <!-- Recover password form -->
-    <div id="recover-form" style="display: none;">
+    <div id="recover-form" class="main-form" style="display: none;">
       <!-- <h2 tabindex="-1">{{ 'customer.recover_password.title' | t }}</h2>
       <p>{{ 'customer.recover_password.subtext' | t }}</p> -->
 
@@ -52,13 +52,13 @@
           </small>
         {%- endif -%}
 
-        <button type="submit">{{ 'customer.login_page.submit' | t }}</button>
-        <a href="#login" onclick="showLoginForm(event)">{{ 'customer.login_page.cancel' | t }}</a>
+        <button type="submit" class="auth_btn">{{ 'customer.login_page.submit' | t }}</button>
+        <a class="cancel_btn" href="#login" onclick="showLoginForm(event)">{{ 'customer.login_page.cancel' | t }}</a>
       {%- endform -%}
     </div>
 
     <!-- Login form -->
-    <div id="login-form">
+    <div id="login-form" class="main-form">
       {%- if recover_success == true -%}
         <h3 class="form__message" tabindex="-1">
           <span class="svg-wrapper">{{ 'icon-success.svg' | inline_asset_content }}</span>
@@ -68,10 +68,10 @@
 
       {%- form 'customer_login', novalidate: 'novalidate' -%}
         {%- if form.errors -%}
-          <h2 class="form__message" tabindex="-1">
+          <!-- <h2 class="form__message" tabindex="-1">
             <span class="svg-wrapper">{{ 'icon-error.svg' | inline_asset_content }}</span>
             {{ 'templates.contact.form.error_heading' | t }}
-          </h2>
+          </h2> -->
           {{ form.errors | default_errors }}
         {%- endif -%}
 
@@ -100,24 +100,18 @@
 
         <div class="main_bottom_login">
           <div class="keep-logged">
-            <input type="checkbox" id="remember_me" name="remember_me">
-            <label for="remember_me">Keep me logged in</label>
+            <input type="checkbox" id="keep_logged_in" name="remember_me">
+            <label for="keep_logged_in">Keep me logged in</label>
           </div>
           <a href="#recover" onclick="showRecoverForm(event)">{{ 'customer.login_page.forgot_password' | t }}</a>
         </div>
+        <input type="hidden" name="return_to" value="/pages/t-shirt-customize" />
 
         <button class="auth_btn">{{ 'customer.login_page.sign_in' | t }}</button>
-
-        <div class="or_text">or</div>
-
-        <a href="/" role="button" class="sign_google">
-          Continue with Google <img src="{{ 'google.svg' | asset_url }}" alt="Google" />
-        </a>
-
-        <div class="sign_in">
+      {%- endform -%}
+       <div class="sign_in">
           Need an account? <a href="{{ routes.account_register_url }}">Create one</a>
         </div>
-      {%- endform -%}
     </div>
 
     {%- if shop.checkout.guest_login -%}
@@ -159,6 +153,33 @@
     }
   }
 </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const emailInput = document.querySelector('#CustomerEmail');
+    const passwordInput = document.querySelector('#CustomerPassword');
+    const rememberMe = document.querySelector('#keep_logged_in');
+
+    // Load from localStorage
+    if (localStorage.getItem('rememberMe') === 'true') {
+      emailInput.value = localStorage.getItem('email');
+      passwordInput.value = localStorage.getItem('password'); // not secure
+      rememberMe.checked = true;
+    }
+
+    // Save on form submit
+    document.querySelector('form').addEventListener('submit', function () {
+      if (rememberMe.checked) {
+        localStorage.setItem('email', emailInput.value);
+        localStorage.setItem('password', passwordInput.value); // ⚠️ not recommended
+        localStorage.setItem('rememberMe', 'true');
+      } else {
+        localStorage.clear();
+      }
+    });
+  });
+</script>
+
 
 <!-- Section schema -->
 {% schema %}

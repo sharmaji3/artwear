@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (imageContainer) {
           imageContainer.innerHTML = "";
 
-          for (let i = 0; i < 4; i++) {
+          for (let i = 0; i < 8; i++) {
             const skeletonDiv = document.createElement("div");
             skeletonDiv.classList.add("skeleton-loader");
             imageContainer.appendChild(skeletonDiv);
@@ -133,19 +133,39 @@ const canvas = new fabric.Canvas("tshirt-canvas", {
 });
 let myDesigns = [];
 let designIdCounter = 0;
-
-let frontSvgURL = "https://cdn.shopify.com/s/files/1/0744/8477/7193/files/new.svg?v=1747399105";
-let backSvgURL = "https://yourdomain.com/tshirt-back.svg";
-
-
+const frontRoundSvgURL =
+  "https://cdn.shopify.com/s/files/1/0744/8477/7193/files/new_-front.svg?v=1747825792";
+const backRoundSvgURL =
+  "https://cdn.shopify.com/s/files/1/0744/8477/7193/files/new-back.svg?v=1747825921";
+const frontVSvgURL =
+  "https://cdn.shopify.com/s/files/1/0744/8477/7193/files/new-v-front.svg?v=1747827030";
+const backVSvgURL =
+  "https://cdn.shopify.com/s/files/1/0744/8477/7193/files/new-v-back.svg?v=1747827029";
+let necklineType = "round";
+let designObjects = {
+  front: { round: [], v: [] },
+  back: { round: [], v: [] },
+};
+let selectedFont = "ABeeZee";
+let activeTextObj = null;
 let backgroundImg;
 let history = { front: [], back: [] };
 let redoStack = { front: [], back: [] };
 let currentSide = "front";
-let frontObjects = [];
-let backObjects = [];
-let frontColor = '#000000'; 
-let backColor = '#000000';   
+let tshirtColors = {
+  front: {
+    round: "#FFFFFF",
+    v: "#FFFFFF",
+  },
+  back: {
+    round: "#FFFFFF",
+    v: "#FFFFFF",
+  },
+};
+
+function getCurrentObjects() {
+  return designObjects[currentSide]["round"];
+}
 
 function setTshirtView(svgUrl, color) {
   fabric.loadSVGFromURL(svgUrl, function (objects, options) {
@@ -153,14 +173,12 @@ function setTshirtView(svgUrl, color) {
     obj.scaleToWidth(canvas.getWidth());
     obj.scaleToHeight(canvas.getHeight());
     obj.selectable = false;
+
     obj._objects.forEach(function (path) {
-      if (path.id === 'shirt-shape') {
-        path.set('fill', color); 
-      } else if (path.id === 'collar-shape') {
-        path.set('fill', color);
+      if (path.id === "shirtColor") {
+        path.set("fill", color);
       }
     });
-
     if (backgroundImg) {
       canvas.remove(backgroundImg);
     }
@@ -172,58 +190,113 @@ function setTshirtView(svgUrl, color) {
   });
 }
 
-
-  // Change T-shirt color based on color picker
+// Change T-shirt color based on color picker
 function changeTshirtColor(color) {
-  if (!backgroundImg || !backgroundImg._objects) {
-    console.error("backgroundImg or _objects is undefined");
-    return;
+  if (!backgroundImg || !backgroundImg._objects) return;
+
+  const shirtColor = backgroundImg._objects.find(
+    (obj) => obj.id === "shirtColor"
+  );
+  if (shirtColor) {
+    shirtColor.set("fill", color);
   }
 
-  // Find and update shirt shape
-  const shirtShape = backgroundImg._objects.find(obj => obj.id === 'shirt-shape');
-  if (shirtShape) {
-    shirtShape.set('fill', color);
-  }
-
-  // Find and update collar shape
-  const collarShape = backgroundImg._objects.find(obj => obj.id === 'collar-shape');
-  if (collarShape) {
-    collarShape.set('fill', color);
-  }
+  // Sync color across all views
+  tshirtColors.front.round = color;
+  tshirtColors.front.v = color;
+  tshirtColors.back.round = color;
+  tshirtColors.back.v = color;
 
   canvas.renderAll();
-  console.log(backgroundImg._objects.map(obj => obj.id));
 }
 
 function showFront() {
   currentSide = "front";
   clearCanvasExceptBg();
-  frontObjects.forEach((obj) => canvas.add(obj));
-  setTshirtView(frontSvgURL, frontColor); // Pass the front color
+  getCurrentObjects().forEach((obj) => canvas.add(obj));
+
+  const svgURL = necklineType === "round" ? frontRoundSvgURL : frontVSvgURL;
+  const color = tshirtColors.front["round"]; // for showFront
+  setTshirtView(svgURL, color);
+
   document.querySelector(".btn_control.active")?.classList.remove("active");
-  document.querySelector(".controls button:nth-child(1)").classList.add("active");
+  document
+    .querySelector(".controls button:nth-child(1)")
+    .classList.add("active");
+
+  //Ensure the correct neckline button stays active
+  setActiveNeckButton(necklineType === "round" ? "roundNeckBtn" : "vShapeBtn");
 }
 
 function showBack() {
   currentSide = "back";
   clearCanvasExceptBg();
-  backObjects.forEach((obj) => canvas.add(obj));
-  setTshirtView(backSvgURL, backColor); // Pass the back color
+  getCurrentObjects().forEach((obj) => canvas.add(obj));
+
+  const svgURL = necklineType === "round" ? backRoundSvgURL : backVSvgURL;
+  const color = tshirtColors.back["round"]; // for showBack
+  setTshirtView(svgURL, color);
+
   document.querySelector(".btn_control.active")?.classList.remove("active");
-  document.querySelector(".controls button:nth-child(2)").classList.add("active");
+  document
+    .querySelector(".controls button:nth-child(2)")
+    .classList.add("active");
+
+  //Ensure the correct neckline button stays active
+  setActiveNeckButton(necklineType === "round" ? "roundNeckBtn" : "vShapeBtn");
+}
+document.body.addEventListener("click", (event) => {
+  if (event.target && event.target.id === "vShapeBtn") {
+    document.getElementById("vShapeBtn").addEventListener("click", () => {
+      if (
+        designObjects[currentSide]["v"].length === 0 &&
+        designObjects[currentSide]["round"].length > 0
+      ) {
+        designObjects[currentSide]["v"] = designObjects[currentSide][
+          "round"
+        ].map((obj) => fabric.util.object.clone(obj));
+      }
+      necklineType = "v";
+      currentSide === "front" ? showFront() : showBack();
+      setActiveNeckButton("vShapeBtn");
+    });
+  }
+  if (event.target && event.target.id === "roundNeckBtn") {
+    document.getElementById("roundNeckBtn").addEventListener("click", () => {
+      if (
+        designObjects[currentSide]["round"].length === 0 &&
+        designObjects[currentSide]["v"].length > 0
+      ) {
+        designObjects[currentSide]["round"] = designObjects[currentSide][
+          "v"
+        ].map((obj) => fabric.util.object.clone(obj));
+      }
+      necklineType = "round";
+      currentSide === "front" ? showFront() : showBack();
+      setActiveNeckButton("roundNeckBtn");
+    });
+  }
+});
+
+function setActiveNeckButton(activeId) {
+  document.querySelectorAll(".btn_control").forEach((btn) => {
+    btn.classList.remove("active");
+  });
+  document.getElementById(activeId).classList.add("active");
 }
 
-  // Clear Canvas Except Background Image
-  function clearCanvasExceptBg() {
-    const objects = canvas.getObjects().filter((obj) => obj !== backgroundImg);
-    objects.forEach((obj) => canvas.remove(obj));
-  }
+function clearCanvasExceptBg() {
+  const all = canvas.getObjects();
+  all.forEach((obj) => {
+    if (obj !== backgroundImg) {
+      canvas.remove(obj);
+    }
+  });
+}
 
-  // Initialize by showing front view
-  window.onload = () => {
-    showFront();
-  };
+window.onload = () => {
+  // showFront();
+};
 
 // ai image
 function addAiImageToCanvas(imageUrl) {
@@ -261,19 +334,19 @@ function addAiImageToCanvas(imageUrl) {
 }
 
 // Upload image
-const uploadInput = document.getElementById('uploadImage');
+const uploadInput = document.getElementById("uploadImage");
 if (uploadInput) {
-  uploadInput.addEventListener('change', function (e) {
+  uploadInput.addEventListener("change", function (e) {
     const file = e.target.files[0];
-    if (!file || !file.type.startsWith('image/')) return;
+    if (!file || !file.type.startsWith("image/")) return;
     const reader = new FileReader();
     reader.onload = function (event) {
       fabric.Image.fromURL(event.target.result, function (img) {
         img.set({
           left: canvas.width / 2,
           top: canvas.height / 2,
-          originX: 'center',
-          originY: 'center',
+          originX: "center",
+          originY: "center",
           scaleX: 0.5,
           scaleY: 0.5,
           selectable: true,
@@ -289,8 +362,6 @@ if (uploadInput) {
 }
 
 // Font Picker
-let selectedFont = "ABeeZee";
-let activeTextObj = null;
 const fonts = [
   "ABeeZee",
   "Abel",
@@ -386,6 +457,10 @@ function toggleStyle(style, buttonEl) {
   saveState();
 }
 
+document.getElementById("font-color").addEventListener("input", function (e) {
+  changeFontColor(e.target.value);
+});
+
 function changeFontColor(color) {
   if (activeTextObj) {
     activeTextObj.set("fill", color);
@@ -411,15 +486,11 @@ canvas.on("selection:cleared", () => {
   document.getElementById("deleteBtn").style.display = "none";
 });
 
-function getCurrentObjects() {
-  return currentSide === "front" ? frontObjects : backObjects;
-}
 
 function zoomCanvas(factor) {
   canvas.setZoom(canvas.getZoom() * factor);
   canvas.renderAll();
 }
-
 function rotateCanvas(angle) {
   const obj = canvas.getActiveObject();
   if (obj) {
@@ -428,13 +499,11 @@ function rotateCanvas(angle) {
     saveState();
   }
 }
-
 function saveState() {
   const state = JSON.stringify(canvas.toDatalessJSON());
   history[currentSide].push(state);
   redoStack[currentSide] = [];
 }
-
 function undo() {
   if (history[currentSide].length > 1) {
     redoStack[currentSide].push(history[currentSide].pop());
@@ -442,7 +511,6 @@ function undo() {
     canvas.loadFromJSON(prevState, canvas.renderAll.bind(canvas));
   }
 }
-
 function redo() {
   if (redoStack[currentSide].length > 0) {
     const nextState = redoStack[currentSide].pop();
@@ -450,7 +518,6 @@ function redo() {
     canvas.loadFromJSON(nextState, canvas.renderAll.bind(canvas));
   }
 }
-
 function removeSelected() {
   const obj = canvas.getActiveObject();
   if (obj && obj !== backgroundImg) {
@@ -469,14 +536,9 @@ function removeSelected() {
     }
   }
 }
-
 const deleteBtn = document.getElementById("deleteBtn");
 if (deleteBtn) {
   deleteBtn.addEventListener("click", removeSelected);
-}
-
-function addToCart() {
-  alert("Send design to cart logic goes here.");
 }
 
 // Toolbar bindings
@@ -490,15 +552,50 @@ document.getElementById("dragBtn").onclick = () => {
   const obj = canvas.getActiveObject();
   if (obj) obj.selectable = true;
   canvas.requestRenderAll();
+  document.getElementById("dragBtn").classList.toggle("active");
+
 };
 document.getElementById("undoBtn").onclick = undo;
 document.getElementById("redoBtn").onclick = redo;
 
+
+
+// drag function
+
+let isDragging = false;
+let lastPosX, lastPosY;
+
+canvas.on('mouse:down', function(opt) {
+  const evt = opt.e;
+  if (document.getElementById("dragBtn").classList.contains("active")) { // optional: drag only when a mode is active
+    isDragging = true;
+    canvas.selection = false;
+    lastPosX = evt.clientX;
+    lastPosY = evt.clientY;
+  }
+});
+
+canvas.on('mouse:move', function(opt) {
+  if (isDragging) {
+    const e = opt.e;
+    const vpt = canvas.viewportTransform;
+    vpt[4] += e.clientX - lastPosX;
+    vpt[5] += e.clientY - lastPosY;
+    canvas.requestRenderAll();
+    lastPosX = e.clientX;
+    lastPosY = e.clientY;
+  }
+});
+
+canvas.on('mouse:up', function(opt) {
+  isDragging = false;
+  canvas.selection = true;
+});
 // Initialize
-window.onload = () => {
-  showFront();
-  saveState();
-};
+// window.onload = () => {
+//   showFront();
+//   saveState();
+// };
 
 // My design tabs code
 function saveDesignToMyDesigns(object) {
@@ -516,12 +613,11 @@ function saveDesignToMyDesigns(object) {
         imageURL: img.toDataURL(),
         side: currentSide,
       };
-      console.log("💾 Saving design to My Designs:", design);
+      console.log("Saving design to My Designs:", design);
       myDesigns.push(design);
       renderMyDesigns();
 
       if (window.isLoggedIn) {
-        // TODO: Call API to save design permanently
         saveDesignToServer(design);
       } else {
         saveToLocalStorage();
@@ -530,18 +626,18 @@ function saveDesignToMyDesigns(object) {
   }, 100);
 }
 
+
+
 // update in local storage if user not logged in
 function saveToLocalStorage() {
   localStorage.setItem("myDesigns", JSON.stringify(myDesigns));
 }
-
 function loadFromLocalStorage() {
   const saved = localStorage.getItem("myDesigns");
   if (saved) {
     myDesigns = JSON.parse(saved);
   }
 }
-
 // render my design images
 function renderMyDesigns() {
   const container = document.getElementById("myDesigns");
@@ -574,7 +670,6 @@ function renderMyDesigns() {
     container.appendChild(div);
   });
 }
-
 // edit design
 function loadDesignOnCanvas(design) {
   if (design.side !== currentSide) {
@@ -627,10 +722,9 @@ function deleteDesign(id) {
   myDesigns = myDesigns.filter((d) => d.id !== id);
   renderMyDesigns();
   canvas.requestRenderAll();
-    saveToLocalStorage();
+  saveToLocalStorage();
   saveState();
 }
-
 // get data from local storage
 document.addEventListener("DOMContentLoaded", function () {
   const prompt = localStorage.getItem("ai_prompt");
@@ -683,59 +777,154 @@ document.addEventListener("DOMContentLoaded", function () {
   localStorage.removeItem("ai_selected_image");
   localStorage.removeItem("ai_prompt");
 });
-
 window.addEventListener("load", () => {
   loadFromLocalStorage();
   renderMyDesigns();
 });
 
-
-
-// color customizer code
-document.addEventListener('DOMContentLoaded', () => {
-  const colorPicker = document.getElementById('color-picker');
-  const previewInput = document.getElementById('colorCodePreview');
-
-  if (!colorPicker || !previewInput) return;
-
-  // When color is picked
-  colorPicker.addEventListener('input', (e) => {
-    const color = e.target.value;
-    previewInput.value = color;
-
-    if (typeof currentSide !== "undefined") {
-      if (currentSide === 'front') {
-        frontColor = color;
-        showFront();
-      } else {
-        backColor = color;
-        showBack();
+// color swatcher in tshirt customizer page
+document.addEventListener("DOMContentLoaded", () => {
+  const swatches = document.querySelectorAll(".swatch");
+  if (!swatches.length) return;
+  swatches.forEach((swatch) => {
+    swatch.addEventListener("click", () => {
+      const color = swatch.dataset.color;
+      swatches.forEach((s) => s.classList.remove("active"));
+      swatch.classList.add("active");
+      if (typeof currentSide !== "undefined") {
+        tshirtColors[currentSide][necklineType] = color;
+        changeTshirtColor(color);
+        currentSide === "front" ? showFront() : showBack();
       }
-    }
-  });
-
-  // When hex code is typed manually
-  previewInput.addEventListener('input', (e) => {
-    const color = e.target.value;
-    colorPicker.value = color;
-
-    if (typeof currentSide !== "undefined") {
-      if (currentSide === 'front') {
-        frontColor = color;
-        showFront();
-      } else {
-        backColor = color;
-        showBack();
-      }
-    }
+    });
   });
 });
 
-document.addEventListener('aos:in', ({ detail }) => {
-  console.log('animated in', detail);
-});
+// Get front and back images from canvas
+// function getCanvasImage(side) {
+//   debugger
+//   // Switch to side
+//   currentSide = side;
+//   if (side === "front") showFront();
+//   else if (side === "back") showBack();
 
-document.addEventListener('aos:out', ({ detail }) => {
-  console.log('animated out', detail);
-});
+//   // Wait a bit to render (optional)
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       // Export canvas as PNG
+//       const dataURL = canvas.toDataURL("image/png");
+//       resolve(dataURL);
+//     }, 300); // small delay to make sure canvas is rendered properly
+//   });
+// }
 
+// document.getElementById("continueBtn").addEventListener("click", async () => {
+//   debugger
+//   const frontImage = canvas.toDataURL({
+//     format: "png",
+//     multiplier: 2,
+//   });
+
+//   // Switch to back side and render image
+//   showBack();
+//   const backImage = canvas.toDataURL({
+//     format: "png",
+//     multiplier: 2,
+//   });
+
+//   // Store in localStorage
+//   localStorage.setItem("custom_front_img", frontImage);
+//   localStorage.setItem("custom_back_img", backImage);
+
+//   // Redirect to product page
+//   window.location.href = "/products/customize-t-shirt";
+// });
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   const frontImage = localStorage.getItem("custom_front_img");
+//   const designInput = document.getElementById("customDesignInput");
+
+//   if (frontImage && designInput) {
+//     designInput.value = frontImage;
+//   }
+// });
+
+// document.addEventListener("DOMContentLoaded", function () {
+//   // debugger
+//   const frontImage = localStorage.getItem("custom_front_img");
+//   const backImage = localStorage.getItem("custom_back_img");
+
+//   // Target the main product image
+//   const productImg = document.querySelector(".product__media img");
+
+//   if (productImg && frontImage) {
+//     productImg.src = frontImage;
+//     productImg.srcset = "";     // Clear responsive sources
+//     productImg.sizes = "";      // Clear size rules
+//     productImg.removeAttribute("data-src");
+//     productImg.removeAttribute("data-srcset");
+
+//     // Optional: mark that this is a custom image
+//     productImg.alt = "Your Custom Design";
+//   }
+
+//   // Optionally replace second image (back)
+//   const productImgs = document.querySelectorAll(".product__media img");
+//   if (backImage && productImgs.length > 1) {
+//     productImgs[1].src = backImage;
+//     productImgs[1].srcset = "";
+//     productImgs[1].sizes = "";
+//     productImgs[1].removeAttribute("data-src");
+//     productImgs[1].removeAttribute("data-srcset");
+//     productImgs[1].alt = "Back Design";
+//   }
+
+//   // Clear storage so it doesn't keep applying on next page loads
+//   // localStorage.removeItem("custom_front_img");
+//   // localStorage.removeItem("custom_back_img");
+// });
+
+
+
+// redirect to cart
+
+// const variantId = '48442256720105'; // Replace with your real Shopify variant ID
+
+//   document.getElementById('continueBtn').addEventListener('click', async () => {
+//     debugger
+//     const base64Image = canvas.toDataURL("image/png");
+
+//     // Upload to ImgBB
+//     const formData = new FormData();
+//     formData.append("image", base64Image.replace("data:image/png;base64,", ""));
+
+//     const uploadRes = await fetch("https://api.imgbb.com/1/upload?key=7ae002a5d77b164381da39a92421ffe7", {
+//       method: "POST",
+//       body: formData
+//     });
+
+//     const uploadData = await uploadRes.json();
+//     const imageUrl = uploadData.data.url;
+
+//     // Add to cart with custom image as line item property
+//     const cartData = {
+//       items: [
+//         {
+//           id: variantId,
+//           quantity: 1,
+//           properties: {
+//             "Custom Design Image": imageUrl
+//           }
+//         }
+//       ]
+//     };
+
+//     await fetch("/cart/add.js", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify(cartData)
+//     });
+
+//     // Redirect to cart
+//     window.location.href = "/cart";
+//   });

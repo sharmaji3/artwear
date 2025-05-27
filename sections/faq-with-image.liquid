@@ -4,17 +4,13 @@
       <img src="{{ section.settings.image | image_url: width: 800 }}" alt="FAQ Image" class="faq-image" />
     {% endif %}
     <div class="main-head faq_titles">
-      <h2 class="faq-title text-center" data-aos="fade-zoom-in"
-     data-aos-delay="300"
-     data-aos-offset="0">{{ section.settings.title }}</h2>
+      <h2 class="faq-title text-center">{{ section.settings.title }}</h2>
     </div>
     
     
     <div id="faq-accordion" class="faq-contain">
       {% for block in section.blocks %}
-        {% assign delay = forloop.index0 | times: 100 %}
-    
-        <div class="faq-item" data-index="{{ forloop.index0 }}" data-aos="fade-up" data-aos-delay="{{ delay }}">
+        <div class="faq-item" data-index="{{ forloop.index0 }}">
           <div class="faq-question">
             {{ block.settings.question }}
             <span class="icon">+</span>         

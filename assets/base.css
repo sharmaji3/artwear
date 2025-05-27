@@ -1650,7 +1650,7 @@ details[open] > .share-button__fallback {
 .customer .field input:focus-visible,
 .customer select:focus-visible,
 .localization-form__select:focus-visible.localization-form__select:after {
-  box-shadow: 0 0 0 calc(0.1rem + var(--inputs-border-width)) rgba(var(--color-foreground));
+  box-shadow: none;
   outline: 0;
   border-radius: var(--inputs-radius);
 }
@@ -1660,7 +1660,7 @@ details[open] > .share-button__fallback {
 .customer .field input:focus,
 .customer select:focus,
 .localization-form__select:focus.localization-form__select:after {
-  box-shadow: 0 0 0 calc(0.1rem + var(--inputs-border-width)) rgba(var(--color-foreground));
+  box-shadow: none;
   outline: 0;
   border-radius: var(--inputs-radius);
 }
@@ -1715,13 +1715,15 @@ details[open] > .share-button__fallback {
   flex-wrap: wrap;
 }
 
-.field__input,
+.field__input, 
 .customer .field input {
-  flex-grow: 1;
-  text-align: left;
-  padding: 3.1rem 1.5rem;
-  margin: var(--inputs-border-width);
-  transition: box-shadow var(--duration-short) ease;
+    flex-grow: 1;
+    text-align: left;
+    padding: 0 1.5rem;
+    margin: var(--inputs-border-width);
+    transition: box-shadow var(--duration-short) ease;
+    border-radius: 10px;
+    height: 59px;
 }
 
 .field__label,
@@ -1744,10 +1746,13 @@ details[open] > .share-button__fallback {
 .customer .field input:focus ~ label,
 .customer .field input:not(:placeholder-shown) ~ label,
 .customer .field input:-webkit-autofill ~ label {
-  font-size: 1rem;
-  top: calc(var(--inputs-border-width) + 0.5rem);
-  left: calc(var(--inputs-border-width) + 2rem);
-  letter-spacing: 0.04rem;
+     font-size: 1rem;
+    top: calc(var(--inputs-border-width) + -.8rem);
+    left: calc(var(--inputs-border-width) + 1rem);
+    letter-spacing: .04rem;
+    background: #FFF;
+    z-index: 11;
+    padding: 0 6px;
 }
 
 .field__input:focus,

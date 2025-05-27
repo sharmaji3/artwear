@@ -1,20 +1,13 @@
 <section class="why-choose-section">
   <div class="page-width">
     <div class="main-head why-choose-head">
-      <h2 data-aos="fade-zoom-in"
-     data-aos-delay="300"
-     data-aos-offset="0">{{ section.settings.heading }}</h2>
-      <p data-aos="fade-zoom-out"
-     data-aos-delay="400"
-     data-aos-offset="0">{{ section.settings.subtext }}</p>
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.subtext }}</p>
     </div>
 
  <div class="main_stat_wrap">
   {% for block in section.blocks %}
-    {% assign delays = "300,400,500" | split: "," %}
-    {% assign delay = delays[forloop.index0] %}
-
-    <div class="feature inner_stats_new" data-aos="fade-in-right" data-aos-delay="{{ delay }}">
+    <div class="feature inner_stats_new">
       {% if block.settings.icon %}
         <div class="box_icon">
           <img src="{{ block.settings.icon | image_url: width: 80 }}" alt="Icon" width="80" height="auto" />

@@ -35,12 +35,12 @@
 
         <span>My Orders</span>
       </button>
-      <button class="tab-link" data-tab="tShirt">
+      <!-- <button class="tab-link" data-tab="tShirt">
         <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path opacity="0.5" d="M1.9998 18V5.1L0.0498047 0.85L1.8498 0L4.1998 5.05H15.7998L18.1498 0L19.9498 0.85L17.9998 5.1V18H1.9998ZM7.9998 11H11.9998C12.2831 11 12.5206 10.9042 12.7123 10.7125C12.904 10.5208 12.9998 10.2833 12.9998 10C12.9998 9.71667 12.904 9.47917 12.7123 9.2875C12.5206 9.09583 12.2831 9 11.9998 9H7.9998C7.71647 9 7.47897 9.09583 7.2873 9.2875C7.09564 9.47917 6.9998 9.71667 6.9998 10C6.9998 10.2833 7.09564 10.5208 7.2873 10.7125C7.47897 10.9042 7.71647 11 7.9998 11ZM3.9998 16H15.9998V7.05H3.9998V16Z" fill="#12141D"/>
         </svg>
         <span>T-Shirt</span>
-      </button>
+      </button> -->
     </div>
 
 	<!-- tab content -->
@@ -90,10 +90,10 @@
       <div class="main_text_custom">
         <p>{{ section.settings.text_paragraph }}</p>
         <div class="main_input">
-          <input type="text" id="text-input" class="form_control" placeholder="Your text">
+          <input type="text" id="text-input" class="form_control" placeholder="Add text to Your t-shirt">
         </div>
         <div class="font-wrapper" style="margin-top: 15px; font-family: sans-serif; overflow-y: scroll; height: 300px;">
-          <strong style="display:block; margin-bottom: 10px;">Fonts</strong>
+          <strong class="font_heading_top">Fonts</strong>
           <div id="fontList"></div>
         </div>
         <div class="addons">
@@ -130,18 +130,27 @@
     </div>
       
       <!-- Tshirt Tab -->
-      <div id="tShirt" class="tab-panel">
+      <!-- <div id="tShirt" class="tab-panel">
         <h3>T-shirt Customize </h3>
           <div class="main_text_custom tshirt_tab">
              <div class="customColorInput">
                <h4>Color</h4>
-               <div class="color_wrap">
-            	<label for="colorCodePreview" class="visually-hidden">Color's code</label>
-            	<input type="text" id="colorCodePreview" name="themeIconLightBg" class="customColorInput__text-input jsColorValue" value="#FF7B00">
-            
-            	<input type="color" id="color-picker" class="customColorInput__select-input">
-            	<label for="color-picker" class="visually-hidden">Color Selection</label>
-               </div>
+                <div class="color_wrap">
+                    <div class="color-swatches">
+                      <div class="swatch" data-color="#FFFFFF" title="White" style="background-color: #FFFFFF; border: 1px solid #ccc;"></div>
+                      <div class="swatch" data-color="#000000" title="Black" style="background-color: #000000;"></div> 
+                      <div class="swatch" data-color="#808080" title="Gray" style="background-color: #808080;"></div>
+                      <div class="swatch" data-color="#000080" title="Navy Blue" style="background-color: #000080;"></div>
+                      <div class="swatch" data-color="#ADD8E6" title="Light Blue" style="background-color: #ADD8E6;"></div>
+                      <div class="swatch" data-color="#008000" title="Green" style="background-color: #008000;"></div>
+                      <div class="swatch" data-color="#FF0000" title="Red" style="background-color: #FF0000;"></div>
+                      <div class="swatch" data-color="#FFC0CB" title="Pink" style="background-color: #FFC0CB;"></div>
+                      <div class="swatch" data-color="#800080" title="Purple" style="background-color: #800080;"></div>
+                      <div class="swatch" data-color="#FFFF00" title="Yellow" style="background-color: #FFFF00;"></div>
+                      <div class="swatch" data-color="#FFA500" title="Orange" style="background-color: #FFA500;"></div>
+                    </div>
+                  </div>
+
             </div>
              <div class="customColorInput">
                <h4>T-shirt Type</h4>
@@ -152,25 +161,41 @@
                   </div>
             </div>
           </div>
-      </div>
+      </div> -->
     </div>
 
 	<!-- content -->
 	<div class="content">
 		<div class="controls">
-		<button onclick="showFront()" class="active btn_control">Front</button>
-		<button onclick="showBack()" class="btn_control">Back</button>
+    		<button onclick="showFront()" class="active btn_control">Front</button>
+    		<button onclick="showBack()" class="btn_control">Back</button>
 		</div>
 		<div id="tshirt-container">
 			<canvas id="tshirt-canvas" width="500" height="500"></canvas>
 		</div>
-         <!-- <div class="color-main">
-            T-shirt Color:
-            <input type="color" id="color-picker" value="" />
-          </div> -->
+         <div class="color_wrap">
+            <div class="color-swatches">
+              <div class="swatch" data-color="#FFFFFF" title="White" style="background-color: #FFFFFF; border: 1px solid #ccc;"></div>
+              <div class="swatch" data-color="#000000" title="Black" style="background-color: #000000;"></div>
+              <div class="swatch" data-color="#808080" title="Gray" style="background-color: #808080;"></div>
+              <div class="swatch" data-color="#000080" title="Navy Blue" style="background-color: #000080;"></div>
+              <div class="swatch" data-color="#ADD8E6" title="Light Blue" style="background-color: #ADD8E6;"></div>
+              <div class="swatch" data-color="#008000" title="Green" style="background-color: #008000;"></div>
+              <div class="swatch" data-color="#FF0000" title="Red" style="background-color: #FF0000;"></div>
+              <div class="swatch" data-color="#FFC0CB" title="Pink" style="background-color: #FFC0CB;"></div>
+              <div class="swatch" data-color="#800080" title="Purple" style="background-color: #800080;"></div>
+              <div class="swatch" data-color="#FFFF00" title="Yellow" style="background-color: #FFFF00;"></div>
+              <div class="swatch" data-color="#FFA500" title="Orange" style="background-color: #FFA500;"></div>
+            </div>
+          </div>
 
 		<div class="footer-actions">
-		<button class="btn-black-tshirt" onclick="addToCart()">Continue</button>
+          <div class="tshit_btngroup">
+              <button class="btn_control" id="roundNeckBtn">Round</button>
+              <button class="btn_control" id="vShapeBtn">V Shaped</button>
+          </div>
+
+    		<button class="btn-black-tshirt continue" id="continueBtn">Continue</button>
 		</div>
 		<!-- Toolbar -->  
 		<div id="canvas-toolbar" class="cst_toolbar" >
@@ -217,6 +242,7 @@
     });
   
 </script>
+  
 
 {% schema %}
 {

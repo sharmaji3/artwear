@@ -6,6 +6,10 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
+  .auth_text{
+    margin:0;
+  }
+
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
@@ -154,11 +158,6 @@
         {%- endif -%}
         <button class="auth_btn" style="margin-top:0;">Sign Up</button>
 
-        <div class="or_text">or</div>
-
-        <a href="/" role="button" class="sign_google">
-          Continue with Google <img src="{{ 'google.svg' | asset_url }}" alt="Google" width="17" height="17">
-        </a>
         <div class="sign_in">
           Already have an account?
           <a href="{{ routes.account_login_url }}"> Sign in </a>

@@ -7,19 +7,6 @@
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
 
-    <!-- Font Awesome CDN -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    >
-    <!-- Google Fonts Preload -->
-    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&family=Abel&family=Abril+Fatface&family=Acme&family=Actor&family=Adamina&family=Advent+Pro&family=Aladin&family=Alata&display=swap" rel="stylesheet">
-     <!-- AOS CSS -->
-      <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
@@ -41,6 +28,17 @@
 
     {% render 'meta-tags' %}
 
+     <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    {% comment %}
+    {{ 'all.min.css' | asset_url | stylesheet_tag }}
+    {{ 'fontawesome.min.css' | asset_url | stylesheet_tag }}
+    {% endcomment %}
+    <!-- Google Fonts Preload -->
+    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&family=Abel&family=Abril+Fatface&family=Acme&family=Actor&family=Adamina&family=Advent+Pro&family=Aladin&family=Alata&display=swap" rel="stylesheet">
+     <!-- AOS CSS -->
+      <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
@@ -61,7 +59,7 @@
     %}
 
     {% style %}
-        @font-face {
+     @font-face {
         font-family: "Sora";
         src: url('https://cdn.shopify.com/s/files/1/0744/8477/7193/files/Sora-Thin.woff2?v=1746696518') format('woff2');
         font-weight: 100;
@@ -137,8 +135,6 @@
         font-weight: 700;
         font-style: normal;
       }
-
-
       {{ settings.type_body_font | font_face: font_display: 'swap' }}
       {{ body_font_bold | font_face: font_display: 'swap' }}
       {{ body_font_italic | font_face: font_display: 'swap' }}
@@ -345,8 +341,9 @@
         }
       }
     {% endstyle %}
-    {{ 'custom.css' | asset_url | stylesheet_tag }}
+
     {{ 'base.css' | asset_url | stylesheet_tag }}
+     {{ 'custom.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
@@ -412,7 +409,6 @@
     </ul>
 
     <script>
-      window.isUserLoggedIn = {{ customer ? 'true' : 'false' }};
       window.shopUrl = '{{ request.origin }}';
       window.routes = {
         cart_add_url: '{{ routes.cart_add_url }}',
@@ -464,21 +460,20 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js" defer="defer"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js" defer="defer"></script>
-    <!-- AOS JS -->
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" defer="defer"></script>
-    <script>
-     document.addEventListener("DOMContentLoaded", function() {
-         AOS.init({
-          duration: 1000, 
-          easing: 'ease-in-out', 
-          once: false, 
-          mirror: true,
+      <!-- AOS JS -->
+      <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" defer="defer"></script>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out',
+            once: false,
+            mirror: true,
+          });
         });
-     });
-    </script>
-     <script src="{{ 'custom.js' | asset_url }}" defer="defer"></script>
-
+      </script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js" defer="defer"></script>
+      <script src="{{ 'custom.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>
