@@ -1010,3 +1010,59 @@ document.addEventListener("DOMContentLoaded", () => {
 //   document.getElementById('backDesignInput').value = backImage;
 // });
 
+
+
+function getCanvasImage(side) {
+  currentSide = side;
+  clearCanvasExceptBg();
+  getCurrentObjects().forEach((obj) => canvas.add(obj));
+  canvas.renderAll();
+
+  return canvas.toDataURL({ format: 'png' });
+}
+
+function getDesignImages() {
+  const frontImage = getCanvasImage('front');
+  const backImage = getCanvasImage('back');
+  return { frontImage, backImage };
+}
+
+document.getElementById("addToCartBtn").addEventListener("click", () => {
+  const frontImage = getCanvasImage('front'); // base64 image
+  const productTitle = "Custom T-Shirt by User";
+
+  createShopifyProduct(frontImage, productTitle, ['S', 'M', 'L', 'XL']);
+});
+
+
+
+
+async function createShopifyProduct(base64Image, productTitle) {
+  const productData = {
+    title: productTitle,
+    body_html: "<strong>Customized T-shirt</strong>",
+    vendor: "Custom Designer",
+    product_type: "T-Shirt",
+    images: [
+      {
+        attachment: base64Image.split(',')[1] // Base64 without the prefix
+      }
+    ],
+    variants: [
+      { option1: "S", price: "29.99", inventory_quantity: 10 }
+    ],
+    options: [{ name: "Size", values: ["S"] }],
+  };
+
+  const response = await fetch("http://localhost:5000/create-product", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(productData)
+  });
+
+  const data = await response.json();
+  const variantId = data.product.variants[0].id;
+
+  // Redirect to cart with 1 quantity of the new variant
+  window.location.href = `/cart/${variantId}:1`;
+}

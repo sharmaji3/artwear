@@ -156,24 +156,21 @@
         </div>
         
 
-		<!-- <div class="footer-actions">
-          	<button class="btn-black-tshirt continue" id="continueBtn">Continue</button>
-		</div> -->
-      <form method="post" action="/cart/add" enctype="multipart/form-data" id="customProductForm">
-        <select name="id" id="variantSelect">
-          <!-- Your product variant options -->
-          <option value="48442256785641">Small</option>
-          <option value="48442256818409">Medium</option>
-        </select>
-      
-        <input type="number" name="quantity" value="1" min="1" />
-      
-        <!-- Hidden inputs for custom design images -->
-        <input type="hidden" name="properties[Front Design]" id="frontDesignInput" />
-        <input type="hidden" name="properties[Back Design]" id="backDesignInput" />
-      
-        <button type="submit" id="addToCartBtn">Add to Cart</button>
-      </form>
+        <!-- Product Details -->
+<input type="number" id="product-quantity" value="1" min="1" />
+<select id="product-size">
+  <option value="S">Small</option>
+  <option value="M">Medium</option>
+  <option value="L">Large</option>
+  <option value="XL">XL</option>
+</select>
+
+<!-- Add to Cart -->
+{% comment %} <button id="addToCartBtn">Add to Cart</button> {% endcomment %}
+<div class="footer-actions">
+          	<button class="btn-black-tshirt continue" id="addToCartBtn">Continue</button>
+		</div> 
+   
 
 		<!-- Toolbar -->  
 		<div id="canvas-toolbar" class="cst_toolbar" >
