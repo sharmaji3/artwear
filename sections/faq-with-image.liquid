@@ -1,3 +1,13 @@
+{% style %}
+  
+.faq-section {
+  padding-top: {{section.settings.faq_padding_top}}px;
+  padding-bottom: {{section.settings.faq_padding_bottom}}px;
+}
+
+{% endstyle %}
+
+
 <section class="faq-section" style="background-color: {{ section.settings.bg_color }};" id="faqSection">
   <div class="page-width">
     {% if section.settings.image %}
@@ -70,6 +80,26 @@
       "id": "title",
       "label": "Section Title",
       "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "range",
+      "id": "faq_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "faq_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 100
     },
     {
       "type": "color",

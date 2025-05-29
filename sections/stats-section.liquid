@@ -1,3 +1,13 @@
+{% style %}
+  
+.stats_section {
+  padding-top: {{section.settings.stat_padding_top}}px;
+  padding-bottom: {{section.settings.stat_padding_bottom}}px;
+}
+
+{% endstyle %}
+
+
 <!-- sections/steps-section.liquid -->
 <section class="stats_section" id="HowItWork">
   <div class="page-width">
@@ -42,6 +52,26 @@
       "id": "description",
       "label": "Description",
       "default": "Turn your idea into wearable art with just a few clicks. Enter a prompt, watch AI bring your vision to life, customize the design on your T-shirt, and place your order in minutes. It’s fast, fun, and uniquely yours."
+    },
+    {
+      "type": "range",
+      "id": "stat_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "stat_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 92
     }
   ],
   "blocks": [

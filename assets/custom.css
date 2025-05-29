@@ -224,67 +224,6 @@ body .no-padding-top {
   color: var(--heading);
 }
 
-/* stats section */
-
-.stats_section {
-  padding: 10rem 0 9rem;
-}
-
-.main_text {
-  display: grid;
-  gap: 76px;
-  margin-bottom: 6.6rem;
-  grid-template-columns: 6.5fr 3.5fr;
-}
-
-.main-head h2 {
-  font-size: 5.2rem;
-  line-height: 6rem;
-  margin: 0;
-  font-weight: bold;
-}
-
-.main-head .desc,
-.main-head p,
-.auth _text {
-  font-size: 1.8rem;
-  color: var(--heading);
-  line-height: 3rem;
-  font-weight: 400;
-  margin: 0;
-}
-
-.main_stat_wrap {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(316px, 3fr));
-  gap: 8.5rem;
-}
-
-.inner_stats_new:not(:last-child) {
-  border-right: 3px solid rgb(63 63 70 / 10%);
-  padding-right: 8.5rem;
-}
-
-.inner_stats_new h3 {
-  font-size: 2rem;
-  line-height: 2.8rem;
-  margin: 0 0 2rem;
-  font-weight: bold;
-}
-
-.inner_stats_new p {
-  font-size: 1.6rem;
-  color: var(--heading);
-  line-height: 2.8rem;
-  font-weight: 400;
-  margin: 0;
-}
-
-.box_icon {
-  margin-bottom: 30px;
-  height: 80px;
-}
-
 
 /* inspiriation css */
 .inspiration-gallery {
@@ -338,7 +277,8 @@ body .no-padding-top {
   font-size: 1.8rem;
   letter-spacing: 0;
   line-height: 2.8rem;
-  border: 1px solid var(--heading);
+  display: inline-block;
+  border:none;
 }
 
 .btn-black-tshirt:hover,
@@ -357,21 +297,21 @@ body .no-padding-top {
   background-color: #fff;
 }
 
-.why-choose-head h2 {
+section .why-choose-head h2 {
   margin-bottom: 14px;
 }
 
-.why-choose-head p {
+section .why-choose-head p {
   margin-bottom: 50px;
 }
 
 
 /* faq section */
-.faq-section {
+/* .faq-section {
   padding: 90px 0 100px;
-}
+} */
 
-.faq_titles h2 {
+section .faq_titles h2 {
   margin-bottom: 50px;
 }
 
@@ -773,6 +713,7 @@ input[type='checkbox'] {
   /* height: 100dvh; */
 }
 
+
 .customizer h3 {
   margin: 0;
   font-weight: 700;
@@ -884,7 +825,7 @@ button.tab-link.active::after {
 .generate-btn {
   background: var(--primary);
   border: none;
-  padding: 19px 78px 19px 79px;
+  padding: 19px 0 19px 0;
   cursor: pointer;
   font-weight: 600;
   font-size: 18px;
@@ -977,8 +918,8 @@ button.tab-link.active::after {
 
 
 .controls button {
-  padding: 8px 32px;
-  border: 1px solid var(--heading);
+  padding: 7px 32px;
+  border: 1px solid #E8E8E2;
   background: #FFF;
   border-radius: 7px;
   font-weight: 400;
@@ -1018,7 +959,7 @@ button.tab-link.active::after {
 
 .footer-actions {
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   width: 100%;
 }
 
@@ -1231,7 +1172,7 @@ input#font-color {
 
 
 .order-tabs button.tab-button,
-.footer-actions button.btn_control ,
+.tshit_btngroup button.btn_control ,
 .tshirt-type button.tab-button {
   padding: 5px 17.5px;
   font-weight: 400;
@@ -1248,7 +1189,7 @@ input#font-color {
 }
 
 .order-tabs button.tab-button.active,
-.footer-actions button.btn_control.active,
+.tshit_btngroup button.btn_control.active,
 .tshirt-type button.tab-button.active{
   background: #FCF9DA;
   border: 1px solid var(--primary);
@@ -1344,7 +1285,7 @@ input#font-color {
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
-  margin: 2rem 0 8.6rem;
+  /* margin: 2rem 0 8.6rem; */
 }
 
 .color_wrap .swatch {
@@ -1415,4 +1356,72 @@ input#font-color {
   background-color: #FFFFFF;
   display: block;
   margin-bottom: 10px;
+}
+
+button{
+  font-family: var(--font-body-family);
+}
+
+
+.main_text {
+  display: grid;
+  gap: 76px;
+  margin-bottom: 6.6rem;
+  grid-template-columns: 6.5fr 3.5fr;
+}
+
+.main-head h2 {
+  font-size: 5.2rem;
+  line-height: 6rem;
+  margin: 0;
+  font-weight: bold;
+}
+
+.main-head .desc,
+.main-head p,
+.auth _text {
+  font-size: 1.8rem;
+  color: var(--heading);
+  line-height: 3rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.main_stat_wrap {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(316px, 3fr));
+  gap: 8.5rem;
+}
+
+.inner_stats_new:not(:last-child) {
+  border-right: 3px solid rgb(63 63 70 / 10%);
+  padding-right: 8.5rem;
+}
+
+.inner_stats_new h3 {
+  font-size: 2rem;
+  line-height: 2.8rem;
+  margin: 0 0 2rem;
+  font-weight: bold;
+}
+
+.inner_stats_new p {
+  font-size: 1.6rem;
+  color: var(--heading);
+  line-height: 2.8rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.box_icon {
+  margin-bottom: 30px;
+  height: 80px;
+}
+
+.main_bottom_cst{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 2rem 0 8.6rem;
 }

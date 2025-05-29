@@ -35,133 +35,93 @@
 
         <span>My Orders</span>
       </button>
-      <!-- <button class="tab-link" data-tab="tShirt">
-        <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path opacity="0.5" d="M1.9998 18V5.1L0.0498047 0.85L1.8498 0L4.1998 5.05H15.7998L18.1498 0L19.9498 0.85L17.9998 5.1V18H1.9998ZM7.9998 11H11.9998C12.2831 11 12.5206 10.9042 12.7123 10.7125C12.904 10.5208 12.9998 10.2833 12.9998 10C12.9998 9.71667 12.904 9.47917 12.7123 9.2875C12.5206 9.09583 12.2831 9 11.9998 9H7.9998C7.71647 9 7.47897 9.09583 7.2873 9.2875C7.09564 9.47917 6.9998 9.71667 6.9998 10C6.9998 10.2833 7.09564 10.5208 7.2873 10.7125C7.47897 10.9042 7.71647 11 7.9998 11ZM3.9998 16H15.9998V7.05H3.9998V16Z" fill="#12141D"/>
-        </svg>
-        <span>T-Shirt</span>
-      </button> -->
     </div>
 
 	<!-- tab content -->
     <div class="main-tab-content">
-    <!-- AI TAB -->
-    <div id="ai" class="tab-panel active">
-      <h3 style="margin-bottom: 9px;">{{ section.settings.ai_heading }}</h3>
-      <div class="inner_tab_con">
-        <div class="propmt">
-          <div class="btn_ai_group">
-            <button class="btn_main_top" type="button">{{ section.settings.ai_button_1 }}</button>
-            <button class="btn_main_top sec_btn" type="button">{{ section.settings.ai_button_2 }}</button>
+        <!-- AI TAB -->
+        <div id="ai" class="tab-panel active">
+          <h3 style="margin-bottom: 9px;">{{ section.settings.ai_heading }}</h3>
+          <div class="inner_tab_con">
+            <div class="propmt">
+              <div class="btn_ai_group">
+                <button class="btn_main_top" type="button">{{ section.settings.ai_button_1 }}</button>
+                <button class="btn_main_top sec_btn" type="button">{{ section.settings.ai_button_2 }}</button>
+              </div>
+              <textarea id="ai-prompt" class="search_prompt" maxlength="1000" placeholder="Type your idea, get your design! e.g. Space cat surfing a pizza galaxy" rows="4" oninput="countChars('ai-prompt', 'tshirt-count')"></textarea>
+              <div id="tshirt-count" class="word_count_t">(0/1000)</div>
+              <div id="generated-image" class="ai-image-wrap"></div>
+            </div>
+            <div class="btn_margin text-center">
+              <button class="generate-btn" id="AiGenButton">Generate</button>
+            </div>
           </div>
-          <textarea id="ai-prompt" class="search_prompt" maxlength="1000" placeholder="Type your idea, get your design! e.g. Space cat surfing a pizza galaxy" rows="4" oninput="countChars('ai-prompt', 'tshirt-count')"></textarea>
-          <div id="tshirt-count" class="word_count_t">(0/1000)</div>
-          <div id="generated-image" class="ai-image-wrap"></div>
         </div>
-        <div class="btn_margin text-center">
-          <button class="generate-btn" id="AiGenButton">Generate</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Upload TAB -->
-    <div id="upload" class="tab-panel">
-      <h3>Upload Image</h3>
-      <div class="upload-main main_text_custom">
-        <p>{{ section.settings.upload_paragraph }}</p>
-        <ul class="list-point">
-          <li>Upload button (Upload Image)</li>
-          <li>Supported formats: PNG, JPG (max 10MB)</li>
-          <li>Optional crop/edit preview</li>
-        </ul>
-        <div class="main_new_cst">
-          <div class="upload_box">
-            <img src="{{ 'upload_box.svg' | asset_url }}" alt="upload_icon" accept="image/*" width="44" height="44"/>
-            <p>Upload Your Artwork</p>
+    
+        <!-- Upload TAB -->
+        <div id="upload" class="tab-panel">
+          <h3>Upload Image</h3>
+          <div class="upload-main main_text_custom">
+            <p>{{ section.settings.upload_paragraph }}</p>
+            <ul class="list-point">
+              <li>Upload button (Upload Image)</li>
+              <li>Supported formats: PNG, JPG (max 10MB)</li>
+              <li>Optional crop/edit preview</li>
+            </ul>
+            <div class="main_new_cst">
+              <div class="upload_box">
+                <img src="{{ 'upload_box.svg' | asset_url }}" alt="upload_icon" accept="image/*" width="44" height="44"/>
+                <p>Upload Your Artwork</p>
+              </div>
+              <input type="file" class="fileUpload_cst" id="uploadImage" style="opacity: 0;" />
+            </div>
           </div>
-          <input type="file" class="fileUpload_cst" id="uploadImage" style="opacity: 0;" />
         </div>
-      </div>
-    </div>
-
-    <!-- Text TAB -->
-    <div id="text" class="tab-panel">
-      <h3>{{ section.settings.text_heading }}</h3>
-      <div class="main_text_custom">
-        <p>{{ section.settings.text_paragraph }}</p>
-        <div class="main_input">
-          <input type="text" id="text-input" class="form_control" placeholder="Add text to Your t-shirt">
-        </div>
-        <div class="font-wrapper" style="margin-top: 15px; font-family: sans-serif; overflow-y: scroll; height: 300px;">
-          <strong class="font_heading_top">Fonts</strong>
-          <div id="fontList"></div>
-        </div>
-        <div class="addons">
-          <button id="bold-btn" onclick="toggleStyle('bold', this)"><b>B</b></button>
-          <button id="italic-btn" onclick="toggleStyle('italic', this)"><i>I</i></button>
-          <button id="underline-btn" onclick="toggleStyle('underline', this)"><u>U</u></button>
-          <input type="color" id="font-color" value="#000000" onchange="changeFontColor(this.value)" />
-        </div>
-        
-        <div class="group_btn">
-          <button type="button" class="generate-btn" onclick="addTextToCanvas()">
-            {{ section.settings.text_button }}
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Design TAB -->
-    <div id="design" class="tab-panel">
-      <h3>{{ section.settings.design_heading }}</h3>
-      <div class="main_text_custom">
-        <p>{{ section.settings.design_paragraph }}</p>
-        <button id="clearBtn" style="display:none;">Clear</button>
-        <div class="design-list" id="myDesigns"></div>
-      </div>
-    </div>
-      
-    <!-- Order TAB -->
-     <div id="order" class="tab-panel">
-          <h3>My Orders</h3>
+    
+        <!-- Text TAB -->
+        <div id="text" class="tab-panel">
+          <h3>{{ section.settings.text_heading }}</h3>
           <div class="main_text_custom">
-             {% render 'orders-tab' %}
-          </div>
-    </div>
-      
-      <!-- Tshirt Tab -->
-      <!-- <div id="tShirt" class="tab-panel">
-        <h3>T-shirt Customize </h3>
-          <div class="main_text_custom tshirt_tab">
-             <div class="customColorInput">
-               <h4>Color</h4>
-                <div class="color_wrap">
-                    <div class="color-swatches">
-                      <div class="swatch" data-color="#FFFFFF" title="White" style="background-color: #FFFFFF; border: 1px solid #ccc;"></div>
-                      <div class="swatch" data-color="#000000" title="Black" style="background-color: #000000;"></div> 
-                      <div class="swatch" data-color="#808080" title="Gray" style="background-color: #808080;"></div>
-                      <div class="swatch" data-color="#000080" title="Navy Blue" style="background-color: #000080;"></div>
-                      <div class="swatch" data-color="#ADD8E6" title="Light Blue" style="background-color: #ADD8E6;"></div>
-                      <div class="swatch" data-color="#008000" title="Green" style="background-color: #008000;"></div>
-                      <div class="swatch" data-color="#FF0000" title="Red" style="background-color: #FF0000;"></div>
-                      <div class="swatch" data-color="#FFC0CB" title="Pink" style="background-color: #FFC0CB;"></div>
-                      <div class="swatch" data-color="#800080" title="Purple" style="background-color: #800080;"></div>
-                      <div class="swatch" data-color="#FFFF00" title="Yellow" style="background-color: #FFFF00;"></div>
-                      <div class="swatch" data-color="#FFA500" title="Orange" style="background-color: #FFA500;"></div>
-                    </div>
-                  </div>
-
+            <p>{{ section.settings.text_paragraph }}</p>
+            <div class="main_input">
+              <input type="text" id="text-input" class="form_control" placeholder="Add text to Your t-shirt">
             </div>
-             <div class="customColorInput">
-               <h4>T-shirt Type</h4>
-              	<div class="tshirt-type" style="border-bottom:0;">
-                    <button class="tab-button active">Rounded</button>
-                    <button class="tab-button">Collar</button>
-                    <button class="tab-button">V-Neck</button>
-                  </div>
+            <div class="font-wrapper" style="margin-top: 15px; font-family: sans-serif; overflow-y: scroll; height: 300px;">
+              <strong class="font_heading_top">Fonts</strong>
+              <div id="fontList"></div>
+            </div>
+            <div class="addons">
+              <button id="bold-btn" onclick="toggleStyle('bold', this)"><b>B</b></button>
+              <button id="italic-btn" onclick="toggleStyle('italic', this)"><i>I</i></button>
+              <button id="underline-btn" onclick="toggleStyle('underline', this)"><u>U</u></button>
+              <input type="color" id="font-color" value="#000000" onchange="changeFontColor(this.value)" />
+            </div>
+            
+            <div class="group_btn">
+              <button type="button" class="generate-btn" onclick="addTextToCanvas()">
+                {{ section.settings.text_button }}
+              </button>
             </div>
           </div>
-      </div> -->
+        </div>
+    
+        <!-- Design TAB -->
+        <div id="design" class="tab-panel">
+          <h3>{{ section.settings.design_heading }}</h3>
+          <div class="main_text_custom">
+            <p>{{ section.settings.design_paragraph }}</p>
+            <button id="clearBtn" style="display:none;">Clear</button>
+            <div class="design-list" id="myDesigns"></div>
+          </div>
+        </div>
+          
+        <!-- Order TAB -->
+         <div id="order" class="tab-panel">
+              <h3>My Orders</h3>
+              <div class="main_text_custom">
+                 {% render 'orders-tab' %}
+              </div>
+        </div>
     </div>
 
 	<!-- content -->
@@ -173,6 +133,11 @@
 		<div id="tshirt-container">
 			<canvas id="tshirt-canvas" width="500" height="500"></canvas>
 		</div>
+      <div class="main_bottom_cst">
+        <div class="tshit_btngroup">
+              <button type="button" class="btn_control active" id="roundNeckBtn">Round</button>
+              <button type="button" class="btn_control" id="vShapeBtn">V Shaped</button>
+          </div>
          <div class="color_wrap">
             <div class="color-swatches">
               <div class="swatch" data-color="#FFFFFF" title="White" style="background-color: #FFFFFF; border: 1px solid #ccc;"></div>
@@ -188,15 +153,28 @@
               <div class="swatch" data-color="#FFA500" title="Orange" style="background-color: #FFA500;"></div>
             </div>
           </div>
+        </div>
+        
 
-		<div class="footer-actions">
-          <div class="tshit_btngroup">
-              <button class="btn_control" id="roundNeckBtn">Round</button>
-              <button class="btn_control" id="vShapeBtn">V Shaped</button>
-          </div>
+		<!-- <div class="footer-actions">
+          	<button class="btn-black-tshirt continue" id="continueBtn">Continue</button>
+		</div> -->
+      <form method="post" action="/cart/add" enctype="multipart/form-data" id="customProductForm">
+        <select name="id" id="variantSelect">
+          <!-- Your product variant options -->
+          <option value="48442256785641">Small</option>
+          <option value="48442256818409">Medium</option>
+        </select>
+      
+        <input type="number" name="quantity" value="1" min="1" />
+      
+        <!-- Hidden inputs for custom design images -->
+        <input type="hidden" name="properties[Front Design]" id="frontDesignInput" />
+        <input type="hidden" name="properties[Back Design]" id="backDesignInput" />
+      
+        <button type="submit" id="addToCartBtn">Add to Cart</button>
+      </form>
 
-    		<button class="btn-black-tshirt continue" id="continueBtn">Continue</button>
-		</div>
 		<!-- Toolbar -->  
 		<div id="canvas-toolbar" class="cst_toolbar" >
 		<button id="zoomInBtn" title="Zoom In">

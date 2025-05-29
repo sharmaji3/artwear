@@ -84,9 +84,12 @@
                     <td class="cart-item__media">
                       {% if item.image %}
                         {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
-                        {% if item.properties['Custom Design Image'] %}
-                            <img src="{{ item.properties['Custom Design Image'] }}" alt="Custom Design" style="max-width: 150px;" width="150" height="150">
-                          {% else %}
+                        {% if item.properties['Front Design'] and item.properties['Back Design'] %}
+                              <div>
+                                <img src="{{ item.properties['Front Design'] }}" alt="Front Design" style="width: 150px;" />
+                                <img src="{{ item.properties['Back Design'] }}" alt="Back Design" style="width: 150px;" />
+                              </div>
+                            {% else %}
                         <a href="{{ item.url }}" class="cart-item__link" aria-hidden="true" tabindex="-1"> </a>
                         <div class="cart-item__image-container gradient global-media-settings">
                           <img

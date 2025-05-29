@@ -90,7 +90,6 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const dalleBtn = document.getElementById("dalle_genBtn_img");
   const leoBtn = document.getElementById("leonardo_genBtn_img");
   const promptTextarea = document.getElementById("promptBox");
   const modal = document.getElementById("aiModal");
@@ -100,7 +99,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function fetchImage(apiUrl, prompt) {
     leoBtn.disabled = true;
-    dalleBtn.disabled = true;
     leoBtn.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0744/8477/7193/files/white-loader.svg?v=1747381049" alt="loader" width="20" height="20"/>`;
 
     const response = await fetch(apiUrl, {
@@ -129,11 +127,8 @@ document.addEventListener("DOMContentLoaded", function () {
       img.style.cursor = "pointer";
 
       img.addEventListener("click", () => {
-        // Remove active from all, then set on clicked
         document.querySelectorAll(".ai_img").forEach(div => div.classList.remove("active"));
         imgWrap.classList.add("active");
-
-        // Store selected image in variable and localStorage
         selectedImage = url;
         localStorage.setItem("ai_selected_image", url);
       });
@@ -142,7 +137,6 @@ document.addEventListener("DOMContentLoaded", function () {
       imageContainer.appendChild(imgWrap);
     });
 
-    // Add "Try with Custom" button
     const tryBtn = document.createElement("button");
     tryBtn.innerHTML = "Customize Your T-shirt <i class='fa-solid fa-arrow-right'></i>";
     tryBtn.classList.add("custom-form-button",  "home_ai_btn");
@@ -150,7 +144,6 @@ document.addEventListener("DOMContentLoaded", function () {
     tryBtn.addEventListener("click", () => {
       localStorage.setItem("ai_images", JSON.stringify(images));
       localStorage.setItem("ai_prompt", prompt);
-      // Only ai_selected_image is optional
       window.location.href = "/pages/t-shirt-customize";
     });
 
@@ -158,15 +151,12 @@ document.addEventListener("DOMContentLoaded", function () {
     modal.style.display = "flex";
   }
 
-  async function handleClick(apiType) {
+  async function handleClick() {
     const prompt = promptTextarea.value.trim();
     if (!prompt) return alert("Please enter a prompt.");
 
     try {
-      const apiUrl = apiType === 'dalle'
-        ? "https://gulshan-backend-1.onrender.com/generate-image"
-        : "https://gulshan-backend-1.onrender.com/generate-image";
-
+      const apiUrl = "https://gulshan-backend-1.onrender.com/generate-image";
       const images = await fetchImage(apiUrl, prompt);
       showModal(images, prompt);
     } catch (err) {
@@ -174,18 +164,17 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Image generation failed.");
     } finally {
       leoBtn.disabled = false;
-      dalleBtn.disabled = false;
       leoBtn.innerHTML = LeonoriginalText;
     }
   }
 
-  dalleBtn.addEventListener("click", () => handleClick("dalle"));
-  leoBtn.addEventListener("click", () => handleClick("leonardo"));
+  leoBtn.addEventListener("click", handleClick);
   modalClose.addEventListener("click", () => {
     modal.style.display = "none";
   });
 });
 </script>
+
 
 {% schema %}
 {

@@ -250,7 +250,7 @@
        {% if customer %}
         {% render 'header-search', input_id: 'Search-In-Modal' %}
       {% endif %}
-
+    {% unless template == 'page.tshirt-customizer' and customer == nil  %}
       {%- if shop.customer_accounts_enabled -%}
         <a
             href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
@@ -297,6 +297,7 @@
           </a>
 
       {%- endif -%}
+  {% endunless %}
 
       {%- for block in section.blocks -%}
         {%- case block.type -%}

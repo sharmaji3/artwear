@@ -36,8 +36,6 @@
     {% endcomment %}
     <!-- Google Fonts Preload -->
     <link href="https://fonts.googleapis.com/css2?family=ABeeZee&family=Abel&family=Abril+Fatface&family=Acme&family=Actor&family=Adamina&family=Advent+Pro&family=Aladin&family=Alata&display=swap" rel="stylesheet">
-     <!-- AOS CSS -->
-      <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
@@ -460,19 +458,11 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+    <script>
+        window.isLoggedIn = {{ customer.id | default: 'null' }};
+      window.customerId = {{ customer.id | json }};
+    </script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js" defer="defer"></script>
-      <!-- AOS JS -->
-      <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" defer="defer"></script>
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          AOS.init({
-            duration: 1000,
-            easing: 'ease-in-out',
-            once: false,
-            mirror: true,
-          });
-        });
-      </script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js" defer="defer"></script>
       <script src="{{ 'custom.js' | asset_url }}" defer="defer"></script>
   </body>

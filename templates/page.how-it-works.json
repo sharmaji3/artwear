@@ -1,0 +1,65 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "stats_section_j3tA3G": {
+      "type": "stats-section",
+      "blocks": {
+        "step_HVthLd": {
+          "type": "step",
+          "settings": {
+            "icon": "shopify://shop_images/step-1.png",
+            "title": "Type Your Prompt",
+            "text": "Describe your idea in a few words or sentences. Our AI will transform your text into unique design concepts."
+          }
+        },
+        "step_m8Tfbx": {
+          "type": "step",
+          "settings": {
+            "icon": "shopify://shop_images/step-2.png",
+            "title": "Customize Design",
+            "text": "Adjust size and placement. Add text or modify elements until your design is exactly what you want."
+          }
+        },
+        "step_8PnwNN": {
+          "type": "step",
+          "settings": {
+            "icon": "shopify://shop_images/step-3.png",
+            "title": "Print & Order",
+            "text": "Choose your T-shirt style, size, and quantity. We’ll print your design on premium fabric and ship it to your door."
+          }
+        }
+      },
+      "block_order": [
+        "step_HVthLd",
+        "step_m8Tfbx",
+        "step_8PnwNN"
+      ],
+      "settings": {
+        "heading": "Create Your Custom T-Shirt in 3 Simple Steps",
+        "description": "Turn your idea into wearable art with just a few clicks. Enter a prompt, watch AI bring your vision to life, customize the design on your T-shirt, and place your order in minutes. It’s fast, fun, and uniquely yours.",
+        "stat_padding_top": 40,
+        "stat_padding_bottom": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "stats_section_j3tA3G"
+  ]
+}

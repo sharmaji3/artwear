@@ -245,37 +245,38 @@ function showBack() {
   //Ensure the correct neckline button stays active
   setActiveNeckButton(necklineType === "round" ? "roundNeckBtn" : "vShapeBtn");
 }
-document.body.addEventListener("click", (event) => {
-  if (event.target && event.target.id === "vShapeBtn") {
-    document.getElementById("vShapeBtn").addEventListener("click", () => {
-      if (
-        designObjects[currentSide]["v"].length === 0 &&
-        designObjects[currentSide]["round"].length > 0
-      ) {
-        designObjects[currentSide]["v"] = designObjects[currentSide][
-          "round"
-        ].map((obj) => fabric.util.object.clone(obj));
-      }
-      necklineType = "v";
-      currentSide === "front" ? showFront() : showBack();
-      setActiveNeckButton("vShapeBtn");
-    });
-  }
-  if (event.target && event.target.id === "roundNeckBtn") {
-    document.getElementById("roundNeckBtn").addEventListener("click", () => {
-      if (
-        designObjects[currentSide]["round"].length === 0 &&
-        designObjects[currentSide]["v"].length > 0
-      ) {
-        designObjects[currentSide]["round"] = designObjects[currentSide][
-          "v"
-        ].map((obj) => fabric.util.object.clone(obj));
-      }
-      necklineType = "round";
-      currentSide === "front" ? showFront() : showBack();
-      setActiveNeckButton("roundNeckBtn");
-    });
-  }
+
+// Attach event listeners to the buttons immediately when the page is loaded
+document.addEventListener("DOMContentLoaded", function() {
+  // Round Neck Button
+  document.getElementById("roundNeckBtn").addEventListener("click", function() {
+    if (
+      designObjects[currentSide]["round"].length === 0 &&
+      designObjects[currentSide]["v"].length > 0
+    ) {
+      designObjects[currentSide]["round"] = designObjects[currentSide]["v"].map(
+        (obj) => fabric.util.object.clone(obj)
+      );
+    }
+    necklineType = "round";
+    currentSide === "front" ? showFront() : showBack();
+    setActiveNeckButton("roundNeckBtn");
+  });
+
+  // V-Neck Button
+  document.getElementById("vShapeBtn").addEventListener("click", function() {
+    if (
+      designObjects[currentSide]["v"].length === 0 &&
+      designObjects[currentSide]["round"].length > 0
+    ) {
+      designObjects[currentSide]["v"] = designObjects[currentSide]["round"].map(
+        (obj) => fabric.util.object.clone(obj)
+      );
+    }
+    necklineType = "v";
+    currentSide === "front" ? showFront() : showBack();
+    setActiveNeckButton("vShapeBtn");
+  });
 });
 
 function setActiveNeckButton(activeId) {
@@ -284,6 +285,7 @@ function setActiveNeckButton(activeId) {
   });
   document.getElementById(activeId).classList.add("active");
 }
+
 
 function clearCanvasExceptBg() {
   const all = canvas.getObjects();
@@ -295,7 +297,7 @@ function clearCanvasExceptBg() {
 }
 
 window.onload = () => {
-  // showFront();
+  showFront();
 };
 
 // ai image
@@ -632,6 +634,7 @@ function saveDesignToMyDesigns(object) {
 function saveToLocalStorage() {
   localStorage.setItem("myDesigns", JSON.stringify(myDesigns));
 }
+
 function loadFromLocalStorage() {
   const saved = localStorage.getItem("myDesigns");
   if (saved) {
@@ -928,3 +931,82 @@ document.addEventListener("DOMContentLoaded", () => {
 //     // Redirect to cart
 //     window.location.href = "/cart";
 //   });
+
+
+
+// function getBase64Image() {
+//   return canvas.toDataURL('image/png');
+// }
+
+// function captureFrontBackImages() {
+//   // Save current side
+//   const originalSide = currentSide;
+
+//   // Front image
+//   currentSide = 'front';
+//   showFront();
+//   const frontImage = getBase64Image();
+
+//   // Back image
+//   currentSide = 'back';
+//   showBack();
+//   const backImage = getBase64Image();
+
+//   // Restore original side
+//   currentSide = originalSide;
+//   currentSide === 'front' ? showFront() : showBack();
+
+//   return { frontImage, backImage };
+// }
+
+
+// async function createCustomProduct(data) {
+//   // data = { title, variants, price, frontImage, backImage }
+
+//   const response = await fetch('/api/create-product', {  // Your backend endpoint
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(data),
+//   });
+
+//   if (!response.ok) {
+//     throw new Error('Failed to create product');
+//   }
+
+//   return response.json(); // Should contain product id and variants
+// }
+
+
+
+
+// function getCanvasImages() {
+//   return {
+//     frontImage: canvas.toDataURL({ format: "png" }),
+//     // Assuming you have a way to switch to back and then capture
+//     // We'll assume a function `switchToBackAndCapture` exists
+//   };
+// }
+
+// function captureBothSides() {
+//   // Capture front side
+//   showFront();
+//   const frontImage = canvas.toDataURL({ format: "png" });
+
+//   // Capture back side
+//   showBack();
+//   const backImage = canvas.toDataURL({ format: "png" });
+
+//   // Return both images
+//   return { frontImage, backImage };
+// }
+
+
+// document.getElementById('customProductForm').addEventListener('submit', function(e) {
+//   const { frontImage, backImage } = captureBothSides();
+
+//   document.getElementById('frontDesignInput').value = frontImage;
+//   document.getElementById('backDesignInput').value = backImage;
+// });
+
